@@ -1,0 +1,10 @@
+#IDE
+._.DS_Store
+.DS_Store
+.idea/
+system/
+runtime/
+app/web/*.php
+app/conf/config.php
+app/git/*
+
