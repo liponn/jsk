@@ -26,12 +26,24 @@ class InitHook
             // 动态加入命名空间
         \think\Loader::addNamespace('addons', 'addons');
         // 获取钩子数据
-        $data = cache('hooks');//var_export($data);exit;
+        $data = cache('hooks');
         if (! $data) {
             $addons_model = new SysAddonsModel();
-            $hooks_model = new SysHooksModel();
-            $hooks = $hooks_model->column('addons', 'name');
+            // $hooks_model = new SysHooksModel();
+            // $hooks = $hooks_model->column('addons', 'name');
+            // var_dump($hooks);exit;
             // 获取钩子的实现插件信息
+            $hooks = [
+                'login' => 'Oauthlogin',
+                'sms' => 'sms',
+                'wxtemplatemsg' => 'wxtemplatemsg',
+                'orderCreateSuccess' => 'wxtemplatemsg',
+                'orderDeliverySuccess' => 'wxtemplatemsg',
+                'orderPaySuccess' => 'wxtemplatemsg',
+                'orderRefundApplyCreateSuccess' => 'wxtemplatemsg',
+                'orderRefundSuccess' => 'wxtemplatemsg',
+                'userWithdrawApplyCreateSuccess' => 'wxtemplatemsg',
+            ];
             foreach ($hooks as $key => $value) {
                 if ($value) {
                     $map['status'] = 1;
@@ -40,7 +52,9 @@ class InitHook
                         'IN',
                         $names
                     ];
-                    $data = $addons_model->where($map)->column('name', 'id');
+                    
+                    //$data = $addons_model->where($map)->column('name', 'id');
+                    $data = null;//
                     if ($data) {
                         $addons = array_intersect($names, $data);
                         Hook::add($key, array_map('get_addon_class', $addons));

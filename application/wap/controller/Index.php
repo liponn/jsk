@@ -18,7 +18,7 @@ class Index extends BaseController
      */
     public function index()
     {
-        // exit("get in");
+        // exit("get in index");
         // 轮播图
         $plat_adv_list['adv_list'] = array(
                 0 => array(

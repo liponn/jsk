@@ -4,6 +4,8 @@
 .idea/
 system/
 runtime/
+application/database.php
+
 app/web/*.php
 app/conf/config.php
 app/git/*
