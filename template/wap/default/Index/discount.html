@@ -1,0 +1,163 @@
+{extend name="wap/default/base" /}
+{block name="resources"}
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/components.css">
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/group_goods_list.css">
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/group_buy.css">
+<style>
+.custom-tag-list{
+	margin-bottom:10px;
+}
+.group-list-box{
+	width:100%;
+/* 	overflow: visible; */
+}
+.group-list-box .group-list li {
+   
+    width: 43%;
+    float: left;
+	margin: 0 3px 5px 3px;
+}
+.brand-info .brand-info-right .main-btn {
+    font-size: 12px;
+    /* width: 52px; */
+}
+
+.slick {
+    margin-top: 45px;
+}
+.custom-tag-list {
+    margin-top: 0;
+}
+.custom-tag-list{
+	padding-top:0;
+}
+
+::-webkit-scrollbar{
+	width:0px;
+}
+
+</style>
+{/block}
+
+{block name="goodsHead"}
+<section class="head">
+	<a class="head_back" href="javascript:window.history.go(-1)"><i class="icon-back"></i></a>
+	<div class="head-title"><span style="margin-left: 40px;">{:lang("goods_discount")}</span>
+	{include file="wap/default/controGroup" /}
+	</div>
+</section>
+
+{if condition="$discounts_adv['is_use'] eq 1"}
+    {if condition="$discounts_adv['adv_list'][0]['adv_image'] neq ''"}
+<div class="slick">
+	<a href="{$discounts_adv['adv_list'][0]['adv_url']}">
+		<img src="{:__IMG($discounts_adv['adv_list'][0]['adv_image'])}" >
+		<!-- style="height:{$discounts_adv.ap_height}px;" -->
+	</a>
+</div>
+   {/if}
+{/if}
+
+{/block}
+{block name="main"}
+<div class="custom-tag-list clearfix">
+<!-- 	<div class="custom-tag-list-menu-block"> -->
+<!-- 		<ul class="custom-tag-list-side-menu" style="position: relative;width:100%;" id='goods_group'> -->
+<!-- 			<li val="0"><a class="selected"  onclick="showCategorySecond(this,0)"><span>全部</span></a></li> -->
+<!-- 			{foreach name="goods_category_list_1" item = "category" key = "k"} -->
+<!-- 			<li val="{$category.category_id}"> -->
+<!-- 				<a onclick="showCategorySecond(this,{$category.category_id})"><span>{$category.category_name}</span></a> -->
+<!-- 			</li> -->
+<!-- 			{/foreach} -->
+<!-- 		</ul> -->
+<!-- 	</div> -->
+	<div class="group-list-box">
+		<ul class="group-list"></ul>
+	</div>
+<script>
+	$(function(){
+		showCategorySecond(0,0);
+	})
+	function showCategorySecond(obj,category_id){
+		//设置选中效果
+		if($(obj).length!=0){
+			$(".custom-tag-list-side-menu li a").removeClass("selected");
+			$(obj).addClass("selected");
+		}
+		
+		$.ajax({
+			url:'{:__URL('APP_MAIN/Index/discount')}',
+			async:false,
+			data:{'category_id':category_id},
+			dataType:'json',
+			success:function(data){
+				var list_html='';
+				if(data.length==0){
+					$('.group-list').html('<div class="nothing-data" align="center"><img src="__TEMP__/{$style}/public/images/wap_nodata.png"/><div>{:lang("goods_no_goods_you_want")}…</div></div>');
+					return false;
+				}
+				for(key in data){	
+					var item=data[key];
+					var img = "";
+					if(item.picture != null){
+						img = item.picture.pic_cover_small;
+					}
+					list_html+='<li>'
+						+'<div class="p-img">'
+						+'<a href="'+__URL('APP_MAIN/goods/goodsdetail?id='+item.goods_id)+'" title="'+item.goods_name+'">'
+					    +'<img src="'+__IMG(img)+'">'
+						+'</a>'
+						+'<div class="brand-time">'
+						+'<i></i>'
+						+'<span class="settime" starttime="'+timeStampTurnTime(item.start_time)+'" endtime="'+timeStampTurnTime(item.end_time)+'"></span>'
+						+'</div>'
+						+'</div>'
+						+'<span class="brand-name">'+item.goods_name+'</span>'
+						+'<div class="brand-info"  style="height:initial;">'
+						+'<div class="brand-info-left"  style="float:none;">'
+						+'<p class="b-price" style="float:left;margin:5px 0;">￥'+item.promotion_price+'<em>{:lang("element")}</em></p>'
+						+'<p class="buyer" style="float:right;line-height:31px;"><s>￥'+item.price+'{:lang("element")}</s></p>'
+						+'</div>'
+						+'</div></li>';
+				}
+				$('.group-list').html(list_html);
+			}
+		});	
+	}
+	$().ready(function() {
+		updateEndTime();
+	});
+	//倒计时函数
+	function updateEndTime() {
+		var date = new Date();
+		var time = date.getTime(); //当前时间距1970年1月1日之间的毫秒数
+
+		$(".settime").each(function(i) {
+
+			var endDate = this.getAttribute("endTime"); //结束时间字符串
+			
+			//转换为时间日期类型
+			var endDate1 = eval('new Date(' + endDate.replace(/\d+(?=-[^-]+$)/, function(a) {
+				return parseInt(a, 10) - 1;
+			}).match(/\d+/g) + ')');
+
+			var endTime = endDate1.getTime(); //结束时间毫秒数
+	
+			var lag = (endTime - time) / 1000; //当前时间和结束时间之间的秒数
+			if (lag > 0) {
+				var second = Math.floor(lag % 60);
+				var minite = Math.floor((lag / 60) % 60);
+				var hour = Math.floor((lag / 3600) % 24);
+				var day = Math.floor((lag / 3600) / 24);
+				$(this).html(day + "{:lang('days')}" + hour + "{:lang('hours')}" + minite + "{:lang('minutes')}" + second + "{:lang('second')}");
+			} else{
+				$(this).html("{:lang('activity_over')}！");
+			}
+		});
+		setTimeout("updateEndTime()", 1000);
+	}
+	
+</script>
+</div>
+{/block}
+{block name="bottom"} {/block}

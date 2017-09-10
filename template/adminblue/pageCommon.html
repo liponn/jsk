@@ -1,0 +1,141 @@
+<script src="__STATIC__/js/page.js"></script>
+<div class="page" id="turn-ul" style="display: none;">
+	<div class="pagination">
+		<ul>
+			<li class="total-data">共0有条数据</li>
+			<li class="according-number">每页显示<input type="text" class="input-medium" id="showNumber" value="{$pagesize}" data-default="{$pagesize}" autocomplete="off"/>条</li>
+			<li><a id="beginPage" class="page-disable" style="border: 1px solid #dddddd;">首页</a></li>
+			<li><a id="prevPage" class="page-disable">上一页</a></li>
+			<li id="pageNumber"></li>
+			<li><a id="nextPage">下一页</a></li>
+			<li><a id="lastPage">末页</a></li>
+			<li class="page-count">共0页</li>
+		</ul>
+	</div>
+</div>
+<input type="hidden" id="page_count" />
+<input type="hidden" id="page_size" />
+<script>
+$(function() {
+	try{
+		$("#turn-ul").show();//显示分页
+		LoadingInfo(1);//通过此方法调用分页类
+	}catch(e){
+		$("#turn-ul").hide();
+	}
+	
+	//首页
+	$("#beginPage").click(function() {
+		if(jumpNumber!=1){
+			jumpNumber = 1;
+			LoadingInfo(1);
+			changeClass("begin");
+		}
+		return false;
+	});
+
+	//上一页
+	$("#prevPage").click(function() {
+		var obj = $(".currentPage");
+		var index = parseInt(obj.text()) - 1;
+		if (index > 0) {
+			obj.removeClass("currentPage");
+			obj.prev().addClass("currentPage");
+			jumpNumber = index;
+			LoadingInfo(index);
+			//判断是否是第一页
+			if (index == 1) {
+				changeClass("prev");
+			} else {
+				changeClass();
+			}
+		}
+		return false;
+	});
+
+	//下一页
+	$("#nextPage").click(function() {
+		var obj = $(".currentPage");
+		//当前页加一（下一页）
+		var index = parseInt(obj.text()) + 1;
+		if (index <= $("#page_count").val()) {
+			jumpNumber = index;
+			LoadingInfo(index);
+			obj.removeClass("currentPage");
+			obj.next().addClass("currentPage");
+			//判断是否是最后一页
+			if (index == $("#page_count").val()) {
+				changeClass("next");
+			} else {
+				changeClass();
+			}
+		}
+		return false;
+	});
+
+	//末页
+	$("#lastPage").click(function() {
+		jumpNumber = $("#page_count").val();
+		if(jumpNumber>1){
+			LoadingInfo(jumpNumber);
+			$("#pageNumber a:eq("+ (parseInt($("#page_count").val()) - 1) + ")").text($("#page_count").val());
+			changeClass("next");
+		}
+		return false;
+	});
+
+	//每页显示页数
+	$("#showNumber").blur(function(){
+		if(isNaN($(this).val())){
+			$("#showNumber").val(20);
+			jumpNumber = 1;
+			LoadingInfo(jumpNumber);
+			return;
+		}
+		//页数没有变化的话，就不要再执行查询
+		if(parseInt($(this).val()) != $(this).attr("data-default")){
+// 			jumpNumber = 1;//设置每页显示的页数，并且设置到第一页
+			$(this).attr("data-default",$(this).val());
+			LoadingInfo(jumpNumber);
+		}
+		return false;
+	}).keyup(function(event){
+		if(event.keyCode == 13){
+			if(isNaN($(this).val())){
+				$("#showNumber").val(20);
+				jumpNumber = 1;
+				LoadingInfo(jumpNumber);
+			}
+			//页数没有变化的话，就不要再执行查询
+			if(parseInt($(this).val()) != $(this).attr("data-default")){
+// 				jumpNumber = 1;//设置每页显示的页数，并且设置到第一页
+				$(this).attr("data-default",$(this).val());
+				//总数据数量
+				var total_count = parseInt($(".total-data").attr("data-total-count"));
+				//计算用户输入的页数是否超过当前页数
+				var curr_count = Math.ceil(total_count/parseInt($(this).val()));
+				if( curr_count !=0 && curr_count < jumpNumber){
+					jumpNumber = curr_count;//输入的页数超过了，没有那么多
+				}
+				LoadingInfo(jumpNumber);
+			}
+		}
+		return false;
+	});
+});
+
+//跳转页面
+function JumpForPage(obj) {
+	jumpNumber = $(obj).text();
+	LoadingInfo($(obj).text());
+	$(".currentPage").removeClass("currentPage");
+	$(obj).addClass("currentPage");
+	if (jumpNumber == 1) {
+		changeClass("prev");
+	} else if (jumpNumber < parseInt($("#page_count").val())) {
+		changeClass();
+	} else if (jumpNumber == parseInt($("#page_count").val())) {
+		changeClass("next");
+	}
+}
+</script>

@@ -1,0 +1,142 @@
+{extend name="wap/default/base" /}
+{block name="resources"}
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/components.css">
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/group_goods_list.css">
+<style>
+.custom-search-button{top:6px;}
+.category{width:95%;margin:10px auto;display: none;}
+.category img{display: inline-block;width: 100%;}
+.nothing-data{margin-top:50%;}
+.custom-tag-list-goods dl{width:100%;}
+.custom-tag-list-goods dt a {padding:0 10px;}
+.custom-tag-list{height:92%;}
+/* .category img{
+	display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+    height: auto;
+} */
+/* .custom-tag-list,.custom-tag-list .custom-tag-list-menu-block,.custom-tag-list .custom-tag-list-goods{height:initial;}
+ body{ 
+	height:initial;
+} */ 
+</style>
+{/block}
+{block name="goodsHead"}
+<section class="head">
+	<a class="head_back" id="head_back" href="{:__URL('APP_MAIN')}"><i class="icon-back"></i></a>
+	<div class="head-title"><span style="margin-left: 40px;">{:lang('classification_goods')}</span>{include file="wap/default/controGroup" /}</div>
+</section>
+{/block}
+
+{block name="main"}
+	<!-- 平台商品分类 -->
+	<!-- 搜索框样式 -->
+<div class="custom-tag-list clearfix">
+<!-- 	<div class="mask" id="grouGoodsListmask"></div> -->
+	{if condition="count($goods_category_list_1)"}
+	<div class="custom-tag-list-menu-block">
+		<ul class="custom-tag-list-side-menu" style="position: relative;width:100%;background:#fff;" id='goods_group'>
+			{foreach name="goods_category_list_1" item = "category" key = "k"}
+			<li val="{$category.category_id}">
+				<a {if condition="$k==0" } class="selected" {/if} onclick="showCategorySecond(this,{$category.category_id})" data-category-id="{$category.category_id}"><span>{$category.short_name}</span></a>
+			</li>
+			{/foreach}
+		</ul>
+	</div>
+	{/if}
+	{if condition="count($goods_category_list_1)"}
+	<div class="custom-tag-list-goods" id='good_list'>
+		
+		<!-- 一级分类频道 -->
+		{foreach name="goods_category_list_1" item = "category" key = "k"}
+		<div class="category js-category-{$category.category_id}" {if condition = "$k==0" }style="display:block;"{/if}>
+		
+			<div style="width:100%;background: #ffffff;text-align: center;">
+			{if condition="$category.category_pic!=''"}
+			<img src="{:__IMG($category.category_pic)}" alt="{$category.short_name}">
+			{else/}
+			<img src="__TEMP__/{$style}/public/images/catagory.png" alt="{$category.short_name}">
+			{/if}
+			</div>
+			<a href="{:__URL('APP_MAIN/goods/goodslist?category_id='.$category['category_id'])}" class="all" style="color: #FFF">{:lang('get_into')}{$category.short_name}{:lang('frequency_channel')}&nbsp;&gt;&nbsp;&gt;</a>
+		</div>
+		{/foreach}
+		
+		{foreach name="goods_category_list_2" item="category_second" key = "k"}
+			<dl class="js-category-{$category_second.pid}" {if condition ="$category_second.pid!=$goods_category_list_1[0]['category_id']"}style="display: none;"{/if}>
+			<dt><a href="{:__URL('APP_MAIN/goods/goodslist?category_id='.$category_second['category_id'])}"> {$category_second.short_name} </a></dt>
+			<dd>
+				<div class="catalog-box">
+				{foreach name="goods_category_list_3" item = "category_third"}
+					{if condition = "$category_second.category_id==$category_third.pid"}
+					<div class="catalog-info">
+						
+						<a href="{:__URL('APP_MAIN/goods/goodslist?category_id='.$category_third['category_id'])}">
+							{if condition="$category_third.category_pic!=''"}
+							<div style=" height:40px; width: 100%;overflow: hidden;">
+								<img src="{:__IMG($category_third.category_pic)}" alt="{$category_third.short_name}" />
+							</div>
+							{else/}
+							<div style=" height:40px; width: 100%;overflow: hidden;">
+								<img src="__TEMP__/{$style}/public/images/catagory-02.png" alt="{$category_third.short_name}" />
+							</div>
+							{/if}
+							<em style="margin:0;">{$category_third.short_name}</em>
+						</a>
+					</div>
+					{/if}
+				{/foreach}
+				</div>
+			</dd>
+		</dl>
+		{/foreach}
+		<div class="nothing-data js-children" align="center" style="display:none;">
+			<img src="__TEMP__/{$style}/public/images/wap_nodata.png"/>
+			<div>{:lang('no_subcategories_for_current_commodity_classification')}...</div>
+		</div>
+	</div>
+	{else/}
+		<div class="nothing-data" align="center">
+			<img src="__TEMP__/{$style}/public/images/wap_nodata.png"/>
+			<div>{:lang('no_classification_of_goods_at_present')}...</div>
+		</div>
+	{/if}
+</div>
+
+<script>
+$(function(){
+	
+	//默认显示选择的第一个商品分类数据
+	if($("#goods_group li .selected").attr("data-category-id") != undefined){
+		showCategorySecond($("#goods_group li .selected"),$("#goods_group li .selected").attr("data-category-id"));
+	}
+	
+	//将没有第三级的商品分类过滤
+	$("[class*='js-category']").each(function(){
+		if($(this).find(".catalog-info").length == 0){
+			$(this).find("dd").remove();
+		}
+	});
+});
+//显示二级分类
+function showCategorySecond(obj,category_id){
+	//设置选中效果
+	$(".custom-tag-list-side-menu li a").removeClass("selected");
+	$(obj).addClass("selected");
+	$("[class*='js-category']").hide();
+	$("[class$='js-category-"+category_id+"']").show();
+	if($("dl[class='js-category-"+category_id+"']").length == 0){
+		$(".js-children").show();
+	}else{
+		$(".js-children").hide();
+	}
+}
+// $("#head_back").click(function (){
+// 	var json ={
+// 		"center" : "2"
+// 	};
+// 	window.webkit.messageHandlers.center.postMessage(json);
+// })
+</script>
+{/block}

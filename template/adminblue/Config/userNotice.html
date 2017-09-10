@@ -1,0 +1,40 @@
+{extend name="adminblue/base" /}
+{block name="resources"/}{/block}
+{block name="main"}
+<!-- <div class="mb10">
+	<div class="tiphelp-info">
+		<strong>提示：</strong><br>
+		<span style="color:red;vertical-align: middle;">*</span>&nbsp;&nbsp;此用户通知显示在pc端前台会员中心首页的用户中心公告
+	</div>
+</div> -->
+<div class="set-style">
+	<dl>
+		<dt>首页公告:</dt>
+		<dd>
+			<textarea rows="2" id="user_notice" class="textarea input-common" maxlength="50">{$user_notice}</textarea>
+			<p class="hint"></p>
+		</dd>
+	</dl>
+	<dl>
+		<dt></dt>
+		<dd><button class="btn-common btn-big" onclick="setConfigAjax();">提交</button></dd>
+	</dl>
+</div>
+<script>
+function setConfigAjax(){
+	var user_notice = $("#user_notice").val();
+	$.ajax({
+		type:"post",
+		url:"{:__URL('ADMIN_MAIN/config/usernotice')}",
+		data:{ 'user_notice' : user_notice },
+		success:function (data) {
+			if (data["code"] > 0) {
+				showMessage('success', data["message"]);
+			}else{
+				showMessage('error', data["message"]);
+			}
+		}
+	});
+}
+</script>
+{/block}

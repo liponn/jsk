@@ -1,0 +1,200 @@
+<script type='text/javascript' src='ADMIN_JS/drag_haul/sample.js' ></script>
+<input type="hidden" id="goodsId" value="{$goods_id}" />
+<input type="hidden" id="shop_type" value="{$shop_type}" />
+{if condition="$goods_id neq 0"}
+<input type="hidden" id="hidQRcode" value="0" />
+<input type="hidden" id="hidden_qrcode" value="{$goods_info.QRcode}" />
+<input type="hidden" id="hidden_sort" value="{$goods_info.sort}" />
+{else/}
+<input type="hidden" id="hidQRcode" value="1" />
+<input type="hidden" id="hidden_qrcode" value="" />
+<input type="hidden" id="hidden_sort" value="0" />
+{/if}
+<script type="text/javascript">
+// 	$(".sidebar-right").toTop();
+	//返回顶部效果
+// 	$(".sidebar-right").hover(function(){
+// 		$(this).find("img").attr("src","ADMIN_IMG/goods/return_top_hover.png");
+// 	},function(){
+// 		$(this).find("img").attr("src","ADMIN_IMG/goods/return_top.png");
+// 	});
+	if(parseInt($("#goodsId").val()) > 0){
+		initProvince("#provinceSelect",function(){
+			//编辑商品时，加载数据
+			$("#provinceSelect").find("option[value='"+province_id+"']").attr("selected",true);
+			getProvince("#provinceSelect",'#citySelect',city_id);
+		});
+		
+	}else{
+		initProvince("#provinceSelect");
+	}
+	
+	function PopUpCallBack(id, src, upload_type, spec_id, spec_value_id) {
+		
+		var idArr, srcArr;
+		if (id.indexOf(",")) {
+			idArr = id.split(',');
+			srcArr = src.split(',');
+		} else {
+			idArr = new Array(id);
+			srcArr = new Array(src);
+		}
+		//alert(JSON.stringify(srcArr));
+		switch(speciFicationsFlag){
+		case 0:
+			//商品主图
+			if(srcArr.length>=1){
+				
+				html = "";
+				for(var i=0;i<srcArr.length;i++){
+					if(upload_type == 2){
+						html +='<div class="upload-thumb sku-draggable-element'+ spec_id +'-'+ spec_value_id +' sku-draggable-element"  >'; 
+						html +='<img  src="'+ __IMG(srcArr[i]) +'">';  
+		        		html +='<input type="hidden"  class="sku_upload_img_id" spec_id="'+ spec_id +'" spec_value_id="'+ spec_value_id +'" value="'+idArr[i]+'">'; 
+		        		html +='<div class="black-bg hide">'; 
+		        		html +='<div class="sku-off-box">&times;</div>'; 
+		            	html +='</div>'; 
+		        		html +='</div>'; 
+		        		//将规格图片记录存入临时数组
+		        		var pic_id = idArr[i];
+		        		var pic_cover_mid = srcArr[i];
+		        		for(var t = 0; t < $sku_goods_picture.length ; t ++ ){
+			        		if($sku_goods_picture[t].spec_id == spec_id && $sku_goods_picture[t].spec_value_id == spec_value_id){
+			        			$sku_goods_picture[t]["sku_picture_query"].push({"pic_id":pic_id, "pic_cover_mid":pic_cover_mid});
+			        		}
+			        	}
+					}else if(upload_type == 1){
+						html +='<div class="upload-thumb draggable-element"  >'; 
+		        		html +='<img  src="'+__IMG(srcArr[i])+'">';  
+		        		html +='<input type="hidden"  class="upload_img_id"  value="'+idArr[i]+'">'; 
+		        		html +='<div class="black-bg hide">'; 
+		        		html +='<div class="off-box">&times;</div>'; 
+		            	html +='</div>'; 
+		        		html +='</div>'; 
+					}else{
+						var span_obj = $(".js-goods-sku").find("span[data-spec-id='"+ spec_id +"'][data-spec-value-id='"+ spec_value_id +"']");
+						span_obj.next().next().find("input").val(idArr[i]);
+						span_obj.next().next().find("img").attr("src",__IMG(srcArr[i]));
+						//规格spec图片返回并甘斌specObj对象
+						var spec = {
+								flag : span_obj.hasClass("selected"),
+								spec_id : span_obj.attr("data-spec-id"),
+								spec_name : span_obj.attr("data-spec-name"),
+								spec_value_id : span_obj.attr("data-spec-value-id"),
+								spec_value_data : idArr[i]
+							};
+							editSpecValueData(spec);//修改图片对应的修改SKU数据
+					}
+				}
+				if(upload_type == 2){
+					$(".sku-img-box[spec_id='"+ spec_id +"'][spec_value_id='"+ spec_value_id +"'] #sku_default_uploadimg").remove();
+					$(".sku-img-box[spec_id='"+ spec_id +"'][spec_value_id='"+ spec_value_id +"']").append(html);
+					$('.sku-draggable-element'+spec_id+'-'+ spec_value_id ).arrangeable();
+					
+				}else if(upload_type == 1){	
+					$("#default_uploadimg").remove();
+	                $(html).appendTo('.img-box');
+					$('.draggable-element').arrangeable();
+				}
+			}
+			//模块可拖动事件
+			/* $(goodsFigure).children("a").show(); */
+			break;
+		case 1:
+			//商品详情
+			for (var i = 0; i < srcArr.length; i++) {
+				var description = "<img src='"+__IMG(srcArr[i])+"' />";
+				ue.setContent(description, true);
+			}
+			break;
+		}
+	}
+	
+	function setGoodsFigure(goodsFigure) {
+		this.goodsFigure = goodsFigure;
+	}
+
+	//设置商品详情的图片
+	function setUeditorImg() {
+		speciFicationsFlag = 1;
+		OpenPricureDialog("PopPicure", ADMINMAIN, 5);
+	}
+
+	/**
+	 *图片上传
+	 */
+	function imgUpload(event) {
+		var fileid = $(event).attr("id");
+		var str = $(event).next().attr("id");
+		var curr = $(event).parent();
+		var parent = curr.prev().prev();
+		var data = { 
+			'file_path' : UPLOADGOODSSKU,
+			'goods_path' : $("#goodsId").val()
+		};
+		specImgUpload(fileid,data,function(res){
+			if(res.code>0){
+				var imgpath = "#img"+str;
+				var imgval = "#"+str;
+				$(imgpath).attr("src",__IMG(res.file_path));
+				$(imgval).val(res.file_path);
+// 				if(isResourcesExist(__IMG(res.data))){
+					curr.popover("hide");
+// 				}
+				var spec = {
+					flag : parent.hasClass("selected"),
+					spec_id : parent.attr("data-spec-id"),
+					spec_name : parent.attr("data-spec-name"),
+					spec_value_id : parent.attr("data-spec-value-id"),
+					spec_value_data : $("#"+str).val()
+				};
+				editSpecValueData(spec);//修改图片对应的修改SKU数据
+				showTip(res.message,"success");
+			}else{
+				showTip(res.message,"warning");
+			}
+		});
+	}
+
+	/*
+	* 判断资源文件是否存在
+	* 2017年6月15日 19:03:12 王永杰
+	*/
+	function isResourcesExist(resources_url){
+		var exist = false;
+		if(resources_url != ""){
+			$.ajax(resources_url, {
+				type: 'get',
+				timeout: 100,
+				async : false,
+				success : function(){
+					exist = true;
+				},
+				error: function() {
+					exist = false;
+				}
+			});
+		}
+		return exist;
+	}
+	/**
+	*扩展分类个数
+	*/
+	var extent_sort = 0;
+	$(function() {
+		if(parseInt("{$extent_sort}") > 0){
+			extent_sort = parseInt("{$extent_sort}");
+		}
+		//判断导航栏位置
+// 		var width = (document.body.clientWidth-1200)/2;
+// 		if(width >90){
+// 			$("#fixedNavBar").show();
+// 			$("#fixedNavBar").css("left","57%")
+// 		}else{
+// 			$("#fixedNavBar").show();
+// 			$("#fixedNavBar").css("right","2%")
+// 		}
+
+		
+	})
+</script>

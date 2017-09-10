@@ -1,0 +1,148 @@
+{extend name="wap/default/base" /}
+{block name="resources"}
+
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/components.css">
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/group_goods_list.css">
+<style>
+.sliding{
+	margin-top:10px;
+	overflow-y: auto;
+	background: #ffffff;
+}
+.sliding::-webkit-scrollbar {
+	display: none;
+}
+.sliding ul {
+    white-space: nowrap;
+	height:51px;
+	line-height: 50px;
+	text-align: center;
+}
+.sliding ul li {
+    white-space: pre-line;
+	padding:0 10px 0 10px;
+    display: inline-block;
+	background:#ffffff;
+	border-right:2px solid #f8f8f8;
+}
+.sliding ul li:LAST-CHILD{
+	border:0;
+}
+.selected{
+	color:red;
+}
+.brand{
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 10px;
+}
+.brand_img{
+	display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+    height: auto;
+}
+</style>
+{/block}
+{block name="goodsHead"}
+
+<section class="head">
+	<a class="head_back" href="javascript:window.history.go(-1)"><i class="icon-back"></i></a>
+	<div class="head-title"><span style="margin-left: 40px;">{:lang('brands_area')}</span>{include file="wap/default/controGroup" /}</div>
+</section>
+
+{if condition="$brand_adv['is_use'] eq 1"}
+    {if condition="$brand_adv['adv_list'][0]['adv_image'] neq ''"}
+<div class="slick" style="margin-top: 47px;">
+	<a href="{:__URL($brand_adv['adv_list'][0]['adv_url'])}">
+		<img src="{:__IMG($brand_adv['adv_list'][0]['adv_image'])}" >
+		<!-- style="height:{$brand_adv.ap_height}px;" -->
+	</a>
+</div>
+   {/if}
+{/if}
+
+{/block}
+
+{block name="main"}
+<!-- 左侧分类-->
+{if condition="$brand_adv['is_use'] eq 1"}
+<div class="sliding">
+	<ul id="slider">
+		{foreach name="goods_category_list_1" item = "category" key = "k"}
+		<li {if condition="$k ==0"}class = "defaualt selected" {/if}onclick="showCategorySecond({$category.category_id},this)">{$category.category_name}</li>
+		{/foreach}
+	</ul>
+</div>
+{else/}
+<div class="sliding" style="margin-top:47px;">
+	<ul id="slider">
+		{foreach name="goods_category_list_1" item = "category" key = "k"}
+		<li {if condition="$k ==0"}class = "defaualt selected" {/if}onclick="showCategorySecond({$category.category_id},this)">{$category.category_name}</li>
+		{/foreach}
+	</ul>
+</div>
+{/if}
+<!-- <div class="custom-tag-list clearfix">
+	<div class="mask" id="grouGoodsListmask"></div>
+	<div class="custom-tag-list-menu-block">
+		<div style="height: 294px; display: none;"></div>
+		<ul class="custom-tag-list-side-menu" style="position: relative;width:100%;" id='goods_group'>
+			{foreach name="goods_category_list_1" item = "category" key = "k"}
+			<li val="{$category.category_id}">
+				<a {if condition="$k==0" } class="selected" {/if} onclick="showCategorySecond(this,{$category.category_id})"><span>{$category.category_name}</span></a>
+			</li>
+			{/foreach}
+		</ul>
+	</div> 
+</div>-->
+<div class="custom-tag-list-goods" id='good_list'></div>
+<script type="text/javascript">
+
+//显示二级分类
+// 	$(function(){
+// 		showCategorySecond(1);
+// 	})
+	 $(function(){
+		 $('.defaualt').eq(0).click();
+	 })
+	function showCategorySecond(category_id,obj){
+		//设置选中效果
+		if(obj != null){
+			if($(obj).length!=0){
+				$("#slider li").removeClass("selected");
+				$(obj).addClass("selected");
+			}
+		}
+		$.ajax({
+			url:'{:__URL('APP_MAIN/Goods/brandlist')}',
+			async:false,
+			data:{'category_id':category_id},
+			dataType:'json',
+			success:function(data){
+				var list_html='';
+				if(data.length==0){
+					$('#good_list').html('<div class="nothing-data" align="center"><img src="__TEMP__/{$style}/public/images/wap_nodata.png"/><div>{:lang("not_find_the_goods_you_wanted")}…</div></div>');
+					return false;
+				}
+				for(key in data){
+					var item=data[key];
+					list_html+='<dl>'
+					+'<div class="brand">'
+					+'<a href="'+URL('APP_MAIN/goods/goodslist?brand_id='+item.brand_id)+'"><div style="width:100%;height:230px;"><img class="brand_img" src="'+__IMG(item.brand_ads)+'" alt="'+item.brand_name+'"></div></a>'
+					+'<span style="margin-top:0px;background: #FFF;">'
+					+'<a href="'+URL('APP_MAIN/goods/goodslist?brand_id='+item.brand_id)+'"><img src="'+__IMG(item.brand_pic)+'" alt="'+item.brand_name+'" style="width:60%;margin-top:3%;float:left;"></a>'
+					+'<p style="width: 40%;float: right;text-align: center;height: 50px;line-height: 50px;"><a href="'+__URL('APP_MAIN/goods/goodslist?brand_id='+item.brand_id)+'">'+item.brand_name+'</a></p>'
+					+'</span>'
+					+'</div>'
+					+'</dl>';
+				}
+				$('#good_list').html(list_html);
+			}
+		});
+	}	
+</script>
+{/block}
+{block name="bottom"} {/block}

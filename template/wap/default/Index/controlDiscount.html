@@ -1,0 +1,105 @@
+<style type="text/css">
+.group-list{overflow: hidden;}
+.group-list-box .group-list li:nth-child(2n+1) {margin-left: 0px;}
+.group-list-box{width:100%;margin:0 auto;float: none;overflow-y: hidden;}
+.group-list-box .group-list li{width:49%;float:left;margin-left:1%;padding:0px;margin-bottom: 3px;}
+.brand-info .brand-info-left .b-price p{
+	color:#f23030;
+	font-weight:bold;
+	font-size:12px;
+}
+.buyer{
+	font-size:12px;
+}
+.group-list-box .group-list li .brand-name {
+  	text-align:left;
+    margin-left: 8px;
+}
+
+</style>
+<div class="controltype" >
+	<!-- <img src="__TEMP__/{$style}/public/images/limit_top.png"/> -->
+	<!-- <span class="control_l_content"><a href="APP_MAIN/index/discount" style="color:#6927FF;">限时折扣</a></span> -->
+	<a href="{:__URL('APP_MAIN/index/discount')}" style="color:#6927FF;"><img src="__TEMP__/{$style}/public/images/navimg/display_discount.png"></a>
+</div>
+<div class="group-list-box">
+	<ul class="group-list">
+	{volist name="discount_list" id="vo"}
+		<li>
+			<!-- <span class="brand-name">{$vo.goods_name}</span> -->
+			<div class="p-img">
+				<a href="{:__URL('APP_MAIN/goods/goodsdetail?id='.$vo['goods_id'])}" title="{$vo.goods_name}" style="display: block;width: 100%;height: 170px;line-height: 170px;">
+				    <img src="{:__IMG($vo['picture']['pic_cover'])}" style="width:100%;height:auto;"onerror="this.src='__TEMP__/{$style}/public/images/goods_img_empty.png'">
+				<div class="brand-time" >
+					<i></i>
+					<span class="settime" starttime="{$vo.start_time | getTimeStampTurnTime}" endtime="{$vo.end_time | getTimeStampTurnTime}" ></span>
+				</div>
+				</a>
+				 <!-- <div class="p_discount">{$vo.discount}折</div> -->
+			</div>
+			<a href="{:__URL('APP_MAIN/goods/goodsdetail?id='.$vo['goods_id'])}" title="{$vo.goods_name}"><div class="brand-name">{$vo.goods_name}</div></a>
+			<div class="brand-info" style="height:initial;">
+				<div class="brand-info-left" style="float:none;">
+					<span class="b-price" style="float:left;margin:5px 8px;">
+					<p>￥{$vo.promotion_price}</p>
+					</span>
+					<em></em>
+					<span class="buyer" style="float:right;line-height:31px;"><s style="margin-right: 10px;">￥{$vo.price}</s></span>
+				</div>
+				<!-- <div class="brand-info-right" style="clear:both; margin-bottom: 8px;">
+				<a class="main-btn" href="APP_MAIN/goods/goodsDetail?id={$vo.goods_id}">马上抢</a>
+				</div> -->
+			</div>
+		</li>
+	{/volist}
+	</ul>
+	<input type="hidden" id="ms_time" value="{$ms_time}"/>
+</div>
+
+<script type="text/javascript">
+	$().ready(function() {
+		updateEndTime();
+		
+	});
+	//倒计时函数
+	function updateEndTime() {
+// 		var date = new Date();
+// 		var time = date.getTime(); //当前时间距1970年1月1日之间的毫秒数
+		var time =$("#ms_time").val();
+		$(".settime").each(function(i) {
+			var endDate = this.getAttribute("endTime"); //结束时间字符串
+			
+			//转换为时间日期类型
+			var endDate1 = eval('new Date(' + endDate.replace(/\d+(?=-[^-]+$)/, function(a) {
+				return parseInt(a, 10) - 1;
+			}).match(/\d+/g) + ')');
+			
+			var endTime = endDate1.getTime(); //结束时间毫秒数
+	
+			var lag = (endTime - time) / 1000; //当前时间和结束时间之间的秒数
+			if (lag > 0) {
+				var second = Math.floor(lag % 60);
+				var minite = Math.floor((lag / 60) % 60);
+				var hour = Math.floor((lag / 3600) % 24);
+				var day = Math.floor((lag / 3600) / 24);
+				$(this).html(day + "{:lang('days')}" + hour + "{:lang('hours')}" + minite + "{:lang('minutes')}" + second + "{:lang('second')}");
+			} else{
+				$(this).html("{:lang('activity_over')}！");
+			}
+		});
+		setTimeout("updateEndTime()", 1000);
+		getCurrentTime();
+	}
+	//得到当前时间的毫秒数
+	function getCurrentTime(){
+		$.ajax({
+			url : __URL("APP_MAIN/goods/getCurrentTime"),
+			type : "post",
+			success : function(res){
+				//alert(res);
+				$("#ms_time").val(res);
+			}
+		})
+	}
+
+</script>
