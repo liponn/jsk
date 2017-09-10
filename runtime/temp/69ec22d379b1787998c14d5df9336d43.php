@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:9:{s:37:"template/wap/default/Index/index.html";i:1505038599;s:30:"template/wap/default/base.html";i:1505026012;s:34:"template/wap/default/urlModel.html";i:1504942797;s:31:"template/wap/default/share.html";i:1504942797;s:45:"template/wap/default/Index/controlSearch.html";i:1504942796;s:44:"template/wap/default/Index/controlSlide.html";i:1505021829;s:45:"template/wap/default/Index/controlNotice.html";i:1504942796;s:32:"template/wap/default/footer.html";i:1505026518;s:39:"template/wap/default/shareContents.html";i:1504942797;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:9:{s:37:"template/wap/default/Index/index.html";i:1505061525;s:30:"template/wap/default/base.html";i:1505026012;s:34:"template/wap/default/urlModel.html";i:1504942797;s:31:"template/wap/default/share.html";i:1504942797;s:45:"template/wap/default/Index/controlSearch.html";i:1504942796;s:44:"template/wap/default/Index/controlSlide.html";i:1505021829;s:45:"template/wap/default/Index/controlNotice.html";i:1504942796;s:32:"template/wap/default/footer.html";i:1505026518;s:39:"template/wap/default/shareContents.html";i:1504942797;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -309,7 +309,7 @@ function __URL(url)
 		
 		<div class="code">
 			<div style="overflow: hidden;">
-			   <img src="/public/static/images/1504422441.png"  style="max-width: 100%;margin-top: 10px;"/>
+			   <img src="<?php echo __IMG('public/static/images/1504422441.png' ); ?>"  style="max-width: 100%;margin-top: 10px;"/>
 			   <div style="color:#666; margin-bottom: 10px;"><?php echo lang("press_two_dimensional_code_public_concern_WeChat"); ?></div>
 			</div>
 		</div>
