@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:55:"template/wap/default/Goods/goodsClassificationList.html";i:1504947419;s:30:"template/wap/default/base.html";i:1505026012;s:34:"template/wap/default/urlModel.html";i:1504942797;s:37:"template/wap/default/controGroup.html";i:1504942796;s:32:"template/wap/default/footer.html";i:1505026518;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:55:"template/wap/default/Goods/goodsClassificationList.html";i:1505587675;s:30:"template/wap/default/base.html";i:1505026012;s:34:"template/wap/default/urlModel.html";i:1504942797;s:37:"template/wap/default/controGroup.html";i:1504942796;s:32:"template/wap/default/footer.html";i:1505026518;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -367,7 +367,7 @@ function __URL(url)
 		<ul class="custom-tag-list-side-menu" style="position: relative;width:100%;background:#fff;" id='goods_group'>
 			<?php if(is_array($goods_category_list_1) || $goods_category_list_1 instanceof \think\Collection || $goods_category_list_1 instanceof \think\Paginator): if( count($goods_category_list_1)==0 ) : echo "" ;else: foreach($goods_category_list_1 as $k=>$category): ?>
 			<li val="<?php echo $category['category_id']; ?>">
-				<a <?php if($k==0): ?> class="selected" <?php endif; ?> onclick="showCategorySecond(this,<?php echo $category['category_id']; ?>)" data-category-id="<?php echo $category['category_id']; ?>"><span><?php echo $category['short_name']; ?></span></a>
+				<a <?php if($k==0): ?> class="selected" <?php endif; ?> onclick="showCategorySecond(this,'<?php echo $category['category_id']; ?>')" data-category-id="<?php echo $category['category_id']; ?>"><span><?php echo $category['short_name']; ?></span></a>
 			</li>
 			<?php endforeach; endif; else: echo "" ;endif; ?>
 		</ul>
@@ -402,9 +402,9 @@ function __URL(url)
 								<img src="<?php echo __IMG($category_third['category_pic']); ?>" alt="<?php echo $category_third['short_name']; ?>" />
 							</div>
 							<?php else: ?>
-							<div style=" height:40px; width: 100%;overflow: hidden;">
+							<!-- <div style=" height:40px; width: 100%;overflow: hidden;">
 								<img src="__TEMP__/<?php echo $style; ?>/public/images/catagory-02.png" alt="<?php echo $category_third['short_name']; ?>" />
-							</div>
+							</div> -->
 							<?php endif; ?>
 							<em style="margin:0;"><?php echo $category_third['short_name']; ?></em>
 						</a>
@@ -455,6 +455,7 @@ function showCategorySecond(obj,category_id){
 		$(".js-children").hide();
 	}
 }
+
 // $("#head_back").click(function (){
 // 	var json ={
 // 		"center" : "2"

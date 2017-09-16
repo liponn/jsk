@@ -1,4 +1,4 @@
-html {
+Ghtml {
 	height: 100%;
 }
 div, ul, li {
@@ -147,7 +147,7 @@ a, a:link, a:visited, a:hover, a:active {
 	text-align: center;
 	margin: 5px;
 	padding: 0;
-	height:85px;
+	/*height:85px;*/
 }
 .catalog-info a img {
 	display: inline-block;

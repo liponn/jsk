@@ -28,7 +28,7 @@ class Index extends BaseController
             );
         $this->assign('plat_adv_list', $plat_adv_list);
 
-        // 首页楼层版块
+        // 首页楼层版块 常用商品
         // $good_category = new GoodsCategory();
 
         $block_list = [

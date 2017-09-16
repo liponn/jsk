@@ -3,7 +3,7 @@
 .DS_Store
 .idea/
 system/
-runtime/
+runtime/*
 application/database.php
 
 app/web/*.php

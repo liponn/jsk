@@ -4,6 +4,7 @@ namespace app\wap\controller;
 use data\service\Goods as GoodsService;
 use data\service\GoodsBrand as GoodsBrand;
 use data\service\GoodsCategory;
+use data\service\GoodsLeibie;
 use data\service\GoodsGroup;
 use data\service\Order as OrderService;
 use data\service\Platform;
@@ -261,25 +262,77 @@ class Goods extends BaseController
      */
     public function goodsClassificationList()
     {
-        $uid = $this->uid;
-        $goods_category = new GoodsCategory();
-        $goods_category_list_1 = $goods_category->getGoodsCategoryList(1, 0, [
-            "is_visible" => 1,
-            "level" => 1
-        ], 'sort');
-        
-        $goods_category_list_2 = $goods_category->getGoodsCategoryList(1, 0, [
-            "is_visible" => 1,
-            "level" => 2
-        ], 'sort');
-        $goods_category_list_3 = $goods_category->getGoodsCategoryList(1, 0, [
-            "is_visible" => 1,
-            "level" => 3
-        ], 'sort');
-        
-        $this->assign("goods_category_list_1", $goods_category_list_1["data"]);
-        $this->assign("goods_category_list_2", $goods_category_list_2["data"]);
-        $this->assign("goods_category_list_3", $goods_category_list_3["data"]);
+        $goods_leibie = new GoodsLeibie();
+        // $goods_category_list_1 = $goods_category->getGoodsCategoryList(1, 0, [
+        //     "is_visible" => 1,
+        //     "level" => 1
+        // ]);
+        // var_dump($goods_category_list_1['data'][0]);
+        // print_r(json_decode(json_encode($goods_category_list_1['data']), true) ); 
+
+        //一级分类
+        $sql = "SELECT * FROM jc_chanpinleibie WHERE `上级代码` = ''";
+        $goods_category_list_1 = $goods_leibie->getGoodsCategoryList(1,0,$sql);
+        foreach ($goods_category_list_1 as &$value) {
+            # code...
+            $value['category_id'] = $value['代码'];
+            $value['short_name'] = $value['名称'];
+        }
+        unset($value);
+
+        $sql = "SELECT * FROM jc_chanpinleibie WHERE `上级代码` NOT LIKE '%.%' AND `上级代码` != ''";
+        $goods_category_list_2 = $goods_leibie->getGoodsCategoryList(1,0,$sql);
+        foreach ($goods_category_list_2 as &$value) {
+            # code...
+            $value['category_id'] = $value['代码'];
+            $value['short_name'] = $value['名称'];
+            $value['pid'] = $value['上级代码'];
+        }
+        unset($value);
+
+        $sql = "SELECT * FROM jc_chanpinleibie WHERE `上级代码` LIKE '%.%' AND `上级代码` != ''";
+        $goods_category_list_3 = $goods_leibie->getGoodsCategoryList(1,0,$sql);
+        foreach ($goods_category_list_3 as &$value) {
+            # code...
+            $value['category_id'] = $value['代码'];
+            $value['short_name'] = explode('_', $value['名称'])[2];
+            $value['pid'] = $value['上级代码'];
+        }
+        unset($value);
+        // $goods_category_list_3 = [
+        //     [
+        //         'category_id'=>1,
+        //         'category_name'=> '曲面电视',
+        //         'short_name'=>'曲面电视',
+        //         'pid' => 14,
+        //         'level' => 3,
+        //         'is_visible' => 1,
+        //         'attr_id' => 0,
+        //         'attr_name' => '',
+        //         'keywords' => '曲面电视',
+        //         'description' => '曲面电视',
+        //         'sort' => 1,
+        //         'category_pic' => '',
+        //     ],
+        //     [
+        //         'category_id'=>1,
+        //         'category_name'=> '曲面电视2',
+        //         'short_name'=>'曲面电视2',
+        //         'pid' => 14,
+        //         'level' => 3,
+        //         'is_visible' => 1,
+        //         'attr_id' => 0,
+        //         'attr_name' => '',
+        //         'keywords' => '曲面电视2',
+        //         'description' => '曲面电视2',
+        //         'sort' => 1,
+        //         'category_pic' => '',
+        //     ],
+        // ];
+
+        $this->assign("goods_category_list_1", $goods_category_list_1);
+        $this->assign("goods_category_list_2", $goods_category_list_2);
+        $this->assign("goods_category_list_3", $goods_category_list_3);
         $this->assign("footer_check", 'classify_check');//底部导航选中参数
         return view($this->style . 'Goods/goodsClassificationList');
     }

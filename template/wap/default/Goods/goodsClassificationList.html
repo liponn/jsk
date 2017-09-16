@@ -39,7 +39,7 @@
 		<ul class="custom-tag-list-side-menu" style="position: relative;width:100%;background:#fff;" id='goods_group'>
 			{foreach name="goods_category_list_1" item = "category" key = "k"}
 			<li val="{$category.category_id}">
-				<a {if condition="$k==0" } class="selected" {/if} onclick="showCategorySecond(this,{$category.category_id})" data-category-id="{$category.category_id}"><span>{$category.short_name}</span></a>
+				<a {if condition="$k==0" } class="selected" {/if} onclick="showCategorySecond(this,'{$category.category_id}')" data-category-id="{$category.category_id}"><span>{$category.short_name}</span></a>
 			</li>
 			{/foreach}
 		</ul>
@@ -78,9 +78,9 @@
 								<img src="{:__IMG($category_third.category_pic)}" alt="{$category_third.short_name}" />
 							</div>
 							{else/}
-							<div style=" height:40px; width: 100%;overflow: hidden;">
+							<!-- <div style=" height:40px; width: 100%;overflow: hidden;">
 								<img src="__TEMP__/{$style}/public/images/catagory-02.png" alt="{$category_third.short_name}" />
-							</div>
+							</div> -->
 							{/if}
 							<em style="margin:0;">{$category_third.short_name}</em>
 						</a>
@@ -132,6 +132,7 @@ function showCategorySecond(obj,category_id){
 		$(".js-children").hide();
 	}
 }
+
 // $("#head_back").click(function (){
 // 	var json ={
 // 		"center" : "2"

@@ -26,6 +26,12 @@ class BaseModel extends Model
             return true;
         });  
     } 
+
+    public function sqlQuery($sql){
+        $rs = Db::query($sql);
+
+        return $rs;
+    }
     /**
      * 获取空模型
      */
