@@ -8,7 +8,7 @@ use data\model\BaseModel as BaseModel;
  *
  */
 class NsMemberModel extends BaseModel {
-    protected $table = 'ns_member';
+    protected $table = 'sys_member';
     protected $rule = [
         'uid'  =>  '',
     ];
