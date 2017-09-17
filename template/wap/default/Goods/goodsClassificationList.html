@@ -48,20 +48,6 @@
 	{if condition="count($goods_category_list_1)"}
 	<div class="custom-tag-list-goods" id='good_list'>
 		
-		<!-- 一级分类频道 -->
-		{foreach name="goods_category_list_1" item = "category" key = "k"}
-		<div class="category js-category-{$category.category_id}" {if condition = "$k==0" }style="display:block;"{/if}>
-		
-			<div style="width:100%;background: #ffffff;text-align: center;">
-			{if condition="$category.category_pic!=''"}
-			<img src="{:__IMG($category.category_pic)}" alt="{$category.short_name}">
-			{else/}
-			<img src="__TEMP__/{$style}/public/images/catagory.png" alt="{$category.short_name}">
-			{/if}
-			</div>
-			<a href="{:__URL('APP_MAIN/goods/goodslist?category_id='.$category['category_id'])}" class="all" style="color: #FFF">{:lang('get_into')}{$category.short_name}{:lang('frequency_channel')}&nbsp;&gt;&nbsp;&gt;</a>
-		</div>
-		{/foreach}
 		
 		{foreach name="goods_category_list_2" item="category_second" key = "k"}
 			<dl class="js-category-{$category_second.pid}" {if condition ="$category_second.pid!=$goods_category_list_1[0]['category_id']"}style="display: none;"{/if}>
