@@ -9,7 +9,7 @@ use data\model\BaseModel as BaseModel;
  */
 class NsGoodsModel extends BaseModel {
 
-    protected $table = 'ns_goods';
+    protected $table = 'jc_cpwhb';
     protected $rule = [
         'goods_id'  =>  '',
         'description'  =>  'no_html_parse',

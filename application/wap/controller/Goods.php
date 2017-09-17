@@ -178,7 +178,7 @@ class Goods extends BaseController
         }
         $this->assign("shopname", $this->shop_name);
         $goods = new GoodsService();
-        
+        // var_dump($this->instance_id);exit;
         $cartlist = $goods->getCart($this->uid, $this->instance_id);
         // 店铺，店铺中的商品
         $list = Array();
@@ -400,7 +400,7 @@ class Goods extends BaseController
     {
         $goods = new GoodsService();
         $goods_id = isset($_POST['goods_id']) ? $_POST['goods_id'] : '';
-        $goods_detail = $goods->getGoodsDetail($goods_id);
+        $goods_detail = $goods->_getGoodsDetail($goods_id);
         $this->assign("goods_detail", $goods_detail);
         $this->assign("style", $this->style);
         return view($this->style . 'joinCart');

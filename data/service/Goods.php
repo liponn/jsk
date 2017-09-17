@@ -701,6 +701,18 @@ class Goods extends BaseService implements IGoods
         // TODO Auto-generated method stub
     }
 
+    public function _getGoodsDetail($goods_id){
+        $sql = "SELECT * FROM jc_cpwhb WHERE `产品编号` = '$goods_id'";
+        $goods = new NsGoodsModel();
+        $goods_detail = $goods->sqlQuery($sql);
+        // var_dump($goods_detail);exit;
+        return [
+            'goods_name' => $goods_detail[0]['产品名称'],
+            'promotion_price' => $goods_detail[0]['产品名称'],
+            'shop_name' => '家顺康',
+        ];
+        //exit("sdsds");
+    }
     /*
      * (non-PHPdoc)
      * @see \data\api\IGoods::getGoodsDetail()
@@ -1365,125 +1377,125 @@ class Goods extends BaseService implements IGoods
                 $cart_goods_list = json_decode($cart_goods_list,true);
             }
         }
-        if (!empty($cart_goods_list)) {
-            foreach ($cart_goods_list as $k => $v) {
-                $goods = new NsGoodsModel();        
-                $goods_info = $goods->getInfo([
-                    'goods_id' => $v['goods_id']
-                ], 'max_buy,state,point_exchange_type,point_exchange,goods_name,price, picture, min_buy ');
-                // 获取商品sku信息
-                $goods_sku = new NsGoodsSkuModel();
-                $sku_info = $goods_sku->getInfo([
-                    'sku_id' => $v['sku_id']
-                ], 'stock, price, sku_name, promote_price');
-                //验证商品或sku是否存在,不存在则从购物车移除
-                if($uid > 0){
-                    if(empty($goods_info)){
-                        $cart->destroy([
-                            'goods_id' => $v['goods_id'],
-                            'buyer_id' => $uid
-                        ]);
-                        unset($cart_goods_list[$k]);
-                        continue;
-                    }
-                    if(empty($sku_info)) {
-                        unset($cart_goods_list[$k]);
-                        $cart->destroy([
-                            'buyer_id' => $uid,
-                            'sku_id' => $v['sku_id']
-                        ]);
-                        continue;
-                    }
-                }else{
-                    if(empty($goods_info)){
-                        unset($cart_goods_list[$k]);
-                        $this->cartDelete($v['cart_id']);
-                        continue;
-                    }
-                    if(empty($sku_info)) {
-                        unset($cart_goods_list[$k]);
-                        $this->cartDelete($v['cart_id']);
-                        continue;
-                    }
-                }
-                //为cookie信息完善商品和sku信息
-                if($uid > 0){
-                    //查看用户会员价
-                    $goods_preference = new GoodsPreference();
-                    if (!empty($this->uid)) {
-                        $member_discount = $goods_preference->getMemberLevelDiscount($uid);
-                    } else {
-                        $member_discount = 1;
-                    }
-                    $member_price = $member_discount * $sku_info['price'];
-                    if($member_price > $sku_info["promote_price"]){
-                        $price = $sku_info["promote_price"];
-                    }else{
-                        $price = $member_price;
-                    }
-                     $update_data = array(
-                         "goods_name"=>$goods_info["goods_name"], 
-                         "sku_name"=>$sku_info["sku_name"],
-                         "goods_picture"=>$goods_info["picture"],
-                         "price"=>$price
-                     ); 
-                     //更新数据 
-                     $cart->save($update_data, ["cart_id"=>$v["cart_id"]]); 
-                     $cart_goods_list[$k]["price"] = $price;
-                     $cart_goods_list[$k]["goods_name"] = $goods_info["goods_name"];
-                     $cart_goods_list[$k]["sku_name"] = $sku_info["sku_name"];
-                     $cart_goods_list[$k]["goods_picture"] = $goods_info["picture"];
-                }else{
-                     $cart_goods_list[$k]["price"] = $sku_info["promote_price"];
-                     $cart_goods_list[$k]["goods_name"] = $goods_info["goods_name"];
-                     $cart_goods_list[$k]["sku_name"] = $sku_info["sku_name"];
-                     $cart_goods_list[$k]["goods_picture"] = $goods_info["picture"];
-                }
+        // if (!empty($cart_goods_list)) {
+        //     foreach ($cart_goods_list as $k => $v) {
+        //         $goods = new NsGoodsModel(); //------------------------------9-17
+        //         $goods_info = $goods->getInfo([
+        //             'goods_id' => $v['goods_id']
+        //         ], 'max_buy,state,point_exchange_type,point_exchange,goods_name,price, picture, min_buy ');
+        //         // 获取商品sku信息
+        //         $goods_sku = new NsGoodsSkuModel();
+        //         $sku_info = $goods_sku->getInfo([
+        //             'sku_id' => $v['sku_id']
+        //         ], 'stock, price, sku_name, promote_price');
+        //         //验证商品或sku是否存在,不存在则从购物车移除
+        //         if($uid > 0){
+        //             if(empty($goods_info)){
+        //                 $cart->destroy([
+        //                     'goods_id' => $v['goods_id'],
+        //                     'buyer_id' => $uid
+        //                 ]);
+        //                 unset($cart_goods_list[$k]);
+        //                 continue;
+        //             }
+        //             if(empty($sku_info)) {
+        //                 unset($cart_goods_list[$k]);
+        //                 $cart->destroy([
+        //                     'buyer_id' => $uid,
+        //                     'sku_id' => $v['sku_id']
+        //                 ]);
+        //                 continue;
+        //             }
+        //         }else{
+        //             if(empty($goods_info)){
+        //                 unset($cart_goods_list[$k]);
+        //                 $this->cartDelete($v['cart_id']);
+        //                 continue;
+        //             }
+        //             if(empty($sku_info)) {
+        //                 unset($cart_goods_list[$k]);
+        //                 $this->cartDelete($v['cart_id']);
+        //                 continue;
+        //             }
+        //         }
+        //         //为cookie信息完善商品和sku信息
+        //         if($uid > 0){
+        //             //查看用户会员价
+        //             $goods_preference = new GoodsPreference();
+        //             if (!empty($this->uid)) {
+        //                 $member_discount = $goods_preference->getMemberLevelDiscount($uid);
+        //             } else {
+        //                 $member_discount = 1;
+        //             }
+        //             $member_price = $member_discount * $sku_info['price'];
+        //             if($member_price > $sku_info["promote_price"]){
+        //                 $price = $sku_info["promote_price"];
+        //             }else{
+        //                 $price = $member_price;
+        //             }
+        //              $update_data = array(
+        //                  "goods_name"=>$goods_info["goods_name"], 
+        //                  "sku_name"=>$sku_info["sku_name"],
+        //                  "goods_picture"=>$goods_info["picture"],
+        //                  "price"=>$price
+        //              ); 
+        //              //更新数据 
+        //              $cart->save($update_data, ["cart_id"=>$v["cart_id"]]); 
+        //              $cart_goods_list[$k]["price"] = $price;
+        //              $cart_goods_list[$k]["goods_name"] = $goods_info["goods_name"];
+        //              $cart_goods_list[$k]["sku_name"] = $sku_info["sku_name"];
+        //              $cart_goods_list[$k]["goods_picture"] = $goods_info["picture"];
+        //         }else{
+        //              $cart_goods_list[$k]["price"] = $sku_info["promote_price"];
+        //              $cart_goods_list[$k]["goods_name"] = $goods_info["goods_name"];
+        //              $cart_goods_list[$k]["sku_name"] = $sku_info["sku_name"];
+        //              $cart_goods_list[$k]["goods_picture"] = $goods_info["picture"];
+        //         }
                 
                 
-                $cart_goods_list[$k]['stock'] = $sku_info['stock'];
-                $cart_goods_list[$k]['max_buy'] = $goods_info['max_buy'];
-                $cart_goods_list[$k]['min_buy'] = $goods_info['min_buy'];
-                $cart_goods_list[$k]['point_exchange_type'] = $goods_info['point_exchange_type'];
-                $cart_goods_list[$k]['point_exchange'] = $goods_info['point_exchange'];
-                if ($goods_info['state'] != 1) {
-                    unset($cart_goods_list[$k]);
-                    //更新cookie购物车
-                    $this->cartDelete($v['cart_id']); 
-                    continue;
-                }
-                $num = $v['num'];
-                if ($goods_info['max_buy'] != 0 && $goods_info['max_buy'] < $v['num']) {
-                    $num = $goods_info['max_buy'];
-                }                    
-                if ($sku_info['stock'] < $num) {
-                    $num = $sku_info['stock'];
-                }
-                //商品最小购买数大于现购买数
-                if($goods_info['min_buy'] > 0 && $num < $goods_info['min_buy']){
-                    $num = $goods_info['min_buy'];
-                }
-                //商品最小购买数大于现有库存
-                if($goods_info['min_buy'] > $sku_info['stock']){
-                    unset($cart_goods_list[$k]);
-                    //更新cookie购物车
-                    $this->cartDelete($v['cart_id']);
-                    continue;
-                }
-                if ($num != $v['num']) {
-                    // 更新购物车
-                    $cart_goods_list[$k]['num'] = $num;
-                    $this->cartAdjustNum($v['cart_id'], $num);                       
-                }
-            }
-            //为购物车图片
-            foreach ($cart_goods_list as $k => $v) {
-                $picture = new AlbumPictureModel();
-                $picture_info = $picture->get($v['goods_picture']);
-                $cart_goods_list[$k]['picture_info'] = $picture_info;
-            }               
-            sort($cart_goods_list);
-        }
+        //         $cart_goods_list[$k]['stock'] = $sku_info['stock'];
+        //         $cart_goods_list[$k]['max_buy'] = $goods_info['max_buy'];
+        //         $cart_goods_list[$k]['min_buy'] = $goods_info['min_buy'];
+        //         $cart_goods_list[$k]['point_exchange_type'] = $goods_info['point_exchange_type'];
+        //         $cart_goods_list[$k]['point_exchange'] = $goods_info['point_exchange'];
+        //         if ($goods_info['state'] != 1) {
+        //             unset($cart_goods_list[$k]);
+        //             //更新cookie购物车
+        //             $this->cartDelete($v['cart_id']); 
+        //             continue;
+        //         }
+        //         $num = $v['num'];
+        //         if ($goods_info['max_buy'] != 0 && $goods_info['max_buy'] < $v['num']) {
+        //             $num = $goods_info['max_buy'];
+        //         }                    
+        //         if ($sku_info['stock'] < $num) {
+        //             $num = $sku_info['stock'];
+        //         }
+        //         //商品最小购买数大于现购买数
+        //         if($goods_info['min_buy'] > 0 && $num < $goods_info['min_buy']){
+        //             $num = $goods_info['min_buy'];
+        //         }
+        //         //商品最小购买数大于现有库存
+        //         if($goods_info['min_buy'] > $sku_info['stock']){
+        //             unset($cart_goods_list[$k]);
+        //             //更新cookie购物车
+        //             $this->cartDelete($v['cart_id']);
+        //             continue;
+        //         }
+        //         if ($num != $v['num']) {
+        //             // 更新购物车
+        //             $cart_goods_list[$k]['num'] = $num;
+        //             $this->cartAdjustNum($v['cart_id'], $num);                       
+        //         }
+        //     }
+        //     //为购物车图片
+        //     foreach ($cart_goods_list as $k => $v) {
+        //         $picture = new AlbumPictureModel();
+        //         $picture_info = $picture->get($v['goods_picture']);
+        //         $cart_goods_list[$k]['picture_info'] = $picture_info;
+        //     }               
+        //     sort($cart_goods_list);
+        // }
         return $cart_goods_list;
         
     }
