@@ -525,9 +525,9 @@ class Goods extends BaseController
         // 查询购物车中商品的数量
         $uid = $this->uid;
         $goods = new GoodsService();
-        $cartlist = $goods->getCart($uid);
-        $this->assign('uid', $uid);
-        $this->assign("carcount", count($cartlist));
+        // $cartlist = $goods->getCart($uid);
+        // $this->assign('uid', $uid);
+        // $this->assign("carcount", count($cartlist));
         
         if (request()->isAjax()) {
             $category_id = isset($_POST["category_id"]) ? $_POST["category_id"] : ""; // 商品分类
@@ -535,41 +535,19 @@ class Goods extends BaseController
             $order = isset($_POST["order"]) ? $_POST["order"] : ""; // 商品排序分类
             $sort = isset($_POST["sort"]) ? $_POST["sort"] : "desc"; // 商品排序分类
             
-            switch ($order) {
-                case 1: // 销量
-                    $order = 'sales ';
-                    break;
-                case 2: // 新品
-                    $order = 'is_new ';
-                    break;
-                case 3: // 价钱
-                    $order = 'promotion_price ';
-                    break;
-                default:
-                    $order = 'sale_date ';
-                    break;
-            }
-            
-            $orderby = ""; // 排序方式
-            if ($order != "") {
-                $orderby = $order . " " . $sort . ",ng.sort asc";
-            } else {
-                $orderby = "ng.sort asc";
-            }
-            
-            $condition = array();
-            if (! empty($category_id)) {
-                $condition["ng.category_id"] = $category_id;
-            } else 
-                if (! empty($brand_id)) {
-                    $condition["ng.brand_id"] = array(
-                        "in",
-                        $brand_id
-                    );
-                }
-            $condition['ng.state'] = 1;
             $goods = new GoodsService();
-            $goods_list = $goods->getGoodsList(1, 0, $condition, $orderby);
+            $goods_list = $goods->getGoodsList(1, 0, $category_id);
+            // var_dump($goods_list);exit;
+            // $goods_list['data'] = [
+            //     array(
+            //         'goods_id' => 33,
+            //         'goods_name' => '320A高清32吋智能WIFI网络',
+            //         'promotion_price' => '1399.00',
+            //         'pic_cover_small' => '',
+            //         'sales' =>0,
+            //         'state' =>1,
+            //         ),
+            // ];
             return $goods_list;
         } else {
             $category_id = isset($_GET["category_id"]) ? $_GET["category_id"] : ""; // 商品分类

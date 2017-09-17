@@ -52,7 +52,7 @@ class Goods extends BaseService implements IGoods
     function __construct()
     {
         parent::__construct();
-        $this->goods = new NsGoodsModel();
+        //$this->goods = new NsGoodsModel();
     }
 
     /*
@@ -60,37 +60,21 @@ class Goods extends BaseService implements IGoods
      * @see \data\api\IGoods::getGoodsList()
      */
     public function getGoodsList($page_index = 1, $page_size = 0, $condition = '', $order = '')
-    {
-        $goods_view = new NsGoodsViewModel();
-        // 针对商品分类
-        if (! empty($condition['ng.category_id'])) {
-            $goods_category = new GoodsCategory();
-            $category_list = $goods_category->getCategoryTreeList($condition['ng.category_id']);
-            unset($condition['ng.category_id']);
-            $query_goods_ids="";
-            $goods_list=$goods_view->getGoodsViewQueryField($condition, "ng.goods_id");
-            if(!empty($goods_list) && count($goods_list)>0){
-                foreach ($goods_list as $goods_obj){
-                    if($query_goods_ids===""){
-                        $query_goods_ids=$goods_obj["goods_id"];
-                    }else{
-                        $query_goods_ids=$query_goods_ids.",".$goods_obj["goods_id"];
-                    }
-                }
-                $extend_query="";
-                $category_str=explode(",", $category_list);
-                foreach ( $category_str as $category_id){
-                    if($extend_query===""){
-                        $extend_query=" FIND_IN_SET( ".$category_id.",ng.extend_category_id) ";
-                    }else{
-                        $extend_query=$extend_query." or FIND_IN_SET( ".$category_id.",ng.extend_category_id) ";
-                    }
-                }
-                $condition=" ng.goods_id in (".$query_goods_ids.") and ( ng.category_id in (".$category_list.") or ".$extend_query.")";
-            }
-        }
+    {   
+        $newList = array();
         $goods_view = new NsGoodsViewModel();
         $list = $goods_view->getGoodsViewList($page_index, $page_size, $condition, $order);
+        if(!empty($list)){
+            foreach ($list as $key => $value) {
+                # code...
+                $newList['data'][$key]['goods_id'] = $value['产品编号'];
+                $newList['data'][$key]['goods_name'] = $value['产品名称'];
+                $newList['data'][$key]['promotion_price'] = $value['单价1'];
+                $newList['data'][$key]['pic_cover_small'] = '';
+                $newList['data'][$key]['sales'] = 0;
+                $newList['data'][$key]['state'] = 1;
+            }
+        }
         if (! empty($list['data'])) {
             // 用户针对商品的收藏
             foreach ($list['data'] as $k => $v) {
@@ -106,7 +90,7 @@ class Goods extends BaseService implements IGoods
                 $list["data"][$k]['promotion_info'] = $goods_promotion_info;
             }
         }
-        return $list;
+        return $newList;
         
         // TODO Auto-generated method stub
     }
