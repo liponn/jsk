@@ -82,6 +82,7 @@ return [
      'not_logged_yet'                 => '您尚未登录',
      'no_account_yet'                 => '还没有账号',
      'register_immediately'           => '立即注册',
+     'no_login'                       => '理论上是不需要登录的，微信打开直接登录-注',
      'member_login'                   => '会员登录',
      'cell_phone_number'              => '手机号',
      'member_name'                    => '会员名',
