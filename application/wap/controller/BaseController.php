@@ -179,7 +179,7 @@ class BaseController extends Controller
                 $_SESSION['request_url'] = request()->url(true);
             }
             $config = new Config();
-            $wchat_config = $config->getInstanceWchatConfig(0);
+            $wchat_config = $config->getInstanceWchatConfig(0);//获取 公众号  appid
             if (empty($wchat_config['value']['appid'])) {
                 return false;
             }

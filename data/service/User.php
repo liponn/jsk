@@ -159,8 +159,9 @@ class User extends BaseService implements IUser
         Session::set('is_member', $user_info['is_member']);
         Session::set('instance_id', $user_info['instance_id']);
         //单店版本
-        $website = new WebSiteModel();
-        $instance_name = $website->getInfo('', 'title');
+        // $website = new WebSiteModel();
+        // $instance_name = $website->getInfo('', 'title');
+        $instance_name['title'] = '家顺康微信下单';
         Session::set('instance_name', $instance_name['title']);
         if ($user_info['is_system']) {
             $admin_info = new AdminUserModel();
@@ -179,6 +180,7 @@ class User extends BaseService implements IUser
             'current_login_time' => time(),
             'current_login_type'  => 1
         );
+
         //离线购物车同步
         $goods = new Goods();
         $goods->syncUserCart($user_info['uid']);
@@ -201,7 +203,6 @@ class User extends BaseService implements IUser
             'user_password' => md5($password)
         );
         $user_info = $this->user->getInfo($condition, $field = 'uid,user_status,user_name,is_system,instance_id, is_member, current_login_ip, current_login_time, current_login_type');
-        
         if (empty($user_info)) {
             if(empty($password)){
                 $condition = array(

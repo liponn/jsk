@@ -41,12 +41,14 @@ class Member extends BaseController
         $this->login_verify_code = $web_config->getLoginVerifyCodeConfig($this->instance_id);
         $this->assign("login_verify_code", $this->login_verify_code["value"]);
         // 是否开启通知
-        $instance_id = 0;
-        $web_config = new Config();
-        $noticeMobile = $web_config->getNoticeMobileConfig($instance_id);
-        $noticeEmail = $web_config->getNoticeEmailConfig($instance_id);
+        // $instance_id = 0;
+        // $web_config = new Config();
+        // $noticeMobile = $web_config->getNoticeMobileConfig($instance_id);
+        // $noticeEmail = $web_config->getNoticeEmailConfig($instance_id);
         $this->notice['noticeEmail'] = $noticeEmail[0]['is_use'];
+        $this->notice['noticeEmail'] = 1;
         $this->notice['noticeMobile'] = $noticeMobile[0]['is_use'];
+        $this->notice['noticeMobile'] = 0;
         $this->assign("notice", $this->notice);
     }
 
@@ -76,7 +78,7 @@ class Member extends BaseController
     {
         switch (NS_VERSION) {
             case NS_VER_B2C:
-                $retval = $this->memberIndex(); // 单店B2C版
+                $retval = $this->memberIndex(); // go 单店B2C版
                 break;
             case NS_VER_B2C_FX:
                 $retval = $this->memberIndexFx(); // 单店B2C分销版
@@ -98,23 +100,27 @@ class Member extends BaseController
                 lang('member_personal_data'),
                 'member/personaldata'
             ),
-            'address' => array(
-                lang('member_delivery_address'),
-                'Member/memberAddress?flag=1'
-            ),
-            'qr_code' => array(
-                lang('extend_qrcode'),
-                'member/getWchatQrcode'
-            ),
-            "shop_code" => array(
-                lang('shop_qrcode'),
-                'member/getShopQrcode'
-            ),
-            "memberCoupon" => array(
-                lang('member_coupons'),
-                'member/memberCoupon'
-            )
+            // 'address' => array(
+            //     lang('member_delivery_address'),
+            //     'Member/memberAddress?flag=1'
+            // ),
+            //个人二维码
+            // 'qr_code' => array(
+            //     lang('extend_qrcode'),
+            //     'member/getWchatQrcode'
+            // ),
+            //店铺二维码
+            // "shop_code" => array(
+            //     lang('shop_qrcode'),
+            //     'member/getShopQrcode'
+            // ),
+            //优惠券
+            // "memberCoupon" => array(
+            //     lang('member_coupons'),
+            //     'member/memberCoupon'
+            // )
         );
+
         $member_info = $member->getMemberDetail($this->instance_id);
         // 头像
         if (! empty($member_info['user_info']['user_headimg'])) {
@@ -122,7 +128,7 @@ class Member extends BaseController
         } else {
             $member_img = '0';
         }
-        $index_adv = $platform->getPlatformAdvPositionDetail(1152);
+        // $index_adv = $platform->getPlatformAdvPositionDetail(1152);
         // 平台广告位
         $menu_arr = array(
             $member_menu_arr
@@ -142,23 +148,25 @@ class Member extends BaseController
             }
         }
         // 判断是否开启了签到送积分
-        $config = new Config();
-        $integralconfig = $config->getIntegralConfig($this->instance_id);
-        $this->assign('integralconfig', $integralconfig);
-        // dump($integralconfig);
-        // 判断用户是否签到
-        $dataMember = new MemberService();
-        $isSign = $dataMember->getIsMemberSign($this->uid, $this->instance_id);
-        $this->assign("isSign", $isSign);
+        // $config = new Config();
+        // $integralconfig = $config->getIntegralConfig($this->instance_id);
+        // $this->assign('integralconfig', $integralconfig);
+        // // dump($integralconfig);
+        // // 判断用户是否签到
+        // $dataMember = new MemberService();
+        // $isSign = $dataMember->getIsMemberSign($this->uid, $this->instance_id);
+        // $this->assign("isSign", $isSign);
+
+
         //待支付订单数量
-        $order = new OrderService(); 
-        $unpaidOrder = $order->getOrderNumByOrderStatu(['order_status'=>0,"buyer_id"=>$this->uid]);
+        // $order = new OrderService(); 
+        // $unpaidOrder = $order->getOrderNumByOrderStatu(['order_status'=>0,"buyer_id"=>$this->uid]);
         $this->assign("unpaidOrder",$unpaidOrder);
         //待发货订单数量
-        $shipmentPendingOrder = $order->getOrderNumByOrderStatu(['order_status'=>1,"buyer_id"=>$this->uid]);
+        // $shipmentPendingOrder = $order->getOrderNumByOrderStatu(['order_status'=>1,"buyer_id"=>$this->uid]);
         $this->assign("shipmentPendingOrder",$shipmentPendingOrder);
         //待收货订单数量
-        $goodsNotReceivedOrder = $order->getOrderNumByOrderStatu(['order_status'=>2,"buyer_id"=>$this->uid]);
+        // $goodsNotReceivedOrder = $order->getOrderNumByOrderStatu(['order_status'=>2,"buyer_id"=>$this->uid]);
         $this->assign("goodsNotReceivedOrder",$goodsNotReceivedOrder);
         //退款订单
         $condition['order_status'] = array(
@@ -169,7 +177,7 @@ class Member extends BaseController
             ]
         );
         $condition['buyer_id'] = $this->uid;
-        $refundOrder = $order->getOrderNumByOrderStatu($condition);
+        // $refundOrder = $order->getOrderNumByOrderStatu($condition);
         $this->assign("refundOrder",$refundOrder);
         
         

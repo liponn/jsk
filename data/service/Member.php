@@ -377,20 +377,22 @@ class Member extends User implements IMember
             $member_info['user_info'] = $user_info;
             
             // 获取优惠券信息
-            $member_coupon = new MemberCoupon();
-            $coupon_list = $member_coupon->getUserCouponList('', $shop_id);
-            $member_info['coupon_list'] = $coupon_list;
-            $member_info['coupon_count'] = count($coupon_list);
-            $member_account = new MemberAccount();
-            $member_info['point'] = $member_account->getMemberPoint($this->uid, $shop_id);
-            $member_info['balance'] = $member_account->getMemberBalance($this->uid);
-            $member_info['coin'] = $member_account->getMemberCoin($this->uid);
+            // $member_coupon = new MemberCoupon();
+            // $coupon_list = $member_coupon->getUserCouponList('', $shop_id);
+            // $member_info['coupon_list'] = $coupon_list;
+            // $member_info['coupon_count'] = count($coupon_list);
+            
+            //会员账户统计表
+            // $member_account = new MemberAccount();
+            // $member_info['point'] = $member_account->getMemberPoint($this->uid, $shop_id);
+            // $member_info['balance'] = $member_account->getMemberBalance($this->uid);
+            // $member_info['coin'] = $member_account->getMemberCoin($this->uid);
             // 会员等级名称
-            $member_level = new NsMemberLevelModel();
-            $level_name = $member_level->getInfo([
-                'level_id' => $member_info['member_level']
-            ], 'level_name');
-            $member_info['level_name'] = $level_name['level_name'];
+            // $member_level = new NsMemberLevelModel();
+            // $level_name = $member_level->getInfo([
+            //     'level_id' => $member_info['member_level']
+            // ], 'level_name');
+            // $member_info['level_name'] = $level_name['level_name'];
         } else {
             $member_info = '';
         }

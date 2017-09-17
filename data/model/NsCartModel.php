@@ -22,7 +22,7 @@ use data\model\BaseModel as BaseModel;
  */
 class NsCartModel extends BaseModel {
 
-    protected $table = 'ns_cart';
+    protected $table = 'dd_cart';
     protected $rule = [
         'cart_id'  =>  '',
     ];

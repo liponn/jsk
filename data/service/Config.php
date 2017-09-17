@@ -186,8 +186,8 @@ class Config extends BaseService implements IConfig
     public function getLoginConfig()
     {
         $instance_id = 0;
-        $wchat_config = $this->getWchatConfig($instance_id);
-        $qq_config = $this->getQQConfig($instance_id);
+        $wchat_config = $this->getWchatConfig($instance_id);//
+        $qq_config = $this->getQQConfig($instance_id);//
         
         $mobile_config = $this->getMobileMessage($instance_id);// lbid
         $email_config = $this->getEmailMessage($instance_id);//lbid
@@ -791,6 +791,14 @@ class Config extends BaseService implements IConfig
      */
     public function getLoginVerifyCodeConfig($instanceid)
     {
+        return array(
+                'value' => array(
+                    'platform' => 0,
+                    'admin' => 0,
+                    'pc' => 0
+                ),
+                'is_use' => 1
+            );
         // $info = $this->config_module->getInfo([
         //     'key' => 'LOGINVERIFYCODE',
         //     'instance_id' => $instanceid
@@ -902,6 +910,13 @@ class Config extends BaseService implements IConfig
      */
     public function getInstanceWchatConfig($instance_id)
     {
+        return array(
+                'value' => array(
+                    'appid' => '',
+                    'appsecret' => ''
+                ),
+                'is_use' => 1
+            );
         $info = $this->config_module->getInfo([
             'key' => 'SHOPWCHAT',
             'instance_id' => $instance_id
