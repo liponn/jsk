@@ -178,20 +178,14 @@ $(function(){
 		
 	})
 	
-	
-	$.ajax({
-		type:"post",
-		url : "{:__URL('APP_MAIN/member/getShareContents')}",
-		success : function(data){
-			//alert(JSON.stringify(data));
-			//document.write(data.share_img);
-			/* $("#share_title").val(data['share_title']);
-			$("#share_desc").val(data['share_contents']);
-			$("#share_url").val(data['share_url']);
-			$("#share_img_url").val(data['share_img']);\ */
-			{include file='wap/default/shareContents'/}
-		}
-	})
+	//微信打开
+	// $.ajax({
+	// 	type:"post",
+	// 	url : "{:__URL('APP_MAIN/member/getShareContents')}",
+	// 	success : function(data){
+	// 		{include file='wap/default/shareContents'/}
+	// 	}
+	// })
 })
 </script>
 {/block}

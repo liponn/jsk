@@ -34,7 +34,7 @@ class Index extends BaseController
         $block_list = [
                         [
                         'goods_id' => 12,
-                        'goods_name' => 'Haier/海尔 EG7012B29W 7公斤 变频全自动 滚筒洗衣机 消毒洗',
+                        'goods_name' => 'Haier/海尔 EG7012B29W 2公斤 变频全自动 滚筒洗衣机 消毒洗',
                         'pic_cover_mid' => 'upload/goods/1499338179642.jpg',
                         'price' => '154.00',
                         ],
