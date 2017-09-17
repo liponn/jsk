@@ -48,7 +48,7 @@ class Login extends Controller
     {
         $this->user = new Member();
         $this->web_site = new WebSite();
-        $web_info = $this->web_site->getWebSiteInfo();
+        $web_info = $this->web_site->getWebSiteInfo();//获取网站基本信息  数据写死
         if ($web_info['wap_status'] == 2) {
             webClose($web_info['close_reason']);
         }
@@ -65,20 +65,20 @@ class Login extends Controller
         $this->assign("login_verify_code", $this->login_verify_code["value"]);
         
         // 是否开启qq跟微信
-        $qq_info = $web_config->getQQConfig($this->instance_id);
-        $Wchat_info = $web_config->getWchatConfig($this->instance_id);
+        $qq_info = $web_config->getQQConfig($this->instance_id);//获取回调 写死
+        $Wchat_info = $web_config->getWchatConfig($this->instance_id);//获取回调 写死
         $this->assign("qq_info", $qq_info);
         $this->assign("Wchat_info", $Wchat_info);
         
-        $seoconfig = $web_config->getSeoConfig($this->instance_id);
+        $seoconfig = $web_config->getSeoConfig($this->instance_id);// lbid
         $this->assign("seoconfig", $seoconfig);
-        
-        // 使用那个手机模板
-        $use_wap_template = $web_config->getUseWapTemplate($this->instance_id);
-        if (empty($use_wap_template)) {
-            $use_wap_template['value'] = 'default';
-        }
-        $this->style = "wap/" . $use_wap_template['value'];
+
+        //$use_wap_template = $web_config->getUseWapTemplate($this->instance_id);
+        // exit("11d1");
+        // if (empty($use_wap_template)) {
+        //     $use_wap_template['value'] = 'default';
+        // }
+        $this->style = "wap/default";
         $this->assign("style", $this->style);
     }
 

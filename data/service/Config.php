@@ -31,7 +31,12 @@ class Config extends BaseService implements IConfig
      * @see \data\api\IConfig::getWchatConfig()
      */
     public function getWchatConfig($instance_id)
-    {
+    {   
+        return Array
+            (
+                'value' => '{"APP_KEY":"","APP_SECRET":"","AUTHORIZE":"http:\/\/b2c1.01.niushop.com.cn","CALLBACK":"http:\/\/b2c1.01.niushop.com.cn\/wap\/Login\/callback"}',
+                'is_use' => 0,
+            );
         $info = $this->config_module->getInfo([
             'key' => 'WCHAT',
             'instance_id' => $instance_id
@@ -105,6 +110,11 @@ class Config extends BaseService implements IConfig
      */
     public function getQQConfig($instance_id)
     {
+        return Array
+            (
+                'value' => '{"APP_KEY":"","APP_SECRET":"","AUTHORIZE":"http:\/\/b2c1.01.niushop.com.cn","CALLBACK":"http:\/\/b2c1.01.niushop.com.cn\/wap\/login\/callback"}',
+                'is_use' => 0,
+            );
         $info = $this->config_module->getInfo([
             'key' => 'QQLOGIN',
             'instance_id' => $instance_id
@@ -179,8 +189,8 @@ class Config extends BaseService implements IConfig
         $wchat_config = $this->getWchatConfig($instance_id);
         $qq_config = $this->getQQConfig($instance_id);
         
-        $mobile_config = $this->getMobileMessage($instance_id);
-        $email_config = $this->getEmailMessage($instance_id);
+        $mobile_config = $this->getMobileMessage($instance_id);// lbid
+        $email_config = $this->getEmailMessage($instance_id);//lbid
         $data = array(
             'wchat_login_config' => $wchat_config,
             'qq_login_config' => $qq_config,
@@ -541,6 +551,17 @@ class Config extends BaseService implements IConfig
      */
     public function getEmailMessage($instanceid)
     {
+        return array(
+                'value' => array(
+                    'email_host' => 'smtp.163.com',
+                    'email_port' => '465',
+                    'email_addr' => '',
+                    'email_pass' => '',
+                    'email_id' => '',
+                    'email_is_security' => false,
+                ),
+                'is_use' => 0
+            );
         $info = $this->config_module->getInfo([
             'key' => 'EMAILMESSAGE',
             'instance_id' => $instanceid
@@ -618,6 +639,14 @@ class Config extends BaseService implements IConfig
      */
     public function getMobileMessage($instanceid)
     {
+        return array(
+                'value' => array(
+                    'appKey' => '',
+                    'secretKey' => '',
+                    'freeSignName' => ''
+                ),
+                'is_use' => 0
+            );
         $info = $this->config_module->getInfo([
             'key' => 'MOBILEMESSAGE',
             'instance_id' => $instanceid
@@ -762,10 +791,10 @@ class Config extends BaseService implements IConfig
      */
     public function getLoginVerifyCodeConfig($instanceid)
     {
-        $info = $this->config_module->getInfo([
-            'key' => 'LOGINVERIFYCODE',
-            'instance_id' => $instanceid
-        ], 'value, is_use');
+        // $info = $this->config_module->getInfo([
+        //     'key' => 'LOGINVERIFYCODE',
+        //     'instance_id' => $instanceid
+        // ], 'value, is_use');
         if (empty($info['value'])) {
             return array(
                 'value' => array(
@@ -1527,6 +1556,12 @@ class Config extends BaseService implements IConfig
 
     public function getSeoConfig($shop_id)
     {
+        return array(
+                'seo_title' => '',
+                'seo_meta' => '',
+                'seo_desc' => '',
+                'seo_other' => ''
+            );
         $seo_title = $this->getConfig($shop_id, 'SEO_TITLE');
         $seo_meta = $this->getConfig($shop_id, 'SEO_META');
         $seo_desc = $this->getConfig($shop_id, 'SEO_DESC');
@@ -2018,10 +2053,6 @@ class Config extends BaseService implements IConfig
         }
     }
 
-    /**
-     * 获取当前使用的手机模板
-     * 2017年7月25日 11:42:57 王永杰
-     */
     public function getUseWapTemplate($instanceid)
     {
         $config_model = new ConfigModel();
@@ -2031,13 +2062,6 @@ class Config extends BaseService implements IConfig
         return $res;
     }
 
-    /**
-     * 设置要使用手机模板
-     * 2017年7月25日 11:46:46 王永杰
-     *
-     * @param 实例id $instanceid            
-     * @param 模板文件夹名称 $template_name            
-     */
     function setUseWapTemplate($instanceid, $folder)
     {
         $res = 0;

@@ -45,7 +45,31 @@ class WebSite extends BaseService implements IWebSite
         if (cache("WEBSITEINFO")) {
             return cache("WEBSITEINFO");
         } else {
-            $info = $this->website->getInfo('');
+            //$info = $this->website->getInfo('');
+            $info = Array(
+                    'website_id' => 1,
+                    'title' => '家顺康微信',
+                    'logo' => 'public/static/images/adv_position/logo.png',
+                    'web_desc' => '开源商城',
+                    'key_words' => '',
+                    'web_icp' => '1111111',
+                    'style_id_pc' => 2,
+                    'web_address' => '北京市',
+                    'web_qrcode' => 'public/static/images/adv_position/qrcode.png',
+                    'web_url' => 'http://baidu.com',
+                    'web_email' => '331644741@qq.com',
+                    'web_phone' => '400-886-7993',
+                    'web_qq' => '331644741',
+                    'web_weixin' => 'echototo666',
+                    'web_status' => 1,
+                    'third_count' => '',
+                    'close_reason' => '对不起，维护中，大家敬请期待...',
+                    'wap_status' => 1,
+                    'style_id_admin' => 4,
+                    'create_time' => 1477452112,
+                    'modify_time' => 1498896658,
+                    'url_type' => 0,
+                );
             cache("WEBSITEINFO", $info);
         }
         
