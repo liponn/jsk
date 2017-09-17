@@ -114,7 +114,8 @@ class BaseController extends Controller
         // 自定义模板信息
         if (! request()->isAjax()) {
             if (empty($this->uid)) {
-                $this->wchatLogin();
+                //微信登录时 会自动检测登录
+                //$this->wchatLogin();
             }
             $this->assign("uid", $this->uid);
             $this->assign("shop_id", $this->instance_id);

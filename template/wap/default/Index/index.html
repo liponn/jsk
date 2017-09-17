@@ -178,14 +178,14 @@ $(function(){
 		
 	})
 	
-	//微信打开
-	// $.ajax({
-	// 	type:"post",
-	// 	url : "{:__URL('APP_MAIN/member/getShareContents')}",
-	// 	success : function(data){
-	// 		{include file='wap/default/shareContents'/}
-	// 	}
-	// })
+	//微信 监控分享
+	$.ajax({
+		type:"post",
+		url : "{:__URL('APP_MAIN/member/getShareContents')}",
+		success : function(data){
+			{include file='wap/default/shareContents'/}
+		}
+	})
 })
 </script>
 {/block}
