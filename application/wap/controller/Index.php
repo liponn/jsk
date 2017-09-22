@@ -34,22 +34,22 @@ class Index extends BaseController
         $block_list = [
                         [
                         'goods_id' => 12,
-                        'goods_name' => 'Haier/海尔 EG7012B29W 2公斤 变频全自动 滚筒洗衣机 消毒洗',
-                        'pic_cover_mid' => 'upload/goods/1499338179642.jpg',
+                        'goods_name' => '三黄鸡（0.8-1.0）（原料）',
+                        'pic_cover_mid' => 'upload/goods/sanhuangji.jpg',
                         'price' => '154.00',
                         ],
                         [
                         'goods_id' => 12,
-                        'goods_name' => 'Haier/海尔 EG7012B29W 7公斤 变频全自动 滚筒洗衣机 消毒洗',
-                        'pic_cover_mid' => 'upload/goods/1499338179642.jpg',
+                        'goods_name' => '分割鸡（1.0-以上）（原料）',
+                        'pic_cover_mid' => 'upload/goods/default.jpg',
                         'price' => '154.00',
                         ],
 
                         [
                         'goods_id' => 12,
-                        'goods_name' => 'Haier/海尔 EG7012B29W 7公斤 变频全自动 滚筒洗衣机 消毒洗',
-                        'pic_cover_mid' => 'upload/goods/1499338179642.jpg',
-                        'price' => '154.00',
+                        'goods_name' => '肉馅(原料)',
+                        'pic_cover_mid' => 'upload/goods/default.jpg',
+                        'price' => '14.00',
                         ]
         ];
         // var_dump($block_list);
