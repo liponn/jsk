@@ -42,39 +42,24 @@
 				<div class="product">
 					<div class="pic">
 						<a href="{:__URL('APP_MAIN/goods/goodsdetail?id='.$list['goods_id'])}">
-							<img src="{:__IMG($list['picture_info']['pic_cover_micro'])}" alt="{:lang('goods_image')}">
+							<img src="picture_info" alt="{:lang('goods_image')}">
 						</a>
 					</div>
 					<div class="info">
 						<p class="info-name">
 							<a href="{:__URL('APP_MAIN/goods/goodsdetail?id='.$list['goods_id'])}">{$list.goods_name}<span><br />{$list.sku_name}</span></a>
 						</p>
-						<!-- 	<p class="info-price">
-						¥<span name="goods_price">{$list.price}</span>
-							{if condition="$list.point_exchange_type==1 "}
-							<span name="goods_integral" data-point="{$list.point_exchange}">
-								{if condition=" $list.point_exchange>0"}
-									+{$list.point_exchange}积分
-								{/if}
-							</span>
-							{/if}
-						</p> -->
+						
 					</div>
 				</div>
 				<div class="number">
 					¥<span name="goods_price">{$list.price}</span>
-					{if condition="$list.point_exchange_type==1 "}
-					<span name="goods_integral" data-point="{$list.point_exchange}">
-						{if condition=" $list.point_exchange>0"}
-							+{$list.point_exchange}{:lang('goods_integral')}
-						{/if}
-					</span>
-					{/if}
+					
 					×<span name="succ_amount">{$list.num}</span>
 					<div name="edit_num{$list.shop_id}" style="display: none;">
 						<span class="ui-number">
 							<button type="button" class="decrease" onclick="Cart.changeBar(&#39;-&#39;,{$list.cart_id},this)" title="{:lang('member_reduce')}">-</button>
-							<input class="num" name="quantity" autocomplete="off" data-default-num="{$list.num}" value="{$list.num}" min="1" max="{$list.stock}" min_buy="{$list.min_buy}"  max_buy="{$list.max_buy}" data-cartid="{$list.cart_id}" data-shopid="{$list.shop_id}">
+							<input class="num" name="quantity" autocomplete="off" data-default-num="{$list.num}" value="{$list.num}" min="1" max="php.stock" min_buy="php.min_buy"  max_buy="php.max_buy" data-cartid="{$list.cart_id}" data-shopid="{$list.shop_id}">
 							<button type="button" class="increase" onclick="Cart.changeBar(&#39;+&#39;,{$list.cart_id},this)" title="{:lang('plus')}">+</button>
 						</span>
 					</div>

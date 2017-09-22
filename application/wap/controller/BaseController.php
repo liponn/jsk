@@ -69,9 +69,9 @@ class BaseController extends Controller
         // $web_info = $this->web_site->getWebSiteInfo();
         $web_info = [
             'website_id' => '1',
-            'title' => 'wdy微信商城',
+            'title' => 'jsk微信端',
             'logo' => 'public/static/images/adv_position/logo.png',
-            'web_desc' => '开源商城',
+            'web_desc' => '',
             'key_words' => '',
             'web_icp' => '1111111',
             'style_id_pc' => '2',

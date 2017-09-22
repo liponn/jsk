@@ -178,8 +178,8 @@ class Goods extends BaseController
         }
         $this->assign("shopname", $this->shop_name);
         $goods = new GoodsService();
-        // var_dump($this->instance_id);exit;
         $cartlist = $goods->getCart($this->uid, $this->instance_id);
+        // var_dump($this->instance_id);exit;
         // 店铺，店铺中的商品
         $list = Array();
         for ($i = 0; $i < count($cartlist); $i ++) {
@@ -187,6 +187,7 @@ class Goods extends BaseController
             // $cartlist[$i]["sku_name"] = mb_substr($cartlist[$i]["goods_name"], 0,20,"utf-8");
             $list[$cartlist[$i]["shop_id"] . ',' . $cartlist[$i]["shop_name"]][] = $cartlist[$i];
         }
+        // var_dump($list);exit;
         $this->assign("list", $list);
         $this->assign("countlist", count($cartlist));
         return view($this->style . '/Goods/cart');
