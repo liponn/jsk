@@ -1,9 +1,4 @@
-/**
- * 公用组件js
- * 李志伟
- * 2017年1月19日11:58:45
- * 现有功能：加入购物车、搜索
- */
+
 $(function(){
 	$('html').append('<div id="search_goods"></div>');
 	$('html').append('<div id="detail"></div>');

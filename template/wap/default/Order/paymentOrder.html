@@ -42,19 +42,15 @@
 	<div class="order-goods-item clearfix" data-subtotal="{$list.subtotal}">
 		<div class="name-card block-item">
 			<a href="{:__URL('APP_MAIN/goods/goodsdetail?id='.$list['goods_id'])}" class="thumb">
-				<img src="{:__IMG($list['picture_info']['pic_cover_micro'])}" alt="{$list.goods_name}" />
+				<img src="picture_info" alt="{$list.goods_name}" />
 			</a>
 			<div class="detail">
 				<div class="clearfix detail-row">
 					<div class="right-col">
 						<input type="hidden" name="goods_skuid" value="{$list.sku_id}" />
 						<input type="hidden" name="goods_point_exchange"/>
-						￥<span>{$list.price}
-						{if condition="$list.point_exchange_type==1 "}
-							{if condition=" $list.point_exchange>0"}
-								+{$list.point_exchange}{:lang('goods_integral')}
-							{/if}
-						{/if}
+						￥<span>{$list.price}+
+						
 						</span>
 					</div>
 					<div class="left-col">

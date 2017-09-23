@@ -35,10 +35,6 @@ class Order extends BaseController
         return view($this->style . '/Order/paymentOrder');
     }
 
-    /**
-     * 待付款订单需要的数据
-     * 2017年6月28日 15:24:48 王永杰
-     */
     public function orderInfo()
     {
         $member = new MemberService();
@@ -69,81 +65,81 @@ class Order extends BaseController
         }
         $this->assign('goods_sku_list', $goods_sku_list);
         
-        $address = $member->getDefaultExpressAddress(); // 获取默认收货地址
-        $express = 0;
+        // $address = $member->getDefaultExpressAddress(); // 获取默认收货地址
+        // $express = 0;
         
-        $express_company_list = array();
-        $goods_express_service = new GoodsExpressService();
-        if (! empty($address)) {
-            // 物流公司
-            $express_company_list = $goods_express_service->getExpressCompany($this->instance_id, $goods_sku_list, $address['province'], $address['city'], $address['district']);
-            if (! empty($express_company_list)) {
-                foreach ($express_company_list as $v) {
-                    $express = $v['express_fee']; // 取第一个运费，初始化加载运费
-                    break;
-                }
-            }
-            $this->assign("address_is_have", 1);
-        }else{
-            $this->assign("address_is_have", 0);
-        }
-        $count = $goods_express_service->getExpressCompanyCount($this->instance_id);
-        $this->assign("express_company_count", $count); // 物流公司数量
-        $this->assign("express", sprintf("%.2f", $express)); // 运费
-        $this->assign("express_company_list", $express_company_list); // 物流公司
+        // $express_company_list = array();
+        // $goods_express_service = new GoodsExpressService();
+        // if (! empty($address)) {
+        //     // 物流公司
+        //     $express_company_list = $goods_express_service->getExpressCompany($this->instance_id, $goods_sku_list, $address['province'], $address['city'], $address['district']);
+        //     if (! empty($express_company_list)) {
+        //         foreach ($express_company_list as $v) {
+        //             $express = $v['express_fee']; // 取第一个运费，初始化加载运费
+        //             break;
+        //         }
+        //     }
+        //     $this->assign("address_is_have", 1);
+        // }else{
+        //     $this->assign("address_is_have", 0);
+        // }
+        // $count = $goods_express_service->getExpressCompanyCount($this->instance_id);
+        // $this->assign("express_company_count", $count); // 物流公司数量
+        // $this->assign("express", sprintf("%.2f", $express)); // 运费
+        // $this->assign("express_company_list", $express_company_list); // 物流公司
+
+
         
-        $discount_money = $goods_mansong->getGoodsMansongMoney($goods_sku_list);
-        $this->assign("discount_money", sprintf("%.2f", $discount_money)); // 总优惠
-        
-        $count_money = $order->getGoodsSkuListPrice($goods_sku_list);
+        // $count_money = $order->getGoodsSkuListPrice($goods_sku_list);
         $this->assign("count_money", sprintf("%.2f", $count_money)); // 商品金额
-        $pick_up_money = $order->getPickupMoney($count_money);
+        // $pick_up_money = $order->getPickupMoney($count_money);
         $this->assign("pick_up_money", $pick_up_money);
         $count_point_exchange = 0;
         foreach ($list as $k => $v) {
             $list[$k]['price'] = sprintf("%.2f", $list[$k]['price']);
             $list[$k]['subtotal'] = sprintf("%.2f", $list[$k]['price'] * $list[$k]['num']);
-            if ($v["point_exchange_type"] == 1) {
-                if ($v["point_exchange"] > 0) {
-                    $count_point_exchange += $v["point_exchange"] * $v["num"];
-                }
-            }
+            // if ($v["point_exchange_type"] == 1) {
+            //     if ($v["point_exchange"] > 0) {
+            //         $count_point_exchange += $v["point_exchange"] * $v["num"];
+            //     }
+            // }
         }
         $this->assign("count_point_exchange", $count_point_exchange); // 总积分
         $this->assign("itemlist", $list);
         
-        $shop_id = $this->instance_id;
-        $shop_config = $Config->getShopConfig($shop_id);
-        $order_invoice_content = explode(",", $shop_config['order_invoice_content']);
-        $shop_config['order_invoice_content_list'] = array();
-        foreach ($order_invoice_content as $v) {
-            if (! empty($v)) {
-                array_push($shop_config['order_invoice_content_list'], $v);
-            }
-        }
+        // $shop_id = $this->instance_id;
+        // $shop_config = $Config->getShopConfig($shop_id);
+        // $order_invoice_content = explode(",", $shop_config['order_invoice_content']);
+        // $shop_config['order_invoice_content_list'] = array();
+        // foreach ($order_invoice_content as $v) {
+        //     if (! empty($v)) {
+        //         array_push($shop_config['order_invoice_content_list'], $v);
+        //     }
+        // }
         $this->assign("shop_config", $shop_config); // 后台配置
         
-        $member_account = $member->getMemberAccount($this->uid, $this->instance_id);
-        if ($member_account['balance'] == '' || $member_account['balance'] == 0) {
-            $member_account['balance'] = '0.00';
-        }
+        // $member_account = $member->getMemberAccount($this->uid, $this->instance_id);
+        // if ($member_account['balance'] == '' || $member_account['balance'] == 0) {
+        //     $member_account['balance'] = '0.00';
+        // }
         $this->assign("member_account", $member_account); // 用户余额
         
-        $coupon_list = $order->getMemberCouponList($goods_sku_list);
+        // $coupon_list = $order->getMemberCouponList($goods_sku_list);
         $this->assign("coupon_list", $coupon_list); // 获取优惠券
         
-        $promotion_full_mail = $promotion->getPromotionFullMail($this->instance_id);
-        if(! empty($address))
-        {
-            $no_mail = checkIdIsinIdArr($address['city'], $promotion_full_mail['no_mail_city_id_array']);
-            if($no_mail)
-            {
-                $promotion_full_mail['is_open'] = 0;
-            }
-        }
+        // $promotion_full_mail = $promotion->getPromotionFullMail($this->instance_id);
+        // if(! empty($address))
+        // {
+        //     $no_mail = checkIdIsinIdArr($address['city'], $promotion_full_mail['no_mail_city_id_array']);
+        //     if($no_mail)
+        //     {
+        //         $promotion_full_mail['is_open'] = 0;
+        //     }
+        // }
         $this->assign("promotion_full_mail", $promotion_full_mail); // 满额包邮
         
-        $pickup_point_list = $shop_service->getPickupPointList();
+        // $pickup_point_list = $shop_service->getPickupPointList();
+        // var_dump($list);exit;
         $this->assign("pickup_point_list", $pickup_point_list); // 自提地址列表
         
         $this->assign("address_default", $address);
@@ -165,7 +161,7 @@ class Order extends BaseController
         
         $cart_id_arr = explode(",", $cart_id);
         $goods = new Goods();
-        $cart_list = $goods->getCartList($cart_id);
+        $cart_list = $goods->_getCartList($cart_id);
         if (count($cart_list) == 0) {
             $this->redirect(__URL__); // 没有商品返回到首页
         }

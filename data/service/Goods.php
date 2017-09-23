@@ -707,8 +707,9 @@ class Goods extends BaseService implements IGoods
         $goods_detail = $goods->sqlQuery($sql);
         // var_dump($goods_detail);exit;
         return [
+            'goods_id' => $goods_detail[0]['产品编号'],
             'goods_name' => $goods_detail[0]['产品名称'],
-            'promotion_price' => $goods_detail[0]['产品名称'],
+            'promotion_price' => $goods_detail[0]['单价1'],
             'shop_name' => '家顺康',
         ];
         //exit("sdsds");
@@ -1281,6 +1282,18 @@ class Goods extends BaseService implements IGoods
      *
      * @param unknown $carts            
      */
+    public function _getCartList($carts)
+    {
+        $cart = new NsCartModel();
+        $cart_list = $cart->getQuery([
+            'buyer_id' => $this->uid
+        ], '*', '');
+        $cart_array = explode(',', $carts);
+        $list = array();
+        
+        return $cart_list;
+    }
+
     public function getCartList($carts)
     {
         $cart = new NsCartModel();

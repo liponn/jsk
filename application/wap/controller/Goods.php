@@ -195,7 +195,6 @@ class Goods extends BaseController
 
     /**
      * 添加购物车
-     * 创建人：李广
      */
     public function addCart()
     {
@@ -212,6 +211,7 @@ class Goods extends BaseController
         $price = $cart_detail['price'];
         $cost_price = $cart_detail['cost_price'];
         $picture = $cart_detail['picture'];
+        // var_dump($_POST);exit;
         $this->is_member = $this->user->getSessionUserIsMember();
         if (! empty($this->uid) && $this->is_member == 1) {
             /* if($cart_tag == "addCart") { */
@@ -402,6 +402,7 @@ class Goods extends BaseController
         $goods = new GoodsService();
         $goods_id = isset($_POST['goods_id']) ? $_POST['goods_id'] : '';
         $goods_detail = $goods->_getGoodsDetail($goods_id);
+        // var_dump($goods_detail);exit;
         $this->assign("goods_detail", $goods_detail);
         $this->assign("style", $this->style);
         return view($this->style . 'joinCart');

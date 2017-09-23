@@ -10,6 +10,7 @@ $(function() {
 		$(".js-bottom-opts").css("display","none");
 	}
 	echoSpecData();
+	_echoSpecData();
 	// 点击确定触发事件
 	$('#submit_ok').bind("click",function() {
 		if($("#uid").val() == null || $("#uid").val() == ""){
@@ -45,7 +46,7 @@ $(function() {
 								cart_detail.trueId = $("#hiddPDetailID").val();
 								cart_detail.count = $("#num").val();
 								cart_detail.goods_name = $("#itemName").text();
-								cart_detail.select_skuid = $("#hiddSkuId").val();
+								//cart_detail.select_skuid = $("#hiddSkuId").val();
 								cart_detail.shop_id = $("#hidden_shop_id").val();
 								cart_detail.shop_name = $("#hidden_shop_name").val();
 								cart_detail.select_skuName = $("#hiddSkuName").val();
@@ -54,7 +55,7 @@ $(function() {
 								if(cart_detail.select_skuid==null||cart_detail.select_skuid==""){
 									cart_detail.select_skuid = $("#goods_sku0").attr("skuid");
 									cart_detail.select_skuName = $("#goods_sku0").attr("skuname");
-									cart_detail.price = $("#goods_sku0").attr("price");
+									//cart_detail.price = $("#goods_sku0").attr("price");
 								}
 								cart_detail.picture = $("#default_img").val();
 								cart_detail.cost_price = $("#cost_price").text();
@@ -190,6 +191,7 @@ $(function() {
 		var num = $("#num").val() * 1;
 		var max_buy = $("#max_buy").val() * 1;
 		var nummax = $("#num").attr('max') * 1;
+
 		if (num >= max_buy && max_buy != 0) {
 			var buy_num = max_buy;
 			if (max_buy == -1) {
@@ -197,10 +199,11 @@ $(function() {
 			}
 			$(this).addClass("quantity-minus-disabled");
 			showBox("此商品限购，您最多可购买" + buy_num + "件");
-		} else if (num < nummax) {
+		} else  {
 			num = num + 1;
 			$(this).removeClass("quantity-minus-disabled");
 		}
+		console.log(max_buy)
 		$(".reduce").removeClass("quantity-minus-disabled");
 		$("#num").val(num);
 	});
@@ -388,6 +391,11 @@ function echoSpecData(){
 		}
 		
 	});
+}
+
+function _echoSpecData(){
+
+	$("#price").text("￥" + $("#hiddSkuprice").val());
 }
 
 function imgview() {
