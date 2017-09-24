@@ -492,6 +492,7 @@ return [
     'member_commodity_name'          => '商品名称',
     'member_commodity_price'         => '商品价格',
     'member_quantity_purchased'      => '购买数量',
+    'member_quantity_weight'         => '购买重量(Kg)',
     'member_distribution_status'     => '配送状态',
     'member_inquiry_logistics'       => '查询物流',
     'member_total_cost'              => '费用总计',

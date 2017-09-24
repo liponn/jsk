@@ -50,7 +50,7 @@
 		{/foreach}
 		<input type="hidden" id="goods_sku_num" value="100">
 		<li class="s-buy-li">
-			<div class="left" style="float:left;">{:lang('member_quantity_purchased')}：</div>
+			<div class="left" style="float:left;">{:lang('member_quantity_weight')}：</div>
 				<div class="right">
 				<span class="reduce quantity-minus-disabled">-</span>
 				<input class="number" name="quantity" autocomplete="off" value="1" min="1" max="1000" id="num">
@@ -60,10 +60,7 @@
 				<input id="hiddSkuName" type="hidden" name="name" value="{$goods_detail.goods_name}">
 				<input id="hiddSkuprice" type="hidden" name="name" value="{$goods_detail.promotion_price}">
 			</div>
-			<span style="display: inline-block;margin-top:5px;color:#333;" id="Stock">{:lang('left')}{$goods_detail.stock}{:lang('goods_piece')}</span>
-			{if condition ="$goods_detail['max_buy'] neq '0' AND $goods_detail['max_buy'] neq -1"}
-				<span style="display: inline-block;margin-top:5px;color:#333;">{:lang('homebuying_restrictions')}{$goods_detail['max_buy']}{:lang('goods_piece')}</span>
-			{/if}
+			
 		</li>
 	</ul>
 	<ul class="s-buy-ul">

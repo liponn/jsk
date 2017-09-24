@@ -453,14 +453,15 @@ function sum_money() {
 	});
 	return summoney.toFixed(2);
 }
-// 计算合计数量
+// 计算合计数量(修改，不按数量了，按kg)
 function sum_num() {
 	var sumnum = 0;
 	$(".cart-list-li").each(function() {
 		var is_check = $(this).find(".checkbox").attr("is_check");
 		if (is_check == 'yes') {
 			var amount = $(this).find("span[name='succ_amount']").text() * 1;
-			sumnum = sumnum + amount;
+			// sumnum = sumnum + amount;
+			sumnum += 1;
 		}
 	});
 	return sumnum;

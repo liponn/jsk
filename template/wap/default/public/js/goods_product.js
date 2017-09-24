@@ -39,7 +39,7 @@ $(function() {
 						showBox("此商品限购，您最多可购买"+ purchaseSum+ "件");
 						return;
 					}
-					if (num >= 1) {
+					if (num >= 0) {
 						if (num <= nummax) {
 							if (num <= purchaseSum|| purchaseSum == 0) {
 								var cart_detail = new Object();
@@ -203,7 +203,6 @@ $(function() {
 			num = num + 1;
 			$(this).removeClass("quantity-minus-disabled");
 		}
-		console.log(max_buy)
 		$(".reduce").removeClass("quantity-minus-disabled");
 		$("#num").val(num);
 	});
@@ -215,9 +214,9 @@ $(function() {
 		var num = $("#num").val() * 1;
 		var min_buy = $("#min_buy").val() * 1;
 		var count = min_buy != 0 ? min_buy : 1;
-		if(count){
-			showBox("此商品最少购买" + count + "件");
-		}
+		// if(count){
+		// 	showBox("此商品最少购买" + count + "件");
+		// }
 		if (num > count) {
 			num -= 1;
 			if (num == 1) {
@@ -231,17 +230,24 @@ $(function() {
 	});
 	
 	$("#num").bind("input propertychange", function() {
-		if($(this).val().indexOf(".") != -1){
-			$(this).val(1);
-		}else{
-			var num = $(this).val() * 1;
-			var max_buy = $("#max_buy").val() * 1;
-			var min_buy = $("#min_buy").val() * 1;
-			var nummax = $(this).attr('max') * 1;
-			if(min_buy !=0 && min_buy>num){
-				showBox("此商品最少购买" + min_buy + "件");
-				num = min_buy;
-			}
+		// $(this).val($(this).val().replace(/\D|^0/g,''));
+		$(this).val($(this).val().replace(/[^\d.]/g,''));//清除"数字"和"."以外的字符
+		$(this).val($(this).val().replace(/\.{2,}/g,".")); //只保留第一个, 清除多余的
+		$(this).val($(this).val().replace(".","$#$").replace(/\./g,"").replace("$#$","."));//保证.只出现一次，而不能出现两次以上
+		$(this).val($(this).val().replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'));//只能输入两个小数
+		// if($(this).val().indexOf(".") != -1){
+		// 	console.log($(this).val().indexOf(".") )
+		// 	//$(this).val(1);//小数点 自动定为1
+		// 	//showBox("请转换为半角输入");
+		// }else{
+			var num = $(this).val();
+			var max_buy = $("#max_buy").val() - 0;
+			var min_buy = $("#min_buy").val() - 0;
+			var nummax = $(this).attr('max') - 0;
+			// if(min_buy !=0 && min_buy>num){
+			// 	showBox("此商品最少购买" + min_buy + "件");
+			// 	num = min_buy;
+			// }
 				
 			if (num >= max_buy && max_buy != 0) {
 				showBox("此商品限购，您最多可购买" + max_buy + "件");
@@ -253,7 +259,7 @@ $(function() {
 				num = 1;
 			}
 			$(this).val(num);
-		}
+		// }
 	});
 	
 	$('#btnShare').bind("click",function() {
