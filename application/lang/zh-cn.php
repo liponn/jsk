@@ -254,7 +254,7 @@ return [
     'goods_by_sharing'                => '按分享量',
   //  会员相关 member_
     
-    'member_new_delivery_address'    => '新增收货地址',
+    'member_new_delivery_address'    => '新增收货地址(develop。。。)',
     'member_operation_prompt'        => '操作提示',
     'member_operation_addresses'     => '您可对已有的地址进行编辑及删除，亦可新增收货地址',
     'member_distribution_area'       => '配送区域', 

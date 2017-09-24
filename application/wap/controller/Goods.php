@@ -206,7 +206,8 @@ class Goods extends BaseController
         $goods_id = $cart_detail['trueId'];
         $goods_name = $cart_detail['goods_name'];
         $num = $cart_detail['count'];
-        $sku_id = $cart_detail['select_skuid'];
+        // $sku_id = $cart_detail['select_skuid'];
+        $sku_id = $cart_detail['trueId'];
         $sku_name = $cart_detail['select_skuName'];
         $price = $cart_detail['price'];
         $cost_price = $cart_detail['cost_price'];

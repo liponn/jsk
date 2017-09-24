@@ -1,18 +1,4 @@
 /**
- * Niushop商城系统 - 团队十年电商经验汇集巨献!
- * =========================================================
- * Copy right 2015-2025 山西牛酷信息科技有限公司, 保留所有权利。
- * ----------------------------------------------
- * 官方网址: http://www.niushop.com.cn
- * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和使用。
- * 任何企业和个人不允许对程序代码以任何形式任何目的再发布。
- * =========================================================
- * @author : 王永杰
- * @date : 2017年6月14日 12:01:47
- * @version : v1.0.0.0
- * 手机端待付款订单
- * 更新时间：2017年6月22日 14:19:56
- * 
  * 实时更新的应付金额，受以下几项影响：
  * 1、优惠券      use-coupon
  * 2、支付方式     pay
@@ -102,14 +88,6 @@ $(function() {
 		}
 	});
 	
-	/**
-	 * 用户输入可用余额，进行验证并矫正，同时更新总优惠、应付金额等数据
-	 * 规则：
-	 * 1、可用余额，不可超过订单总计
-	 * 2、不可超过用户最大可用余额
-	 * 3、只能输入数字
-	 * 2017年6月22日 15:00:14 王永杰
-	 */
 	$("#account_balance").keyup(function(){
 		if(!validationMemberBalance()){
 			calculateTotalAmount();
@@ -118,7 +96,6 @@ $(function() {
 	
 	/**
 	 * 关闭弹出框（包括点击遮罩层、确定按钮、右上角X按钮）
-	 * 2017年6月21日 14:18:15 王永杰
 	 */
 	$(".mask-layer,.btn-green,.mask-layer-control .close").click(function() {
 		getCurrMaskLayer().slideUp(300);
@@ -130,7 +107,6 @@ $(function() {
 
 /**
  * 初始化数据，仅在第一次加载时使用
- * 2017年6月22日 14:59:33 王永杰
  */
 function init(){
 	
@@ -149,7 +125,6 @@ function init(){
 	
 	/**
 	 * 选中第一个配送方式对应的更新数据
-	 * 2017年6月28日 17:33:19
 	 */
 	if($(".mask-layer-control[data-flag='distribution'] li").length){
 		$(".mask-layer-control[data-flag='distribution'] li").each(function(i){
@@ -206,7 +181,7 @@ function init(){
 		}
 	}
 	$("#express").text(parseFloat($("#hidden_express").val()).toFixed(2));
-	init_total_money += parseFloat($("#hidden_express").val());//运费
+	// init_total_money += parseFloat($("#hidden_express").val());//运费
 	$("#realprice").attr("data-old-total-money",init_total_money.toFixed(2));//原合计（不包含优惠）
 	$("#realprice").attr("data-old-keep-total-money",init_total_money.toFixed(2));//保持原合计
 	
@@ -216,7 +191,6 @@ function init(){
 
 /**
  * 获取当前打开的弹出框对象
- * 2017年6月21日 14:19:20 王永杰
  */
 function getCurrMaskLayer(){
 	return $(".mask-layer-control:visible");
@@ -348,7 +322,6 @@ function updateDistribution(curr_li){
 
 /**
  * 选择物流公司，更新运费
- * 2017年6月28日 16:21:47 王永杰
  * @param curr_li 当前选中的物流公司
  */
 function updateExpressCompany(curr_li){
@@ -423,7 +396,6 @@ function updateInvoice(curr_li){
 
 /**
  * 获取选择的发票内容，返回拼装好的格式
- * 2017年6月14日 19:39:56 王永杰
  */
 function getInvoiceContent(){
 	var content = "";
@@ -436,7 +408,6 @@ function getInvoiceContent(){
 
 /**
  * 验证可用余额输入是否正确，并矫正数据
- * 2017年6月22日 12:13:14 星期四
  * @returns {Boolean}
  */
 function validationMemberBalance(){
@@ -478,7 +449,6 @@ function validationMemberBalance(){
 
 /**
  * 验证订单数据
- * 2017年6月22日 15:08:10 王永杰
  * 
  * @returns true:验证成功，false：验证失败
  */
@@ -487,10 +457,10 @@ function validationOrder(){
 		return false;
 	}
 
-	if ($("#addressid").val() == undefined ||$("#addressid").val() == '' ) {
-		showBox("请先选择收货地址");
-		return false;
-	}
+	// if ($("#addressid").val() == undefined ||$("#addressid").val() == '' ) {
+	// 	showBox("请先选择收货地址");
+	// 	return false;
+	// }
 	
 	if(parseInt($(".item-options[data-flag='distribution']").attr("data-select")) == -1){
 		showBox("商家未配置配送方式");
@@ -549,7 +519,6 @@ function validationOrder(){
 
 /**
  * 计算总金额
- * 2017年5月8日 13:55:48
  */
 function calculateTotalAmount(){
 	var money = parseFloat($("#hidden_count_money").val());// 商品总价
@@ -622,7 +591,8 @@ function calculateTotalAmount(){
 	}
 	old_total_money += parseFloat(order_invoice_tax_money);
 	$("#realprice").attr("data-old-total-money",old_total_money.toFixed(2));//原合计（包括税额,不包含优惠）
-	$("#realprice").text(money.toFixed(2));//合计
+	// $("#realprice").text(money.toFixed(2));//合计
+	$("#realprice").text($("#hidden_count_money").val());//合计
 	$("#realprice").attr("data-total-money",money.toFixed(2));//合计[实际付款金额]（包含优惠券、运费）
 	$("#discount_money").text(total_discount.toFixed(2))//总优惠
 	if($("#account_balance").val() != undefined){
@@ -634,7 +604,6 @@ function calculateTotalAmount(){
 
 /**
  * 提交订单
- * 2017年6月22日 15:09:08 王永杰
  */
 var flag = false;//防止重复提交
 function submitOrder() {

@@ -32,7 +32,7 @@
 </div>
 {else /}
 <div class="empty-address-tip">
-	<div id="noaddress"><a href="{:__URL('APP_MAIN/member/memberaddress')}">{:lang('member_new_delivery_address')}</a></div>
+	<div id="noaddress"><a href="#">{:lang('member_new_delivery_address')}</a></div>
 </div>
 {/if}
 
@@ -49,7 +49,7 @@
 					<div class="right-col">
 						<input type="hidden" name="goods_skuid" value="{$list.sku_id}" />
 						<input type="hidden" name="goods_point_exchange"/>
-						￥<span>{$list.price}+
+						￥<span>{$list.price}/kg
 						
 						</span>
 					</div>
@@ -82,13 +82,14 @@
 	</div>
 	{/if}
 	
-	
-	<div class="item-options" data-flag="pay" data-select="0">
+	<!-- 支付方式 -->
+	<!-- <div class="item-options" data-flag="pay" data-select="0">
 		<label>{:lang('member_payment_method')}</label>
 		<span class="arrow-right color-gray">{:lang('member_online_payment')}</span>
-	</div>
-	
-	<div class="item-options" data-flag="distribution" data-select="0">
+	</div> -->
+
+	<!-- 配送方式 -->
+	<!-- <div class="item-options" data-flag="distribution" data-select="0">
 		<label>{:lang('member_delivery_mode')}</label>
 		{if condition="!$shop_config.seller_dispatching && !$shop_config.buyer_self_lifting"}
 		<span class="color-gray">{:lang('member_not_configure_distribution')}</span>
@@ -99,7 +100,7 @@
 			<span class="arrow-right color-gray">{:lang('member_stores_from_mentioning')}</span>
 			{/if}
 		{/if}
-	</div>
+	</div> -->
 	
 	<!-- 开启商家配送并且有物流公司显示 -->
 	{if condition="$shop_config.seller_dispatching"}
@@ -187,10 +188,11 @@
 			<span>￥<b class="js-total-money">0.00</b></span>
 		</p>
 		
-		<p>
+		<!-- 运费 -->
+		<!-- <p>
 			<label>{:lang('goods_freight')}</label>
 			<span>￥<b id="express">0.00</b></span>
-		</p>
+		</p> -->
 		
 		<p>
 			<label>{:lang('member_total_discount')}</label>

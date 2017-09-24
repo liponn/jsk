@@ -89,9 +89,9 @@ class Order extends BaseController
         // $this->assign("express_company_list", $express_company_list); // 物流公司
 
 
-        
-        // $count_money = $order->getGoodsSkuListPrice($goods_sku_list);
-        $this->assign("count_money", sprintf("%.2f", $count_money)); // 商品金额
+        $count_money = $order->_getGoodsSkuListPrice($goods_sku_list);
+        // var_dump($count_money);exit;
+        $this->assign("count_money", sprintf("%.2f", $count_money[0]['sum'])); // 商品金额
         // $pick_up_money = $order->getPickupMoney($count_money);
         $this->assign("pick_up_money", $pick_up_money);
         $count_point_exchange = 0;
@@ -168,6 +168,7 @@ class Order extends BaseController
         $list = Array();
         $str_cart_id = ""; // 购物车id
         $goods_sku_list = ''; // 商品skuid集合
+        //var_dump($cart_list);exit;
         for ($i = 0; $i < count($cart_list); $i ++) {
             if ($cart_id_arr[$i] == $cart_list[$i]["cart_id"]) {
                 $list[] = $cart_list[$i];
@@ -300,8 +301,10 @@ class Order extends BaseController
         if ($pick_up_id != 0) {
             $shipping_type = 2;
         }
-        $member = new Member();
-        $address = $member->getDefaultExpressAddress();
+        //收货地址
+        // $member = new Member();
+        // $address = $member->getDefaultExpressAddress();
+        $address = array();
         $shipping_time = date("Y-m-d H::i:s", time());
         $order_id = $order->orderCreate('1', $out_trade_no, $pay_type, $shipping_type, '1', 1, $leavemessage, $buyer_invoice, $shipping_time, $address['mobile'], $address['province'], $address['city'], $address['district'], $address['address'], $address['zip_code'], $address['consigner'], $integral, $use_coupon, 0, $goods_sku_list, $user_money, $pick_up_id, $shipping_company_id);
         if ($order_id > 0) {

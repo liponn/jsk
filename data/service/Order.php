@@ -826,7 +826,18 @@ class Order extends BaseService implements IOrder
         $money = $goods_preference->getGoodsSkuListPrice($goods_sku_list);
         return $money;
     }
-
+    public function _getGoodsSkuListPrice($goods_sku_list)
+    {
+        $goods_array = explode(',', $goods_sku_list);
+        foreach ($goods_array as $key => $value) {
+            $sku = explode(':', $value);
+            $sql .= "(SELECT 单价1 FROM jc_cpwhb where `产品编号` = '$sku[0]') * $sku[1] + ";
+        }
+        $sql = "SELECT ".substr($sql, 0,-3). " as sum";
+        $goods_preference = new NsGoodsModel();
+        $money = $goods_preference->query($sql);
+        return $money;
+    }
     /**
      * 获取邮费
      *

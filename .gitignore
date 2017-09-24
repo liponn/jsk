@@ -9,4 +9,6 @@ application/database.php
 app/web/*.php
 app/conf/config.php
 app/git/*
+template/wap/default/public/images/favicon.ico
+template/wap/default/public/images/favicon.ico.b
 
