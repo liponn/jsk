@@ -2,14 +2,14 @@
 <div class="fixed bottom">
 	<div class="distribution-tip" id="distribution-tip" style="display: none;"></div>
 	<dl class="sub-nav nav-b5">
-		<dd id="buttom_home">
+		<!-- <dd id="buttom_home">
 			<a href="{:__URL('APP_MAIN')}">
 				<div class="nav-b5-relative">
 					<img src="__TEMP__/{$style}/public/images/{if $footer_check == 'home_check'}home_check.png{else}home_uncheck.png{/if}"/>
 					<span>{:lang('home_page')}</span>
 				</div>
 			</a>
-		</dd>
+		</dd> -->
 		<dd id="buttom_classify">
 			<a href="{:__URL('APP_MAIN/goods/goodsclassificationlist')}">
 				<div class="nav-b5-relative">
@@ -22,7 +22,15 @@
 			<a href="{:__URL('APP_MAIN/goods/cart')}">
 				<div class="nav-b5-relative">
 					<img src="__TEMP__/{$style}/public/images/{if $footer_check == 'cart_check'}cart_check.png{else}cart_uncheck.png{/if}"/>
-					<span>{:lang('goods_cart')}</span>
+					<span>{:lang('goods_cart1')}</span>
+				</div>
+			</a>
+		</dd>
+		<dd id="buttom_home">
+			<a href="{:__URL('APP_MAIN1')}">
+				<div class="nav-b5-relative">
+					<img src="__TEMP__/{$style}/public/images/{if $footer_check == 'home_check'}home_check.png{else}home_uncheck.png{/if}"/>
+					<span>{:lang('sales')}</span>
 				</div>
 			</a>
 		</dd>

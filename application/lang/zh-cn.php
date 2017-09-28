@@ -26,6 +26,7 @@ return [
     'member_baby_collection'         => '我收藏的宝贝',
     //商品相关
     'goods_cart'                     => '购物车',
+    'goods_cart1'                    => '常用产品',
     //首页头部
     'welcome_to'                     => '欢迎来到',
     'please_login'                   => '请登录',
@@ -98,6 +99,7 @@ return [
     //cms
      'no_article'                     => '暂无文章',
      'home_page'                      => '首页',
+     'sales'                          => '销售单',
      'article_center'                 => '文章中心',
     //index
      'friendship_link'                => '友情链接',
@@ -359,7 +361,7 @@ return [
     'member_evaluate'                => '评价',
     'member_log_out'                 => '退出登录',
     'member_view_personal_data'      => '查看个人资料',
-    'member_member_center'           => '会员中心',
+    'member_member_center'           => '我的',
     'member_welcome_page'            => '欢迎页',
     'member_personal_data'           => '个人资料',
     'member_account_security'        => '账户安全',
