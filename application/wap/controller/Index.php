@@ -18,6 +18,11 @@ class Index extends BaseController
      */
     public function index()
     {
+        //重定向到分类列表
+        
+    }
+    public function index_old()
+    {
         // exit("get in index");
         // 轮播图
         $plat_adv_list['adv_list'] = array(

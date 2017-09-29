@@ -411,7 +411,7 @@ function updateMoney(flag) {
 	if (flag && count == 0) {
 		var money = sum_money();//金额
 		var num_count = sum_num();//数量
-		var num = "结算(" + num_count + ")";
+		var num = "下单(" + num_count + ")";
 		var integral = get_integral();//积分
 		$("#orderprice").text(money);
 		$("#settlement").text(num);

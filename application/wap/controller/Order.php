@@ -327,7 +327,8 @@ class Order extends BaseController
         $status = isset($_GET['status']) ? $_GET['status'] : 'all';
         if (request()->isAjax()) {
             $status = isset($_POST['status']) ? $_POST['status'] : 'all';
-            $condition['buyer_id'] = $this->uid;
+            // $condition['buyer_id'] = $this->uid;
+            $condition['客户ID'] = $this->uid;
             
             if (! empty($this->shop_id)) {
                 $condition['shop_id'] = $this->shop_id;
@@ -373,8 +374,10 @@ class Order extends BaseController
             // 还要考虑状态逻辑
             
             $order = new OrderService();
-            $order_list = $order->getOrderList(1, 0, $condition, 'create_time desc');
-            return $order_list['data'];
+            // $order_list = $order->getOrderList(1, 0, $condition, 'create_time desc');
+            $order_list = $order->_getOrderList(1, 0, $condition, 'create_time desc');
+            // return $order_list['data'];
+            return $order_list;
         } else {
             $this->assign("status", $status);
             return view($this->style . '/Order/myOrderList');

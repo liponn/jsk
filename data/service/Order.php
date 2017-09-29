@@ -18,6 +18,7 @@ use data\model\NsOrderGoodsExpressModel;
 use data\model\NsOrderGoodsModel;
 use data\model\NsGoodsSkuModel;
 use data\model\NsOrderModel;
+use data\model\NsOrderDetailsModel;
 use data\model\NsOrderShopReturnModel;
 use data\model\NsShopModel;
 use data\model\ProvinceModel;
@@ -153,6 +154,21 @@ class Order extends BaseService implements IOrder
      * (non-PHPdoc)
      * @see \data\api\IOrder::getOrderList()
      */
+
+    public function _getOrderList($page_index = 1, $page_size = 0, $condition = '', $order = ''){
+        $order_model = new NsOrderModel();
+        $order_details_model = new NsOrderDetailsModel();
+        $uid = $condition['客户ID'];
+        $order_list = $order_model->_getOrderListByUid($page_index, $page_size, $uid, $order, '*');
+        $order_price = 0;
+        foreach ($order_list as $key => &$value) {
+            # code...
+            $order_list_item = $order_details_model->_getOrderDetailList($value['订单编号']);
+            $value['order_item_list'] = $order_list_item;
+        }
+        unset($value);
+        return $order_list;
+    }
     public function getOrderList($page_index = 1, $page_size = 0, $condition = '', $order = '')
     {
         $order_model = new NsOrderModel();

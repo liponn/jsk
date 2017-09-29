@@ -114,9 +114,9 @@ return [
         //'common'
     ],
     // 默认控制器名
-    'default_controller' => 'Index',
+    'default_controller' => 'goods',
     // 默认操作名
-    'default_action' => 'index',
+    'default_action' => 'goodsclassificationlist',
     // 默认验证器
     'default_validate' => '',
     // 默认的空控制器名
