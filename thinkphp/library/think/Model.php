@@ -764,9 +764,9 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
             if (false === $this->trigger('before_insert', $this)) {
                 return false;
             }
-            
+
             $result = $this->db()->insert($this->data);
-            
+
             // 获取自动增长主键
             if ($result && is_string($pk) && ! isset($this->data[$pk])) {
                 $insertId = $this->db()->getLastInsID($sequence);

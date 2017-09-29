@@ -449,7 +449,10 @@ abstract class Connection
     {
         foreach ($bind as $key => $val) {
             // 占位符
-            $param = is_numeric($key) ? $key + 1 : ':' . $key;
+            $param = is_numeric($key) ? $key + 1 : ':' . md5($key);
+            if(false !== strpos($key,'where')){
+                $param =  ':' . $key;
+            }
             if (is_array($val)) {
                 if (PDO::PARAM_INT == $val[1] && '' === $val[0]) {
                     $val[0] = 0;

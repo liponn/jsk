@@ -104,10 +104,25 @@ abstract class Builder
                     $result[$item] = $val;
                 } else {
                     $this->query->bind($key, $val, isset($bind[$key]) ? $bind[$key] : PDO::PARAM_STR);
-                    $result[$item] = ':' . $key;
+                    $result[$item] = ':' . md5($key);
+                    // $result[$item] = "'".$val."'";
                 }
+                // if (0 === strpos($val, ':') && $this->query->isBind(substr($val, 1))) {
+                //     $result[$item] = $val;
+                // } else {
+                //     $key = str_replace('.', '_', $key);
+                //     if (preg_match("/[\x7f-\xff]/", $key)) {  　　//add_判断字符串中是否有中文
+                //         $this->query->bind('data__' . md5($key), $val, isset($bind[$key]) ? $bind[$key] : PDO::PARAM_STR);//add
+                //         $result[$item] = ':data__' . md5($key);　　//add
+                //     } else {　　　　　　　　　　　　　　　　　　　　　　//add
+                //         $this->query->bind('data__' . $key, $val, isset($bind[$key]) ? $bind[$key] : PDO::PARAM_STR);
+                //         $result[$item] = ':data__' . $key;
+                //     } 　　　　　　　　　　　　　　　　　　　　　　　　　　//add
+                // }
+            
             }
         }
+        // var_dump($result);exit;
         return $result;
     }
 

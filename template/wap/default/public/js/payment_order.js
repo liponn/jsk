@@ -638,15 +638,9 @@ function submitOrder() {
 				'shipping_company_id' : shipping_company_id
 			},
 			success : function(res) {
+				//console.log(res);
 				if (res.code > 0) {
-					//如果实际付款金额为0，跳转到个人中心的订单界面中
-					if(parseFloat($("#realprice").attr("data-total-money")) == 0){
-						location.href = __URL(APPMAIN + '/pay/paycallback?msg=1&out_trade_no=' + res.code);
-					}else if(pay_type == 4){
-						location.href = __URL(APPMAIN + '/order/myorderlist');
-					}else{
-						location.href = __URL(APPMAIN + '/pay/getpayvalue?out_trade_no=' + res.code);
-					}
+					location.href = __URL(APPMAIN + '/order/myorderlist');
 				} else {
 					showBox(res.message);
 					flag = false;

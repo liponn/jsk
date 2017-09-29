@@ -3,6 +3,7 @@ namespace data\service\Order;
 
 use data\service\Order\OrderStatus;
 use data\model\NsOrderModel;
+use data\model\NsOrderDetailsModel;
 use data\model\NsOrderActionModel as NsOrderActionModel;
 use data\model\UserModel as UserModel;
 use data\model\NsOrderGoodsModel;
@@ -48,38 +49,56 @@ class Order extends BaseService
         $this->order = new NsOrderModel();
     }
 
-    /**
-     * 订单创建
-     * （订单传入积分系统默认为使用积分兑换商品）
-     *
-     * @param unknown $order_type            
-     * @param unknown $out_trade_no            
-     * @param unknown $pay_type            
-     * @param unknown $shipping_type            
-     * @param unknown $order_from            
-     * @param unknown $buyer_ip            
-     * @param unknown $buyer_message            
-     * @param unknown $buyer_invoice            
-     * @param unknown $shipping_time            
-     * @param unknown $receiver_mobile            
-     * @param unknown $receiver_province            
-     * @param unknown $receiver_city            
-     * @param unknown $receiver_district            
-     * @param unknown $receiver_address            
-     * @param unknown $receiver_zip            
-     * @param unknown $receiver_name            
-     * @param unknown $point            
-     * @param unknown $point_money            
-     * @param unknown $coupon_money            
-     * @param unknown $coupon_id            
-     * @param unknown $user_money            
-     * @param unknown $promotion_money            
-     * @param unknown $shipping_money            
-     * @param unknown $pay_money            
-     * @param unknown $give_point            
-     * @param unknown $goods_sku_list            
-     * @return number|Exception
-     */
+    public function _orderCreate($goods_sku_list,$uid){
+        $this->order->startTrans();
+
+        try{
+            //获取购买人信息
+            $order = new NsOrderModel();
+            $orderDetail = new NsOrderDetailsModel();
+            $data_order = array(
+                '订单编号' => $this->_createOrderNo($uid),
+                '客户ID' => $uid,
+                '微信ID' => '',
+                '订单类型' => 1,
+                '下单日期' => date("Y-m-d"),
+                '下单时间' => date("Y-m-d H:i:s"),
+                '审核人' => $goods_sku_list,
+                );
+            $goodsArr = explode(',', $goods_sku_list);
+            foreach ($goodsArr as $key => $value) {
+                # code...
+                //获取商品信息
+                $sku = explode(':',$value);
+                $goodsModel = new NsGoodsModel();
+                $goodsInfo = $goodsModel->_getGoodsInfo($sku[0]);
+                // var_dump($goodsInfo);exit;
+                $data_details = array(
+                    '订单编号' => $this->_createOrderNo($uid),
+                    '产品编号' => $sku[0],
+                    '产品名称' => $goodsInfo['产品名称'],
+                    '商品单价' => $goodsInfo['单价1'],
+                    '实际商品单价' => $goodsInfo['单价1'],
+                    '预定数量' => $sku[1],
+                    '分配数量' => $sku[1],
+                    '订单金额' => 0,
+                    '商品类型' => 1,
+                    );
+                
+                $res = $orderDetail->addDetails($data_details);
+            }
+            // var_dump($goodsArr);exit;
+            $order->save($data_order);
+            $order_id = $order->编号;
+
+            $this->order->commit();
+            return $order_id;
+        } catch (\Exception $e) {
+            $this->order->rollback();
+            return $e->getMessage();
+        }
+    }
+
     public function orderCreate($order_type, $out_trade_no, $pay_type, $shipping_type, $order_from, $buyer_ip, $buyer_message, $buyer_invoice, $shipping_time, $receiver_mobile, $receiver_province, $receiver_city, $receiver_district, $receiver_address, $receiver_zip, $receiver_name, $point, $coupon_id, $user_money, $goods_sku_list, $platform_money, $pick_up_id, $shipping_company_id, $coin)
     {
         $this->order->startTrans();
@@ -596,6 +615,11 @@ class Order extends BaseService
             }
         }
         return false;
+    }
+
+
+    public function _createOrderNo($uid){
+        return date('Ymd').$uid;
     }
 
     /**

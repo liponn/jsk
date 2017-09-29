@@ -1746,6 +1746,7 @@ class Query
         $options = $this->parseExpress();
         // 生成SQL语句
         $sql = $this->builder()->insert($data, $options, $replace);
+
         // 获取参数绑定
         $bind = $this->getBind();
         if ($options['fetch_sql']) {

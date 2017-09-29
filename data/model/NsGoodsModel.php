@@ -21,5 +21,10 @@ class NsGoodsModel extends BaseModel {
         'goods_spec_format'  =>  ''
     ];
     
-
+    public function _getGoodsInfo($sku){
+        $sql = "SELECT * FROM jc_cpwhb WHERE 产品编号 = '$sku'";
+        $res = $this->sqlQuery($sql);
+        return $res[0];
+        // return $this->where(['产品编号' => $sku])->select();
+    }
 }

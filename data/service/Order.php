@@ -262,7 +262,11 @@ class Order extends BaseService implements IOrder
         }
         return $order_list;
     }
-
+    public function _orderCreate($goods_sku_list,$uid){
+        $order = new OrderBusiness();
+        $retval = $order->_orderCreate($goods_sku_list,$uid);
+        return $retval;
+    }
     /*
      * (non-PHPdoc)
      * @see \data\api\IOrder::orderCreate()
@@ -319,6 +323,13 @@ class Order extends BaseService implements IOrder
         // TODO Auto-generated method stub
     }
 
+
+    public function _getOrderTradeNo($uid)
+    {
+        $order = new OrderBusiness();
+        $no = $order->_createOrderNo($uid);
+        return $no;
+    }
     /**
      * (non-PHPdoc)
      *

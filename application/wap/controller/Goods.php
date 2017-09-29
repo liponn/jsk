@@ -33,7 +33,7 @@ class Goods extends BaseController
             $this->error("没有获取到商品信息");
         }
         $goods = new GoodsService();
-        $goods_detail = $goods->getGoodsDetail($goods_id);
+        $goods_detail = $goods->getGoodsDetail($goods_icartd);
         if (empty($goods_detail)) {
             $this->error("没有获取到商品信息");
         }
@@ -115,11 +115,6 @@ class Goods extends BaseController
         return $time;
     }
     
-    /**
-     * 功能：商品评论
-     * 创建人：李志伟
-     * 创建时间：2017年2月23日11:12:57
-     */
     public function getGoodsComments()
     {
         $comments_type = $_POST['comments_type'];
