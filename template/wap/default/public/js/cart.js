@@ -17,25 +17,33 @@
 
 $(function() {
 	updateMoney(true);
-	$(".num").blur("input propertychange", function() {
+	$(".num").bind("input propertychange", function() {
 		$cart = $(this);
-		var num = $cart.val() * 1;// 购买数量
+		//console.log($cart.val())
+		$cart.val($cart.val().replace(/[^\d.]/g,''));//清除"数字"和"."以外的字符
+		$cart.val($cart.val().replace(/\.{2,}/g,".")); //只保留第一个, 清除多余的
+		$cart.val($cart.val().replace(".","$#$").replace(/\./g,"").replace("$#$","."));//保证.只出现一次，而不能出现两次以上
+		$cart.val($cart.val().replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'));//只能输入两个小数
+
+		var num = $cart.val() - 0;// 购买数量
 		var default_num = $cart.attr("data-default-num");
 		var max_buy = $cart.attr('max_buy') * 1;// 限购数量
 		var min_buy = $cart.attr("min_buy") * 1;//最少购买数量
 		var nummax = $cart.attr('max') * 1;// 库存数量
 		var cartid = $cart.attr('data-cartid');
-		if(isNaN(num) || $cart.val().indexOf(".") != -1){
-			showBox("格式错误");
-			$cart.val(default_num);
-			return;
-		}
+
+		// if(isNaN(num) || $cart.val().indexOf(".") != -1){
+		// 	showBox("格式错误");
+		// 	$cart.val(default_num);
+		// 	return;
+		// }
 		if(min_buy != 0 && min_buy>num){
 			showBox("该商品最少购买"+min_buy+"件");
 			$cart.val(min_buy);
 			return;
 		}else if (num == 0||num<0) {
-			$cart.val(1);
+			//$cart.val(1);
+			showBox("不能为0");
 			return;
 		}
 
@@ -492,7 +500,7 @@ var Cart = {
 	ShowShoppingCart : function() {
 
 	},
-	changeBar : function(type, skuId, obj) {
+	changeBars : function(type, skuId, obj) {
 
 		var txtC = null;
 		var change = 0;
@@ -521,11 +529,6 @@ var Cart = {
 		if(min_buy != 0 && min_buy>num){
 			num = min_buy;
 			showBox("该商品最少购买"+min_buy+"件");
-			return;
-		}
-		else if (num == 0) {
-			num = 1;
-			showBox("最小数量为1");
 			return;
 		}
 

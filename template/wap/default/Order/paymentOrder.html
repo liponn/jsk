@@ -15,26 +15,7 @@
  
 {block name="main"}
 <div class="h50"></div>
-{if condition="$address_default.id neq ''"}
-<div id="addressok">
-	<input type="hidden" id="addressid" value="{$address_default.id}" />
-	<div class="js-order-address express-panel js-edit-address express-panel-edit">
-		<ul class="express-detail">
-			<a href="{:__URL('APP_MAIN/member/memberaddress?url=cart')}">
-				<li class="clearfix">
-					<span class="name">{:lang('member_consignee')}：{$address_default.consigner}</span>
-					<span class="tel">{$address_default.mobile}</span>
-				</li>
-				<li class="address-detail">{:lang('member_delivery_address')}：{$address_default.address_info}-{$address_default.address}</li>
-			</a>
-		</ul>
-	</div>
-</div>
-{else /}
-<div class="empty-address-tip">
-	<div id="noaddress"><a href="#">{:lang('member_new_delivery_address')}</a></div>
-</div>
-{/if}
+
 
 <div class="block-item express" style="padding: 0;"></div>
 <section class="order">
@@ -75,12 +56,6 @@
 	{/foreach}
 	
 	
-	{if condition="count($coupon_list) >0"}
-	<div class="item-options" data-flag="use-coupon">
-		<label class="float_left">{:lang('member_coupons')}</label>
-		<span class="arrow-right color-gray">{:lang('member_no_coupons')}</span>
-	</div>
-	{/if}
 	
 	<!-- 支付方式 -->
 	<!-- <div class="item-options" data-flag="pay" data-select="0">

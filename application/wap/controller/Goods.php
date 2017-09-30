@@ -207,7 +207,7 @@ class Goods extends BaseController
         $price = $cart_detail['price'];
         $cost_price = $cart_detail['cost_price'];
         $picture = $cart_detail['picture'];
-        // var_dump($_POST);exit;
+
         $this->is_member = $this->user->getSessionUserIsMember();
         if (! empty($this->uid) && $this->is_member == 1) {
             /* if($cart_tag == "addCart") { */

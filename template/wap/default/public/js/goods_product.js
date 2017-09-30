@@ -72,9 +72,9 @@ $(function() {
 											$('body').css("overflow", "auto");
 											if (data == '-1') {
 												showBox("只有会员登录之后才能购买，请进入会员中心注册或登录。");
-												window.location.href = __URL(APPMAIN+ "/member");
-											}else if(data == 0){
-												showBox("该商品限购"+purchaseSum+"，请您检查购物车");
+												window.location.href = __URL(APPMAIN+ "/member/index");
+											}else if(data == -2){
+												showBox("该商品已添加，请您检查购物车");
 												$("#s_buy").slideUp();
 												$("#mask").hide();
 												$("#addcart_way").show();

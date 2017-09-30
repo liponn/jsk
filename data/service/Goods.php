@@ -1545,28 +1545,7 @@ class Goods extends BaseService implements IGoods
                 $cart->save($data);
                 $retval = $cart->cart_id;
             } else {
-                $cart = new NsCartModel();
-                // 查询商品限购
-                $goods = new NsGoodsModel();
-                $get_num = $cart->getInfo($condition, 'cart_id,num');
-                $max_buy = $goods->getInfo([
-                    'goods_id' => $goods_id
-                ], 'max_buy');
-                $new_num = $num + $get_num['num'];
-                if ($max_buy['max_buy'] != 0) {
-                    
-                    if ($new_num > $max_buy['max_buy']) {
-                        $new_num = $max_buy['max_buy'];
-                    }
-                }
-                
-                $data = array(
-                    'num' => $new_num
-                );
-                $retval = $cart->save($data, $condition);
-                if ($retval) {
-                    $retval = $get_num['cart_id'];
-                }
+                $retval = -2;//已经存在
             }
             
         }else{
