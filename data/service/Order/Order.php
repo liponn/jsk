@@ -27,7 +27,8 @@ use data\model\NsPromotionFullMailModel;
 use think\Log;
 use data\model\NsMemberModel;
 use data\service\Address;
-use data\service\Config;
+// use data\service\Config;
+use think\Config;
 use data\model\NsPickupPointModel;
 use data\model\NsOrderPickupModel;
 use data\model\ConfigModel;
@@ -50,12 +51,19 @@ class Order extends BaseService
     }
 
     public function _orderCreate($goods_sku_list,$uid){
+        // $date = date("Y-m-d")." 16:00:00";//小于4点时 可以修改订单
+        $date = date("Y-m-d").Config::get('last_chang_order');
+        $order = new NsOrderModel();
+        $orderDetail = new NsOrderDetailsModel();
+        //查询今天有没有下过订单
+        $dayOrderHas = $order->_getOrderByDay($uid);
+        // var_dump($dayOrderHas);exit;
+
         $this->order->startTrans();
 
         try{
             //获取购买人信息
-            $order = new NsOrderModel();
-            $orderDetail = new NsOrderDetailsModel();
+            
             $data_order = array(
                 '订单编号' => $this->_createOrderNo($uid),
                 '客户ID' => $uid,
@@ -84,15 +92,23 @@ class Order extends BaseService
                     '订单金额' => 0,
                     '商品类型' => 1,
                     );
-                
-                $res = $orderDetail->addDetails($data_details);
+                if(!empty($dayOrderHas)){
+                    $res = $orderDetail->addNweDetails($data_details);
+                }else{
+                    $res = $orderDetail->addDetails($data_details);
+                }
             }
             // var_dump($goodsArr);exit;
-            $order->save($data_order);
-            $order_id = $order->编号;
+            if(!empty($dayOrderHas) && $data_order['下单时间'] < $date){
+                $order->_orderUpdate($data_order,$this->_createOrderNo($uid));
+            }else{
+                $order->save($data_order);
+            }
+
+            //$order_id = $order->编号;
 
             $this->order->commit();
-            return $order_id;
+            return 1;
         } catch (\Exception $e) {
             $this->order->rollback();
             return $e->getMessage();

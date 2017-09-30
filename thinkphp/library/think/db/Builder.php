@@ -122,7 +122,7 @@ abstract class Builder
             
             }
         }
-        // var_dump($result);exit;
+        //var_dump($result);exit;
         return $result;
     }
 
@@ -273,7 +273,7 @@ abstract class Builder
                     $str[] = ' ' . $key . ' ' . $this->parseWhereItem($field, $value, $key, $options, $binds);
                 }
             }
-
+            
             $whereStr .= empty($whereStr) ? substr(implode(' ', $str), strlen($key) + 1) : implode(' ', $str);
         }
         return $whereStr;
@@ -388,6 +388,7 @@ abstract class Builder
 
             $whereStr .= $key . ' ' . substr($exp, 0, -4) . $this->parseDateTime($value[0], $field, $options, $bindName . '_between_1', $bindType) . ' AND ' . $this->parseDateTime($value[1], $field, $options, $bindName . '_between_2', $bindType);
         }
+
         return $whereStr;
     }
 

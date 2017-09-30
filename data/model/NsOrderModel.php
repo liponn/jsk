@@ -19,4 +19,18 @@ class NsOrderModel extends BaseModel {
     	return $res;
     }
 
+
+    public function _getOrderByDay($uid){
+        $date = date("Y-m-d");
+        $sql = "SELECT * FROM dd_order WHERE 客户ID = {$uid} AND 下单日期 = '{$date}'";
+        // exit($sql);
+        $res = $this->sqlQuery($sql);
+        return $res;
+    }
+    public function _orderUpdate($data,$condition){
+        $sql = "UPDATE `dd_order`  SET `下单日期`= '{$data['下单日期']}',`客户ID`='{$data['客户ID']}',`微信ID`='{$data['微信ID']}',`下单时间`='{$data['下单时间']}' WHERE  `订单编号` = '{$condition}'  ";
+        // exit($sql);
+        $res = $this->sqlQuery($sql);
+        return $res;
+    }
 }

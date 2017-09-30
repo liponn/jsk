@@ -389,7 +389,7 @@ abstract class Connection
         Db::$executeTimes++;
         try {
             // 调试开始
-            $this->debug(true);
+            $this->debug(true);//var_dump($bind);exit($sql);
             // 预处理
             $this->PDOStatement = $this->linkID->prepare($sql);
             // 参数绑定操作

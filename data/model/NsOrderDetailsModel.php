@@ -26,5 +26,18 @@ class NsOrderDetailsModel extends BaseModel {
         $res = $this->sqlQuery($sql);
         return $res;
     }
+    public function addNweDetails($data){
+        $sql = "SELECT * FROM dd_order_details WHERE 订单编号 = {$data['订单编号']} AND 产品编号 = '{$data['产品编号']}'";
+        $res = $this->sqlQuery($sql);
+        if(!empty($res)){
+            //update
+            $sql = "UPDATE dd_order_details SET 产品名称 = '{$data['产品名称']}' , 商品单价 = '{$data['商品单价']}',实际商品单价 = '{$data['实际商品单价']}',预定数量 = '{$data['预定数量']}',分配数量 = '{$data['分配数量']}' WHERE 编号 = {$res[0]['编号']}";
+            // exit($sql);
+            $res = $this->sqlQuery($sql);
+        }else{
+            //$sql = "";
+            $this->addDetails($data);
+        }
+    }
 
 }

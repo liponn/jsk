@@ -19,13 +19,12 @@ $(function() {
 	updateMoney(true);
 	$(".num").bind("input propertychange", function() {
 		$cart = $(this);
-		//console.log($cart.val())
 		$cart.val($cart.val().replace(/[^\d.]/g,''));//清除"数字"和"."以外的字符
 		$cart.val($cart.val().replace(/\.{2,}/g,".")); //只保留第一个, 清除多余的
 		$cart.val($cart.val().replace(".","$#$").replace(/\./g,"").replace("$#$","."));//保证.只出现一次，而不能出现两次以上
 		$cart.val($cart.val().replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'));//只能输入两个小数
 
-		var num = $cart.val() - 0;// 购买数量
+		var num = $cart.val();// 购买数量
 		var default_num = $cart.attr("data-default-num");
 		var max_buy = $cart.attr('max_buy') * 1;// 限购数量
 		var min_buy = $cart.attr("min_buy") * 1;//最少购买数量
@@ -500,7 +499,7 @@ var Cart = {
 	ShowShoppingCart : function() {
 
 	},
-	changeBars : function(type, skuId, obj) {
+	changeBar : function(type, skuId, obj) {
 
 		var txtC = null;
 		var change = 0;
@@ -512,7 +511,9 @@ var Cart = {
 			txtC = $(obj).next();
 			change = -1;
 		}
-		var num = parseInt(txtC.val());
+		// console.log(txtC.val())
+		// var num = parseInt(txtC.val());
+		var num = txtC.val() - 0;
 		if (num + change < 0) {
 			art.dialog({
 				time : 3000,
@@ -526,6 +527,7 @@ var Cart = {
 		var max_buy = txtC.attr('max_buy') * 1;
 		var min_buy = txtC.attr("min_buy") *1;
 		num = num + change;
+		num = this.fomatFloat(num,2);
 		if(min_buy != 0 && min_buy>num){
 			num = min_buy;
 			showBox("该商品最少购买"+min_buy+"件");
@@ -561,6 +563,9 @@ var Cart = {
 				}
 			}
 		});
-	}
+	},
+	fomatFloat : function(src,pos){
+       return Math.round(src*Math.pow(10, pos))/Math.pow(10, pos);   
+    }
 
 }

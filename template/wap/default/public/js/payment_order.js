@@ -12,18 +12,6 @@ $(function() {
 	
 	//初始化数据
 	init();
-
-	/**
-	 * 弹出框，该方法只负责界面展示，不负责计算
-	 * 选择优惠券 use-coupon
-	 * 选择支付方式 pay
-	 * 选择配送方式 distribution
-	 * 选择自提地址列表 pickup_address
-	 * 选择发票信息 invoice
-	 * 选择发票内容 invoice-content
-	 * 
-	 * 2017年6月21日 14:16:57 王永杰
-	 */
 	$(".item-options[data-flag]").click(function() {
 		var curr_options = $(this);//当前点击的项
 		var flag = curr_options.attr('data-flag');
@@ -640,7 +628,8 @@ function submitOrder() {
 			success : function(res) {
 				//console.log(res);
 				if (res.code > 0) {
-					location.href = __URL(APPMAIN + '/order/myorderlist');
+					showBox("提交成功！");
+					location.href = __URL(APPMAIN + '/goods/cart');
 				} else {
 					showBox(res.message);
 					flag = false;
