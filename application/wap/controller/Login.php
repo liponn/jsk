@@ -73,7 +73,7 @@ class Login extends Controller
         $seoconfig = $web_config->getSeoConfig($this->instance_id);// lbid
         $this->assign("seoconfig", $seoconfig);
 
-        //$use_wap_template = $web_config->getUseWapTemplate($this->instance_id);
+        // $use_wap_template = $web_config->getUseWapTemplate($this->instance_id);
         // exit("11d1");
         // if (empty($use_wap_template)) {
         //     $use_wap_template['value'] = 'default';

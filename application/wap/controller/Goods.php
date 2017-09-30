@@ -168,7 +168,7 @@ class Goods extends BaseController
     {
         $this->is_member = $this->user->getSessionUserIsMember();
         if ($this->is_member == 0) {
-            $redirect = __URL(__URL__ . "/wap/login");
+            $redirect = __URL(__URL__ . "/wap/login/index");
             $this->redirect($redirect);
         }
         $this->assign("shopname", $this->shop_name);

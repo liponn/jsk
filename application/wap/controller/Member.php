@@ -59,12 +59,12 @@ class Member extends BaseController
     {
         $uid = $this->uid;
         if (empty($uid)) {
-            $redirect = __URL(__URL__."/wap/login");
+            $redirect = __URL(__URL__."/wap/login/index");
             $this->redirect($redirect); // 用户未登录
         }
         $is_member = $this->user->getSessionUserIsMember();
         if (empty($is_member)) {
-             $redirect = __URL(__URL__."/wap/login");
+             $redirect = __URL(__URL__."/wap/login/index");
             $this->redirect($redirect); // 用户未登录
         }
     }
