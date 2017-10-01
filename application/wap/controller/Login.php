@@ -1032,4 +1032,17 @@ class Login extends Controller
             }
         }
     }
+
+
+    public function mytest(){
+
+        if (isset($_GET['code'])){
+            echo $_GET['code'];
+        }else{
+            echo "NO CODE";
+        }
+    }
+
+
+    
 }
