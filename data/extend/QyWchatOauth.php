@@ -43,8 +43,8 @@ class QyWchatOauth{
         }
 	}
 
-	public function get_oauth_qy_member_info(){
-		return $this->getUserInfo();
+	public function get_oauth_qy_member_info($userId){
+		return $this->getUserInfo($userId);
 	}
 	/**
      * 获取微信OAuth2授权链接snsapi_base
