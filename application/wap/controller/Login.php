@@ -195,6 +195,7 @@ class Login extends Controller
             return $retval;
         }
         $this->wchatLogin();
+        die;
         // 没有登录首先要获取上一页
         $pre_url = '';
         $_SESSION['bund_pre_url'] = '';
