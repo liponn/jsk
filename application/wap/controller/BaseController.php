@@ -178,7 +178,6 @@ class BaseController extends Controller
             // }
             $wchat_oauth = new QyWchatOauth();
             $domain_name = \think\Request::instance()->domain();
-            var_dump($domain_name);exit;
             if (! empty($_COOKIE[$domain_name . "member_access_token"])) {
                 $token = json_decode($_COOKIE[$domain_name . "member_access_token"], true);
             } else {
@@ -187,6 +186,7 @@ class BaseController extends Controller
                     setcookie($domain_name . "member_access_token", json_encode($token));
                 }
             }
+            var_dump($token);exit;
             if (! empty($token['openid'])) {
                 if (! empty($token['unionid'])) {
                     $wx_unionid = $token['unionid'];
