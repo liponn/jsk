@@ -57,14 +57,14 @@ class QyWchatOauth{
 
 	public function getUserInfoByAuth($code){
 		$url="https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$this->access_token}&code=$code";
-		$content=curl_get($url);
+		$content=$this->curl_get($url);
 		$ret= json_decode($content,true);
 		return $ret;
 	}
 
 	public function getUserInfo($userId){
 		$url="https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token={$this->access_token}&userid=$userId";
-		$content=curl_get($url);
+		$content=$this->curl_get($url);
 		$ret= json_decode($content,true);
 		return $ret;
 	}
