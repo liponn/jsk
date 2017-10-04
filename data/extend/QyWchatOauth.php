@@ -28,14 +28,14 @@ class QyWchatOauth{
                 //触发微信返回code码
                 $baseUrl = request()->url(true);
                 $url = $this->get_single_authorize_url($baseUrl, "123");
-            	exit($url);
+            	// exit($url);
                 Header("Location: $url");
                 exit();
             }else{
-                //获取code码，以获取openid
+                //获取code码，以获取userid
                 $code = $_GET['code'];
         
-                    $data = $this->get_single_access_token($code);
+                    $data = $this->getUserInfoByAuth($code);
                     return $data;
                
             }
