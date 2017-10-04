@@ -43,6 +43,9 @@ class QyWchatOauth{
         }
 	}
 
+	public function get_oauth_qy_member_info(){
+		return $this->getUserInfo();
+	}
 	/**
      * 获取微信OAuth2授权链接snsapi_base
      * @param string $redirect_uri 跳转地址

@@ -187,7 +187,35 @@ class BaseController extends Controller
             //     }
             // }
             $token = $wchat_oauth->get_member_access_token();
-            var_dump($token);exit;
+            // var_dump($token);exit;
+            if($token['errcode'] == 0){
+                $wx_qy_userid = $token['UserId'];
+                $retval = $this->user->wchatUnionLogin($wx_qy_userid);
+                if ($retval == 1) {
+                        //加入过企业id后的
+                        $this->user->modifyUserWxhatLogin($token['openid'], $wx_unionid);
+                    } elseif ($retval == USER_LOCK) {
+                        $redirect = __URL(__URL__ . "/wap/login/userlock");
+                        $this->redirect($redirect);
+                    } elseif($retval == USER_NBUND) {
+                        //注册企业userid
+                        //获取企业用户信息
+                        $info = $wchat_oauth->get_oauth_qy_member_info($token['UserId']);
+                        var_dump($info);exit;
+                        $result = $this->user->registerMember('', '123456', '', '', '', '', $token['openid'], $info, $wx_unionid);
+
+                    } else {
+                        $retval = $this->user->wchatLogin($token['openid']);
+                        if ($retval == USER_NBUND) {
+                            $info = $wchat_oauth->get_oauth_member_info($token);
+                            $result = $this->user->registerMember('', '123456', '', '', '', '', $token['openid'], $info, $wx_unionid);
+                        } elseif ($retval == USER_LOCK) {
+                            // 锁定跳转
+                            $redirect = __URL(__URL__ . "/wap/login/userlock");
+                            $this->redirect($redirect);
+                        }
+                    }
+            }
             if (! empty($token['openid'])) {
                 if (! empty($token['unionid'])) {
                     $wx_unionid = $token['unionid'];
