@@ -372,6 +372,85 @@ class User extends BaseService implements IUser
      * @param unknown $email            
      * @param unknown $mobile            
      */
+    public function _add($user_name, $password, $email, $mobile, $avatar, $real_name, $other_info){
+        if (! empty($user_name)) {
+           
+            $count = $this->user->where([
+                'user_name' => $user_name
+            ])->count();
+            if ($count > 0) {
+                return USER_REPEAT;
+            }
+            $nick_name = $user_name;
+        }elseif(! empty($mobile))
+        {
+            $count = $this->user->where([
+                'user_tel' => $mobile
+            ])->count();
+            if ($count > 0) {
+                return USER_REPEAT;
+            }
+            $nick_name = $mobile;
+        }elseif(!empty($email))
+        {
+            $count = $this->user->where([
+                'user_email' => $email
+            ])->count();
+            if ($count > 0) {
+                return USER_REPEAT;
+            }
+            $nick_name = $email;
+        }
+        //保存头像
+        if(!empty($avatar))
+        {
+            if(!file_exists('upload/user')){
+                $mode = intval('0777',8);
+                mkdir('upload/user',$mode,true);
+                if(!file_exists('upload/user'))
+                {
+                    die('upload/user不可写，请检验读写权限!');
+                }
+            }
+            $local_path = 'upload/user/'.time().rand(111,999).'.png';
+            save_weixin_img($local_path, $avatar);
+        }
+
+        $data = array(
+            'user_name' => $user_name,
+            /* 'real_password' => $password, */
+            'user_password' => md5($password),
+            'user_status' => 1,
+            'user_headimg' => $local_path,
+            'nick_name' => $nick_name,
+            'is_system' => 0,//是否是系统后台用户 0 不是 1 是
+            'is_member' => 1,//是否是前台会员
+            'user_tel' => $mobile,
+            'user_tel_bind' => 0,
+            'user_qq' => '',
+            'qq_openid' => '',
+            'qq_info' => '',
+            'reg_time' => time(),
+            'login_num' => 0,
+            'user_email' => $email,
+            'user_email_bind' => 0,
+            'wx_openid' => '',
+            'wx_sub_time' => '0',
+            'wx_notsub_time' => '0',
+            'wx_is_sub' => 0,
+            'wx_info' => '',
+            'other_info' => '',
+            'instance_id' => '',
+            'wx_unionid'  => ''
+        );
+        $this->user->save($data);
+        $uid = $this->user->uid;
+        //用户添加成功后
+        $data['uid'] = $uid;
+        hook("userAddSuccess", $data);
+        return $uid;
+
+    }
     public function add($user_name, $password, $email, $mobile, $is_system, $qq_openid, $qq_info, $wx_openid, $wx_info,$wx_unionid, $is_member, $instance_id = 0)
     {
         if (! empty($user_name)) {

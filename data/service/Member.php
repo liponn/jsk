@@ -52,6 +52,24 @@ class Member extends User implements IMember
      * 前台添加会员(non-PHPdoc)
      * @see \data\api\IMember::registerMember()
      */
+    public function _registerMember($user_name, $password, $email, $mobile, $avatar, $real_name, $other_info){
+        $res = parent::_add($user_name, $password, $email, $mobile, $avatar, $real_name, $other_info);
+        if($res > 0){
+            $member = new NsMemberModel();
+            $data = array(
+                'uid' => $res,
+                'member_name' => $user_name,
+                'member_level' => 47,
+                'reg_time' => time()
+            );
+            $retval = $member->save($data);
+            hook('memberRegisterSuccess', $data);
+        }
+        // $this->wchatLogin($wx_openid);//微信登录
+        $this->login($user_name, $password);//直接登录
+        return $res;
+    }
+
     public function registerMember($user_name, $password, $email, $mobile, $user_qq_id, $qq_info, $wx_openid, $wx_info, $wx_unionid)
     {
         // if (! empty($user_name)) {

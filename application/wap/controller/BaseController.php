@@ -201,9 +201,9 @@ class BaseController extends Controller
                         //注册企业userid
                         //获取企业用户信息
                         $info = $wchat_oauth->get_oauth_qy_member_info($token['UserId']);
-                        header("Content-Type: text/html; charset=utf-8");
-                        var_dump($info);exit;
-                        $result = $this->user->registerMember('', '123456', '', '', '', '', $token['openid'], $info, $wx_unionid);
+                        // header("Content-Type: text/html; charset=utf-8");
+                        // var_dump($info);exit;
+                        $result = $this->user->_registerMember($token['UserId'], '123456', $token['email'], $token['mobile'], $token['avatar'], $token['name'], $token['position']);
 
                     } else {
                         $retval = $this->user->wchatLogin($token['openid']);
@@ -216,6 +216,8 @@ class BaseController extends Controller
                             $this->redirect($redirect);
                         }
                     }
+                echo "<script language=JavaScript> window.location.href='" . $_SESSION['request_url'] . "'</script>";
+                exit();
             }
             if (! empty($token['openid'])) {
                 if (! empty($token['unionid'])) {
