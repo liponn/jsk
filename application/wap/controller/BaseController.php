@@ -177,15 +177,16 @@ class BaseController extends Controller
             //     return false;
             // }
             $wchat_oauth = new QyWchatOauth();
-            $domain_name = \think\Request::instance()->domain();
-            if (! empty($_COOKIE[$domain_name . "member_access_token"])) {
-                $token = json_decode($_COOKIE[$domain_name . "member_access_token"], true);
-            } else {
-                $token = $wchat_oauth->get_member_access_token();
-                if (! empty($token['access_token'])) {
-                    setcookie($domain_name . "member_access_token", json_encode($token));
-                }
-            }
+            // $domain_name = \think\Request::instance()->domain();
+            // if (! empty($_COOKIE[$domain_name . "member_access_token"])) {
+            //     $token = json_decode($_COOKIE[$domain_name . "member_access_token"], true);
+            // } else {
+            //     $token = $wchat_oauth->get_member_access_token();
+            //     if (! empty($token['access_token'])) {
+            //         setcookie($domain_name . "member_access_token", json_encode($token));
+            //     }
+            // }
+            $token = $wchat_oauth->get_member_access_token();
             var_dump($token);exit;
             if (! empty($token['openid'])) {
                 if (! empty($token['unionid'])) {

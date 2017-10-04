@@ -21,6 +21,40 @@ class QyWchatOauth{
 
 	}
 
+	public function get_member_access_token(){
+		if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')) {
+            //通过code获得openid
+            if (empty($_GET['code'])){
+                //触发微信返回code码
+                $baseUrl = request()->url(true);
+                $url = $this->get_single_authorize_url($baseUrl, "123");
+            	exit($url);
+                Header("Location: $url");
+                exit();
+            }else{
+                //获取code码，以获取openid
+                $code = $_GET['code'];
+        
+                    $data = $this->get_single_access_token($code);
+                    return $data;
+               
+            }
+    
+        }
+	}
+
+	/**
+     * 获取微信OAuth2授权链接snsapi_base
+     * @param string $redirect_uri 跳转地址
+     * @param mixed $state 参数
+     * 不弹出授权页面，直接跳转，只能获取用户openid
+     */
+    public function get_single_authorize_url($redirect_url = '', $state = ''){
+        $redirect_url = urlencode($redirect_url);
+        // return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$wchat_config['value']['appid']."&redirect_uri=".$redirect_url."&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
+        return "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->_corpid}&redirect_uri=".$redirect_url."&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
+    }
+
 	public function getUserInfoByAuth($code){
 		$url="https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$this->access_token}&code=$code";
 		$content=curl_get($url);
