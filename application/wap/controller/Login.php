@@ -85,7 +85,15 @@ class Login extends Controller
     /**
      * 检测微信浏览器并且自动登录
      */
-    public function wchatLogin()
+    public function wchatLogin(){
+        // 微信浏览器自动登录
+        if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')) {
+            echo "weixin client";
+        }
+
+    }
+
+    public function wchatLogin_o()
     {
         // 微信浏览器自动登录
         if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')) {
@@ -532,10 +540,7 @@ class Login extends Controller
     }
 
     /**
-     * 注册手机号验证码验证
-     * 任鹏强
-     * 2017年6月17日16:26:46
-     *
+     * 注册手机号验证码验证*
      * @return multitype:number string
      */
     public function register_check_code()
@@ -1044,5 +1049,5 @@ class Login extends Controller
     }
 
 
-    
+
 }

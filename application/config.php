@@ -57,6 +57,9 @@ define('ADMIN_MODULE', "admin");//重新定义后台模块
 return [
     //最晚修改订单时间
     'last_chang_order' => " 16:00:00",
+    //企业微信
+    'corpid' => "wxace5a862f8b0272d",
+    'secret' => "XGaVuOS49l1pMyEL7UU9Gn3AdODS2mbUZIiTYFFEq4JrKUJK0U8B9gouj8Shsm3J",
     // +----------------------------------------------------------------------
     // | 应用设置
     // +----------------------------------------------------------------------
