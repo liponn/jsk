@@ -2,6 +2,7 @@
 namespace app\wap\controller;
 
 use data\extend\WchatOauth;
+use data\extend\QyWchatOauth;
 use data\service\Goods as GoodsService;
 use data\service\Member as Member;
 use data\service\Shop;
@@ -115,7 +116,7 @@ class BaseController extends Controller
         if (! request()->isAjax()) {
             if (empty($this->uid)) {
                 //微信登录时 会自动检测登录
-                //$this->wchatLogin();
+                $this->wchatLogin();
             }
             $this->assign("uid", $this->uid);
             $this->assign("shop_id", $this->instance_id);
@@ -166,25 +167,18 @@ class BaseController extends Controller
         
         // 微信浏览器自动登录
         if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')) {
-            // 针对微信分销系统获取上级
-            if (NS_VERSION == NS_VER_B2C_FX) {
-                $source_uid = isset($_GET['source_uid']) ? $_GET['source_uid'] : '';
-                $source_shop_id = isset($_GET['shop_id']) ? $_GET['shop_id'] : 0;
-                if (! empty($source_uid)) {
-                    $_SESSION['source_uid'] = $source_uid;
-                    $_SESSION['source_shop_id'] = $source_shop_id;
-                }
-            }
+            
             if (empty($_SESSION['request_url'])) {
                 $_SESSION['request_url'] = request()->url(true);
             }
-            $config = new Config();
-            $wchat_config = $config->getInstanceWchatConfig(0);//获取 公众号  appid
-            if (empty($wchat_config['value']['appid'])) {
-                return false;
-            }
-            $wchat_oauth = new WchatOauth();
+            // $config = new Config();
+            // $wchat_config = $config->getInstanceWchatConfig(0);//获取 公众号  appid
+            // if (empty($wchat_config['value']['appid'])) {
+            //     return false;
+            // }
+            $wchat_oauth = new QyWchatOauth();
             $domain_name = \think\Request::instance()->domain();
+            var_dump($domain_name);exit;
             if (! empty($_COOKIE[$domain_name . "member_access_token"])) {
                 $token = json_decode($_COOKIE[$domain_name . "member_access_token"], true);
             } else {

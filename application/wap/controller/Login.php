@@ -88,7 +88,7 @@ class Login extends Controller
     public function wchatLogin(){
         // 微信浏览器自动登录
         if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')) {
-            echo "weixin client";
+            echo "weixin client dev...";
         }
 
     }
