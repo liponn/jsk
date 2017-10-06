@@ -255,8 +255,8 @@ footer .logo-cop {
 	text-align: center;
 }
 .cart-list-li .ui-number .decrease, .cart-list-li .ui-number .increase {
-	width: 20px;
-	height: 25px;
+	width: 50px;
+	height: 52px;
 	line-height: 25px;
 	text-align: center;
 	background: #fbfbfb;
@@ -271,8 +271,8 @@ footer .logo-cop {
 }
 .cart-list-li .ui-number .num {
 	padding: 0 5px;
-	height: 23px;
-	width: 30px;
+	height: 50px;
+	width: 65px;
 	background: #fff;
 	border: 1px solid #ccc;
 	vertical-align: middle;
