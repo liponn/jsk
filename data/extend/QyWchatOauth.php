@@ -34,7 +34,7 @@ class QyWchatOauth{
             }else{
                 //获取code码，以获取userid
                 $code = $_GET['code'];
-        		var_dump($_GET);exit;
+        		
                 $data = $this->getUserInfoByAuth($code);
                 return $data;
                
