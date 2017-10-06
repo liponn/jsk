@@ -6,10 +6,10 @@
 	<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/person-v4.4.css">
 	<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/my_order_list.css">
     <script src="__TEMP__/{$style}/public/js/order.js"></script>
-	<script type="text/javascript">window.onerror=function(){return true;}</script>
+	<!-- <script type="text/javascript">window.onerror=function(){return true;}</script> -->
 	<script type="text/javascript">
 		var CONTROLLER = "APP_MAIN/orders";
-		var APP_MAIN = 'APP_MAIN';
+		//var APP_MAIN = 'APP_MAIN';
 		function backPage(){
 			window.location.href="{:__URL('APP_MAIN/member/')}";
 		};
@@ -82,7 +82,7 @@
         			showLoadMaskLayer();
         		},
         		success:function(data){
-        			console.log(data)
+        			// console.log(data)
         			var datahtml="";
         			if(data.length==0){
         				datahtml+='<div class="myorder-none" ><i class="icon-none"></i><span class="none_01">{:lang("member_no_order_yet")}</span><span class="none_02">{:lang("member_go_and_see")}</span><span class="none_03"><a href="{:__URL('APP_MAIN/goods/goodslist')}">{:lang("member_look_around")}</a></span></div>';
@@ -93,8 +93,8 @@
 	        				var all_price = 0;
 	        				console.log(ordersitem)
 	        				datahtml+='<div class="list-myorder">';
-	        				datahtml+='<div class="ordernumber" style="height:auto;overflow:hidden;line-height:22px;"><span class="order-num" style="font-size: 12px;">'+ordersitem['订单编号']+'</span><span class="order-date" style="font-size: 12px;">'+timeStampTurnTime(ordersitem['下单时间'])+'</span></div>';
-	        				datahtml+='<ul class="ul-product">';
+	        				datahtml+='<div class="ordernumber" style="height:auto;overflow:hidden;line-height:22px;"><span class="order-num" style="font-size: 12px;">'+ordersitem['订单编号']+'</span><span class="order-date" style="font-size: 12px;">下单时间：'+ordersitem['下单时间']+'</span></div>';
+	        				datahtml+='<ul style="display: none;" class="ul-product">';
 	        				
 	        				for(var j=0;j<ordersitem['order_item_list'].length;j++){
 	        					
@@ -126,10 +126,22 @@
         			}
         			// console.log(datahtml)
         			$('#list_content').html(datahtml);
+        			//订单详情 下拉单
+			        $(".list-myorder").click(function (){
+			        	var ul = $(this).children(".ul-product");
+			        	if(ul.is(':hidden')){
+			        		//如果当前隐藏
+			        		ul.show();
+			        	}else{
+			        		ul.hide();
+			        	}
+			        })
         			hiddenLoadMaskLayer();
         		}
         	});
         }
+
+        
         //app端返回值
         $("#backoutapp").click(function (){
             var json ={
