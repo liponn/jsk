@@ -58,7 +58,7 @@ class QyWchatOauth{
     public function get_single_authorize_url($redirect_url = '', $state = ''){
         $redirect_url = urlencode($redirect_url);
         // return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$wchat_config['value']['appid']."&redirect_uri=".$redirect_url."&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
-        return "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->_corpid}&redirect_uri=".$redirect_url."&response_type=code&scope=snsapi_privateinfo&agentid=4&state=1#wechat_redirect";
+        return "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->_corpid}&redirect_uri=".$redirect_url."&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
     }
 
 	public function getUserInfoByAuth($code){
