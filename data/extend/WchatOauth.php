@@ -204,17 +204,17 @@ class WchatOauth{
             //通过code获得openid
             if (empty($_GET['code'])){
                 //触发微信返回code码
-                  $baseUrl = request()->url(true);
-                 $url = $this->get_single_authorize_url($baseUrl, "123");
-              
+                $baseUrl = request()->url(true);
+                $url = $this->get_single_authorize_url($baseUrl, "123");
+                
                 Header("Location: $url");
                 exit();
             }  else {
                 //获取code码，以获取openid
                 $code = $_GET['code'];
-        
-                    $data = $this->get_single_access_token($code);
-                    return $data;
+                
+                $data = $this->get_single_access_token($code);
+                return $data;
                
             }
     
@@ -237,13 +237,16 @@ class WchatOauth{
      * 获取微信OAuth2授权链接snsapi_base
      * @param string $redirect_uri 跳转地址
      * @param mixed $state 参数
+     * snsapi_base：静默授权，可获取成员的基础信息； 
+     * snsapi_userinfo：静默授权，可获取成员的详细信息，但不包含手机、邮箱；
+     * snsapi_privateinfo：手动授权，可获取成员的详细信息，包含手机、邮箱。
      * 不弹出授权页面，直接跳转，只能获取用户openid
      */
     public function get_single_authorize_url($redirect_url = '', $state = ''){
         $redirect_url = urlencode($redirect_url);
         $config = new Config();
         $wchat_config = $config->getInstanceWchatConfig(0);
-        return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$wchat_config['value']['appid']."&redirect_uri=".$redirect_url."&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
+        return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$wchat_config['value']['appid']."&redirect_uri=".$redirect_url."&response_type=code&scope=snsapi_privateinfo&state={$state}#wechat_redirect";
     }
     /**
      * 获取会员对于公众号信息

@@ -34,9 +34,9 @@ class QyWchatOauth{
             }else{
                 //获取code码，以获取userid
                 $code = $_GET['code'];
-        
-                    $data = $this->getUserInfoByAuth($code);
-                    return $data;
+        		var_dump($_GET);exit;
+                $data = $this->getUserInfoByAuth($code);
+                return $data;
                
             }
     
@@ -50,12 +50,15 @@ class QyWchatOauth{
      * 获取微信OAuth2授权链接snsapi_base
      * @param string $redirect_uri 跳转地址
      * @param mixed $state 参数
+     * snsapi_base：静默授权，可获取成员的基础信息； 
+     * snsapi_userinfo：静默授权，可获取成员的详细信息，但不包含手机、邮箱；
+     * snsapi_privateinfo：手动授权，可获取成员的详细信息，包含手机、邮箱。
      * 不弹出授权页面，直接跳转，只能获取用户openid
      */
     public function get_single_authorize_url($redirect_url = '', $state = ''){
         $redirect_url = urlencode($redirect_url);
         // return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$wchat_config['value']['appid']."&redirect_uri=".$redirect_url."&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
-        return "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->_corpid}&redirect_uri=".$redirect_url."&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
+        return "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->_corpid}&redirect_uri=".$redirect_url."&response_type=code&scope=snsapi_privateinfo&state=1#wechat_redirect";
     }
 
 	public function getUserInfoByAuth($code){
