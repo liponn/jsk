@@ -1290,8 +1290,13 @@ class Goods extends BaseService implements IGoods
         ], '*', '');
         $cart_array = explode(',', $carts);
         $list = array();
-        
-        return $cart_list;
+        foreach ($cart_list as $key => $v) {
+            # code...
+            if (in_array($v['cart_id'], $cart_array)) {
+                $list[] = $v;
+            }
+        }
+        return $list;
     }
 
     public function getCartList($carts)

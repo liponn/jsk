@@ -45,6 +45,7 @@ class Order extends BaseController
         $shop_service = new Shop();
         // 检测购物车
         $order_tag = isset($_SESSION['order_tag']) ? $_SESSION['order_tag'] : '';
+
         if (empty($order_tag)) {
             $this->redirect(__URL__); // 没有商品返回到首页
         } else {
@@ -64,7 +65,6 @@ class Order extends BaseController
             }
         }
         $this->assign('goods_sku_list', $goods_sku_list);
-        
         // $address = $member->getDefaultExpressAddress(); // 获取默认收货地址
         // $express = 0;
         
@@ -87,7 +87,6 @@ class Order extends BaseController
         // $this->assign("express_company_count", $count); // 物流公司数量
         // $this->assign("express", sprintf("%.2f", $express)); // 运费
         // $this->assign("express_company_list", $express_company_list); // 物流公司
-
 
         $count_money = $order->_getGoodsSkuListPrice($goods_sku_list);
         // var_dump($count_money);exit;
@@ -168,17 +167,19 @@ class Order extends BaseController
         $list = Array();
         $str_cart_id = ""; // 购物车id
         $goods_sku_list = ''; // 商品skuid集合
-        //var_dump($cart_list);exit;
+        
         for ($i = 0; $i < count($cart_list); $i ++) {
-            if ($cart_id_arr[$i] == $cart_list[$i]["cart_id"]) {
+            // if ($cart_id_arr[$i] == $cart_list[$i]["cart_id"]) {echo "1";
                 $list[] = $cart_list[$i];
                 $str_cart_id .= "," . $cart_list[$i]["cart_id"];
                 $goods_sku_list .= "," . $cart_list[$i]['sku_id'] . ':' . $cart_list[$i]['num'];
-            }
+            // }
         }
         $goods_sku_list = substr($goods_sku_list, 1); // 商品sku列表
         $res["list"] = $list;
         $res["goods_sku_list"] = $goods_sku_list;
+        // var_dump($res);
+        // exit;
         return $res;
     }
 
