@@ -22,7 +22,8 @@ class NsGoodsViewModel extends BaseModel {
      * @return unknown
      */
     public function getGoodsViewList($page_index, $page_size, $condition, $order){
-        $condition = "SELECT 产品编号,产品名称,全名,单价1 FROM jc_cpwhb WHERE LEFT(`产品编号`,7) = '$condition'";
+        // $condition = "SELECT 产品编号,产品名称,全名,单价1 FROM jc_cpwhb WHERE LEFT(`产品编号`,7) = '$condition'";
+        $condition = "SELECT 产品编号,产品名称,全名,单价1 FROM jc_cpwhb WHERE 所属类别 like '".$condition."%'";
         $queryList = $this->sqlQuery($condition);
         // $queryCount = $this->getGoodsrViewCount($condition);
         // $list = $this->setReturnList($queryList, $queryCount, $page_size);
