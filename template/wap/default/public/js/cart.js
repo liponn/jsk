@@ -423,11 +423,12 @@ function updateMoney(flag) {
 		$("#orderprice").text(money);
 		$("#settlement").text(num);
 		//$("#orderintegral").text("+"+integral+"积分");
-		if (money > 0) {
-			$(".btn.btn_buy").css("background", "#F15353");
-		} else {
-			$(".btn.btn_buy").css("background", "#CCCCCC");
-		}
+		$(".btn.btn_buy").css("background", "#F15353");
+		// if (money > 0) {
+		// 	$(".btn.btn_buy").css("background", "#F15353");
+		// } else {
+		// 	$(".btn.btn_buy").css("background", "#CCCCCC");
+		// }
 	}
 }
 
