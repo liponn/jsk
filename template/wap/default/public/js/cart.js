@@ -267,7 +267,7 @@ function settlement() {
 	if (count == 0) {
 		// 结算
 		var money = $("#orderprice").text() * 1;
-		if (money != 0) {
+		if (money != -1) {
 			var i = 0;
 			var cart_id_arr = new Array();
 			var shop_id = 0;
