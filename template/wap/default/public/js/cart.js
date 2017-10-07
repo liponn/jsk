@@ -36,28 +36,28 @@ $(function() {
 		// 	$cart.val(default_num);
 		// 	return;
 		// }
-		if(min_buy != 0 && min_buy>num){
-			showBox("该商品最少购买"+min_buy+"件");
-			$cart.val(min_buy);
-			return;
-		}else if (num == 0||num<0) {
-			//$cart.val(1);
-			showBox("不能为0");
-			return;
-		}
+		// if(min_buy != 0 && min_buy>num){
+		// 	showBox("该商品最少购买"+min_buy+"件");
+		// 	$cart.val(min_buy);
+		// 	return;
+		// }else if (num == 0||num<0) {
+		// 	//$cart.val(1);
+		// 	showBox("不能为0");
+		// 	return;
+		// }
 
-		if (max_buy != 0 && num > max_buy) {
-			// 限购
-			$cart.val(max_buy);
-			showBox("每个用户限购" + max_buy + "件");
-			return;
-		}
+		// if (max_buy != 0 && num > max_buy) {
+		// 	// 限购
+		// 	$cart.val(max_buy);
+		// 	showBox("每个用户限购" + max_buy + "件");
+		// 	return;
+		// }
 
-		if (num > nummax) {
-			$cart.val(nummax);
-			showBox("已达到最大库存");
-			return;
-		}
+		// if (num > nummax) {
+		// 	$cart.val(nummax);
+		// 	showBox("已达到最大库存");
+		// 	return;
+		// }
 		$.ajax({
 			url : __URL(APPMAIN + "/goods/cartadjustnum/"),
 			type : "post",
