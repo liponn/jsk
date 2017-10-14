@@ -27,7 +27,7 @@ class NsOrderDetailsModel extends BaseModel {
         return $res;
     }
     public function addNweDetails($data){
-        $sql = "SELECT * FROM dd_order_details WHERE 订单编号 = {$data['订单编号']} AND 产品编号 = '{$data['产品编号']}'";
+        $sql = "SELECT * FROM dd_order_details WHERE 订单编号 = '{$data['订单编号']}' AND 产品编号 = '{$data['产品编号']}'";
         $res = $this->sqlQuery($sql);
         if(!empty($res)){
             //update

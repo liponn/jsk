@@ -311,7 +311,7 @@ class Order extends BaseController
         $address = array();
         $shipping_time = date("Y-m-d H::i:s", time());
         // $order_id = $order->orderCreate('1', $out_trade_no, $pay_type, $shipping_type, '1', 1, $leavemessage, $buyer_invoice, $shipping_time, $address['mobile'], $address['province'], $address['city'], $address['district'], $address['address'], $address['zip_code'], $address['consigner'], $integral, $use_coupon, 0, $goods_sku_list, $user_money, $pick_up_id, $shipping_company_id);
-        
+        // var_dump($goods_sku_list);exit;
         $order_id = $order->_orderCreate($goods_sku_list, $this->uid);
 
         if ($order_id > 0) {
