@@ -54,12 +54,11 @@
 				</div>
 				<div class="number">
 					¥<span name="goods_price">{$list.price}</span>
-					
-					×<span name="succ_amount">{$list.num}</span>
+					×<span name="succ_amount">{if $hasOrder == 1}{$list.num}{else}0.00{/if}</span>
 					<div name="edit_num{$list.shop_id}" style="display: none;">
 						<span class="ui-number">
 							<button type="button" class="decrease" onclick="Cart.changeBar(&#39;-&#39;,{$list.cart_id},this)" title="{:lang('member_reduce')}">-</button>
-							<input type="number" class="num" name="quantity" autocomplete="off" data-default-num="{$list.num}" value="{$list.num}" min="1" max="php.stock" min_buy="php.min_buy"  max_buy="php.max_buy" data-cartid="{$list.cart_id}" data-shopid="{$list.shop_id}">
+							<input type="number" class="num" name="quantity" autocomplete="off" data-default-num="{if $hasOrder == 1}{$list.num}{else}0.00{/if}" value="{if $hasOrder == 1}{$list.num}{else}0.00{/if}" min="1" max="php.stock" min_buy="php.min_buy"  max_buy="php.max_buy" data-cartid="{$list.cart_id}" data-shopid="{$list.shop_id}">
 							<button type="button" class="increase" onclick="Cart.changeBar(&#39;+&#39;,{$list.cart_id},this)" title="{:lang('plus')}">+</button>
 						</span>
 					</div>
