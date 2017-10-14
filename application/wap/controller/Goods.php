@@ -181,7 +181,8 @@ class Goods extends BaseController
             $cartlist = null;
             $this->assign("no_costomer",true);
         }else{
-            $cartlist = $goods->getCart($this->uid, $this->instance_id);
+            // $cartlist = $goods->getCart($this->uid, $this->instance_id);
+            $cartlist = $goods->getCart($this->uid, $khyh[0]['客户ID']);
             //今天是否已经存在订单，如果存在订单 购物车里面的数量为0
             //1存在订单，0不存在订单
             $hasOrder = 1;
@@ -232,7 +233,7 @@ class Goods extends BaseController
         if (! empty($this->uid) && $this->is_member == 1) {
             /* if($cart_tag == "addCart") { */
             $goods = new GoodsService();
-            $retval = $goods->addCart($uid, $shop_id, $shop_name, $goods_id, $goods_name, $sku_id, $sku_name, $price, $num, $picture, 0);
+            $retval = $goods->addCart($uid, $khyh[0]['客户ID'], $shop_name, $goods_id, $goods_name, $sku_id, $sku_name, $price, $num, $picture, 0);
             
             /*
              * }else{

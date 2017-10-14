@@ -1381,8 +1381,12 @@ class Goods extends BaseService implements IGoods
                 ], '*', '');
             } else {
                 
+                // $cart_goods_list = $cart->getQuery([
+                //     'buyer_id' => $this->uid,
+                //     'shop_id' => $shop_id
+                // ], '*', '');
                 $cart_goods_list = $cart->getQuery([
-                    'buyer_id' => $this->uid,
+                    // 'buyer_id' => $this->uid,
                     'shop_id' => $shop_id
                 ], '*', '');
             }
