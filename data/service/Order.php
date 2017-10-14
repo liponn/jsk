@@ -160,9 +160,11 @@ class Order extends BaseService implements IOrder
         $order_details_model = new NsOrderDetailsModel();
         $uid = $condition['客户ID'];
         $order_list = $order_model->_getOrderListByUid($page_index, $page_size, $uid, $order, '*');
+        // var_dump($order_list);exit;
         $order_price = 0;
         foreach ($order_list as $key => &$value) {
             # code...
+            // var_dump($value['订单编号']);exit;
             $order_list_item = $order_details_model->_getOrderDetailList($value['订单编号']);
             $value['order_item_list'] = $order_list_item;
         }

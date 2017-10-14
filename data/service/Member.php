@@ -49,6 +49,15 @@ class Member extends User implements IMember
     }
 
     /*
+     *uid是否对用有客户
+     */
+    public function _getCostomerByUid($uid){
+        $sql = "SELECT 客户ID FROM jc_khyh WHERE 微信ID = {$uid}";
+        $constructModel = new NsMemberModel();
+        $res = $constructModel->sqlQuery($sql);
+        return $res;
+    }
+    /*
      * 前台添加会员(non-PHPdoc)
      * @see \data\api\IMember::registerMember()
      */

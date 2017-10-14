@@ -173,21 +173,31 @@ class Goods extends BaseController
         }
         $this->assign("shopname", $this->shop_name);
         $goods = new GoodsService();
-        $cartlist = $goods->getCart($this->uid, $this->instance_id);
-        //今天是否已经存在订单，如果存在订单 购物车里面的数量为0
-        //1存在订单，0不存在订单
-        $hasOrder = 1;
-        $this->assign("hasOrder",$hasOrder);
+        //根据微信 获取到对应的客户
+        //如果没有对应的客户
+        $khyh = $this->user->_getCostomerByUid($this->uid);
+        if(empty($khyh)){
+            $list = null;
+            $cartlist = null;
+            $this->assign("no_costomer",true);
+        }else{
+            $cartlist = $goods->getCart($this->uid, $this->instance_id);
+            //今天是否已经存在订单，如果存在订单 购物车里面的数量为0
+            //1存在订单，0不存在订单
+            $hasOrder = 1;
+            $this->assign("hasOrder",$hasOrder);
 
-        // var_dump($this->instance_id);exit;
-        // 店铺，店铺中的商品
-        $list = Array();
-        for ($i = 0; $i < count($cartlist); $i ++) {
-            // $cartlist[$i]["goods_name"] = mb_substr($cartlist[$i]["goods_name"], 0,20,"utf-8");
-            // $cartlist[$i]["sku_name"] = mb_substr($cartlist[$i]["goods_name"], 0,20,"utf-8");
-            $list[$cartlist[$i]["shop_id"] . ',' . $cartlist[$i]["shop_name"]][] = $cartlist[$i];
+            // var_dump($this->instance_id);exit;
+            // 店铺，店铺中的商品
+            $list = Array();
+            for ($i = 0; $i < count($cartlist); $i ++) {
+                // $cartlist[$i]["goods_name"] = mb_substr($cartlist[$i]["goods_name"], 0,20,"utf-8");
+                // $cartlist[$i]["sku_name"] = mb_substr($cartlist[$i]["goods_name"], 0,20,"utf-8");
+                $list[$cartlist[$i]["shop_id"] . ',' . $cartlist[$i]["shop_name"]][] = $cartlist[$i];
+            }
+            //var_dump($list);//exit;
         }
-        //var_dump($list);//exit;
+        
         $this->assign("list", $list);
         $this->assign("countlist", count($cartlist));
         return view($this->style . '/Goods/cart');
@@ -214,6 +224,11 @@ class Goods extends BaseController
         $picture = $cart_detail['picture'];
 
         $this->is_member = $this->user->getSessionUserIsMember();
+        //查询该微信id 是否对应有客户id。才能下一步添加到购物车
+        $khyh = $this->user->_getCostomerByUid($uid);
+        if(empty($khyh)){
+            return "-3";
+        }
         if (! empty($this->uid) && $this->is_member == 1) {
             /* if($cart_tag == "addCart") { */
             $goods = new GoodsService();

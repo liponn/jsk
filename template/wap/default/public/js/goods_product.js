@@ -1,7 +1,6 @@
 ﻿/**
  * 商品详情相关
  * 选择加入购物车，立即购买，商品限购等操作
- * 2017-01-07
  */
 $(function() {
 	// 是否下架
@@ -75,6 +74,15 @@ $(function() {
 												window.location.href = __URL(APPMAIN+ "/member/index");
 											}else if(data == -2){
 												showBox("该商品已添加，请您检查购物车");
+												$("#s_buy").slideUp();
+												$("#mask").hide();
+												$("#addcart_way").show();
+												$("#addcart_way").addClass("addcart-way");
+												$("#loading").hide();
+												$(".js-bottom-opts").show();
+												$("#global-cart").addClass("buy-cart-msg");
+											}else if(data == -3){
+												showBox("请联系管理员，添加客户对应的微信号");
 												$("#s_buy").slideUp();
 												$("#mask").hide();
 												$("#addcart_way").show();

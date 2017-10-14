@@ -329,8 +329,10 @@ class Order extends BaseController
         if (request()->isAjax()) {
             $status = isset($_POST['status']) ? $_POST['status'] : 'all';
             // $condition['buyer_id'] = $this->uid;
-            $condition['客户ID'] = $this->uid;
-            
+            $condition['微信ID'] = $this->uid;
+            $tem = $this->user->_getCostomerByUid($this->uid);
+            $condition['客户ID'] = $tem[0]['客户ID'];
+
             if (! empty($this->shop_id)) {
                 $condition['shop_id'] = $this->shop_id;
             }
@@ -373,11 +375,11 @@ class Order extends BaseController
                 }
             }
             // 还要考虑状态逻辑
-            
+
             $order = new OrderService();
             // $order_list = $order->getOrderList(1, 0, $condition, 'create_time desc');
             $order_list = $order->_getOrderList(1, 0, $condition, 'create_time desc');
-            // return $order_list['data'];
+            // var_dump($condition);exit;
             return $order_list;
         } else {
             $this->assign("status", $status);

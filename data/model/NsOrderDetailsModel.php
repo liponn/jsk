@@ -22,7 +22,7 @@ class NsOrderDetailsModel extends BaseModel {
 
 
     public function _getOrderDetailList($order_id){
-        $sql = "SELECT *,商品单价*分配数量 as all_price FROM dd_order_details WHERE 订单编号 = {$order_id}";
+        $sql = "SELECT *,商品单价*分配数量 as all_price FROM dd_order_details WHERE 订单编号 = '{$order_id}'";
         $res = $this->sqlQuery($sql);
         return $res;
     }

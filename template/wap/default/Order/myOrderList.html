@@ -114,6 +114,8 @@
 	        					datahtml+='</li>';
 	        					all_price += goodsitem['all_price'];
 	        				}
+
+	        				all_price = Math.round(all_price*100)/100;
 							datahtml+='</ul>';
 							datahtml+='<div class="totle">';
 							datahtml+='<span class="status">审核:'+ordersitem['订单状态']+'</span>';

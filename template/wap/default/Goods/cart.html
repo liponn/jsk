@@ -73,11 +73,15 @@
 <input type="hidden" id="countlist" value="{$countlist}">
 <section class="cart-none" id="cart-none" style="display: none">
 	<i class="cart-big"></i>
+	{if $no_costomer == true}
+	<p class="text">请联系管理员，添加客户对应的微信号！</p>
+	{else}
 	<p class="text">{:lang('your_shopping_cart_is_not_available_yet')}！</p>
 	{if condition="$shop_id ==0"}
 	<a href="{:__URL('APP_MAIN')}" class="btn">{:lang('go_for_a_stroll')}</a>
 	{else/}
 	<a href="{:__URL('APP_MAIN/shop/index?shop_id='.$shop_id)}" class="btn">{:lang('go_for_a_stroll')}</a>
+	{/if}
 	{/if}
 </section>
 {/block}

@@ -63,11 +63,17 @@ class Order extends BaseService
 
         try{
             //获取购买人信息
-            
+            $sql = "SELECT 客户ID FROM jc_khyh WHERE 微信ID = {$uid}";
+            $res = $order->sqlQuery($sql);
+            if(!empty($res)){
+                $costomer = $res[0]['客户ID'];
+            }else{
+                throw new \Exception('no correspond!');
+            }
             $data_order = array(
-                '订单编号' => $this->_createOrderNo($uid),
-                '客户ID' => $uid,
-                '微信ID' => '',
+                '订单编号' => $this->_createOrderNo($costomer),
+                '客户ID' => $costomer,
+                '微信ID' => $uid,
                 '订单类型' => 1,
                 '下单日期' => date("Y-m-d"),
                 '下单时间' => date("Y-m-d H:i:s"),
@@ -82,7 +88,7 @@ class Order extends BaseService
                 $goodsInfo = $goodsModel->_getGoodsInfo($sku[0]);
                 // var_dump($goodsInfo);exit;
                 $data_details = array(
-                    '订单编号' => $this->_createOrderNo($uid),
+                    '订单编号' => $this->_createOrderNo($costomer),
                     '产品编号' => $sku[0],
                     '产品名称' => $goodsInfo['产品名称'],
                     '商品单价' => $goodsInfo['单价1'],
