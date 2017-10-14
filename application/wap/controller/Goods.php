@@ -183,8 +183,10 @@ class Goods extends BaseController
         }else{
             // $cartlist = $goods->getCart($this->uid, $this->instance_id);
             $cartlist = $goods->getCart($this->uid, $khyh[0]['客户ID']);
+
             //今天是否已经存在订单，如果存在订单 购物车里面的数量为0
             //1存在订单，0不存在订单
+            $order = new OrderService();
             $hasOrder = 1;
             $this->assign("hasOrder",$hasOrder);
 

@@ -128,58 +128,6 @@ class Goods extends BaseService implements IGoods
     }
 
     /**
-     * 添加修改商品
-     * goods_id '商品id(SKU)',
-     * goods_name '商品名称',
-     * shop_id '店铺id',
-     * category_id '商品分类id',
-     * category_id_1 '一级分类id',
-     * category_id_2 '二级分类id',
-     * category_id_3 '三级分类id',
-     * brand_id int(10) '品牌id',
-     * group_id_array '店铺分类id 首尾用,隔开',
-     * goods_type '实物或虚拟商品标志 1实物商品 0 虚拟商品 2 F码商品',
-     * market_price '市场价',
-     * price '商品原价格',
-     * promotion_price '商品促销价格',
-     * cost_price '成本价',
-     * point_exchange_type '积分兑换类型 0 非积分兑换 1 只能积分兑换 ',
-     * point_exchange '积分兑换',
-     * give_point '购买商品赠送积分',
-     * is_member_discount '参与会员折扣',
-     * shipping_fee '运费 0为免运费',
-     * shipping_fee_id '售卖区域id 物流模板id ns_order_shipping_fee 表id',
-     * stock '商品库存',
-     * max_buy '限购 0 不限购',
-     * clicks'商品点击数量',
-     * min_stock_alarm '库存预警值',
-     * sales '销售数量',
-     * collects '收藏数量',
-     * star '好评星级',
-     * evaluates '评价数',
-     * shares '分享数',
-     * province_id '一级地区id',
-     * city_id '二级地区id',
-     * picture '商品主图',
-     * keywords '商品关键词',
-     * introduction '商品简介',
-     * description '商品详情',
-     * QRcode '商品二维码',
-     * code '商家编号',
-     * is_stock_visible '页面不显示库存',
-     *
-     * state '商品状态 0下架，1正常，10违规（禁售）',
-     * sale_date '上下架时间',
-     * create_time '商品添加时间',
-     * update_time '商品编辑时间',
-     * sort '排序',
-     * img_id_array '商品图片序列',
-     * sku_img_array '商品sku应用图片列表 属性,属性值，图片ID',
-     * match_point '实物与描述相符（根据评价计算）',
-     * match_ratio '实物与描述相符（根据评价计算）百分比',
-     * real_sales '实际销量',
-     * goods_attribute '商品类型',
-     * goods_spec_format '商品规格',
      *
      * @return \data\model\NsGoodsModel|number
      */
@@ -1282,11 +1230,12 @@ class Goods extends BaseService implements IGoods
      *
      * @param unknown $carts            
      */
-    public function _getCartList($carts)
+    public function _getCartList($carts,$costomer)
     {
         $cart = new NsCartModel();
         $cart_list = $cart->getQuery([
-            'buyer_id' => $this->uid
+            // 'buyer_id' => $this->uid
+            'shop_id' => $costomer
         ], '*', '');
         $cart_array = explode(',', $carts);
         $list = array();

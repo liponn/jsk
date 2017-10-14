@@ -31,8 +31,8 @@
 					<div class="custom-store-img"></div>
 					{:lang('shop_name')}：{$title}
 					<div class="cart_ed" >
-						<a id="cart_edit<?php echo $shop_info[0]; ?>" data-shopid="<?php echo $shop_info[0]; ?>" onclick="cart_edit(this,<?php echo $shop_info[0]; ?>)" style="display: block;">{:lang('edit')}</a>
-						<a id="edit_success<?php echo $shop_info[0]; ?>" onclick="cart_succ(this,<?php echo $shop_info[0]; ?>)" style="display: none;">{:lang('member_complete')}</a>
+						<a id="cart_edit<?php echo $shop_info[0]; ?>" data-shopid="<?php echo $shop_info[0]; ?>" onclick="cart_edit(this,'<?php echo $shop_info[0]; ?>')" style="display: block;">{:lang('edit')}</a>
+						<a id="edit_success<?php echo $shop_info[0]; ?>" onclick="cart_succ(this,'<?php echo $shop_info[0]; ?>')" style="display: none;">{:lang('member_complete')}</a>
 					</div>
 				</h2>
 			</li>

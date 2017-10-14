@@ -45,7 +45,7 @@ class Order extends BaseController
         $shop_service = new Shop();
         // 检测购物车
         $order_tag = isset($_SESSION['order_tag']) ? $_SESSION['order_tag'] : '';
-
+        // var_dump($order_tag);exit;
         if (empty($order_tag)) {
             $this->redirect(__URL__); // 没有商品返回到首页
         } else {
@@ -157,10 +157,13 @@ class Order extends BaseController
         if ($cart_id == "") {
             $this->redirect(__URL__); // 没有商品返回到首页
         }
-        
+        // var_dump($cart_id);exit;
         $cart_id_arr = explode(",", $cart_id);
+        //客户ID
+        $costomer = $this->user->_getCostomerByUid($this->uid);
+        // var_dump($costomer);exit;
         $goods = new Goods();
-        $cart_list = $goods->_getCartList($cart_id);
+        $cart_list = $goods->_getCartList($cart_id,$costomer[0]['客户ID']);
         if (count($cart_list) == 0) {
             $this->redirect(__URL__); // 没有商品返回到首页
         }
