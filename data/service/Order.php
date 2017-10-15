@@ -138,6 +138,14 @@ class Order extends BaseService implements IOrder
         // TODO Auto-generated method stub
     }
 
+    /*
+     *获取客户当天是否已经有订单
+     */
+    public function _getTodayOrderInfo($costomerId){
+        $order_model = new NsOrderModel();
+        $res = $order_model->_getOrderByDay($costomerId);
+        return $res;
+    }
     /**
      * 获取订单基础信息
      *

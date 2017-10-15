@@ -55,9 +55,7 @@ class Order extends BaseService
         $date = date("Y-m-d").Config::get('last_chang_order');
         $order = new NsOrderModel();
         $orderDetail = new NsOrderDetailsModel();
-        //查询今天有没有下过订单
-        $dayOrderHas = $order->_getOrderByDay($uid);
-        // var_dump($dayOrderHas);exit;
+        
 
         $this->order->startTrans();
 
@@ -70,6 +68,10 @@ class Order extends BaseService
             }else{
                 throw new \Exception('no correspond!');
             }
+
+            //查询今天有没有下过订单
+            $dayOrderHas = $order->_getOrderByDay($costomer);
+            // var_dump($dayOrderHas);exit;
             $data_order = array(
                 '订单编号' => $this->_createOrderNo($costomer),
                 '客户ID' => $costomer,

@@ -626,7 +626,7 @@ function submitOrder() {
 				'shipping_company_id' : shipping_company_id
 			},
 			success : function(res) {
-				//console.log(res);
+				// console.log(res);
 				if (res.code > 0) {
 					showBox("提交成功！");
 					location.href = __URL(APPMAIN + '/goods/cart');

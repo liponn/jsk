@@ -187,7 +187,12 @@ class Goods extends BaseController
             //今天是否已经存在订单，如果存在订单 购物车里面的数量为0
             //1存在订单，0不存在订单
             $order = new OrderService();
-            $hasOrder = 1;
+            $hasOrder = $order->_getTodayOrderInfo($khyh[0]['客户ID']);
+            if(!empty($hasOrder)){
+                $hasOrder = 1;
+            }else{
+                $hasOrder = 0;
+            }
             $this->assign("hasOrder",$hasOrder);
 
             // var_dump($this->instance_id);exit;

@@ -36,6 +36,7 @@ define('USER_WITHDRAW_BEISHU', '-2016');
 define('USER_WITHDRAW_MIN', '-2017');
 define('MEMBER_LEVEL_DELETE', '-2018');
 //订单定义变量
+define('SQL23000', '-23000');
 define('ORDER_DELIVERY_ERROR', '-4002');
 define('LOW_STOCKS', '-4003');
 define('LOW_POINT', '-4004');
@@ -100,6 +101,7 @@ function getErrorInfo($error_code)
         USER_WITHDRAW_MIN    => '申请提现小于最低提现',
         MEMBER_LEVEL_DELETE    => '该等级正在使用中,不可删除',
         //订单定义变量
+        SQL23000 => '超出订单修改时间',
         ORDER_DELIVERY_ERROR => '存在未发货订单',
         LOW_STOCKS => '库存不足',
         LOW_POINT  => '用户积分不足',

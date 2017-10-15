@@ -317,8 +317,13 @@ class Order extends BaseController
         if ($order_id > 0) {
             //$order->deleteCart($goods_sku_list, $this->uid);
             //$_SESSION['order_tag'] = ""; // 生成订单后，清除购物车
+
             return AjaxReturn($out_trade_no);
         } else {
+            // var_dump($order_id);exit;
+            if(strpos($order_id,'Duplicate')){
+                return AjaxReturn('-23000');
+            }
             return AjaxReturn($order_id);
         }
     }

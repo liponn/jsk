@@ -26,6 +26,8 @@ class NsOrderDetailsModel extends BaseModel {
         $res = $this->sqlQuery($sql);
         return $res;
     }
+
+    //bug：当第二次提交订单 产品编号变少时（或者变多） 多余的数据不会删除
     public function addNweDetails($data){
         $sql = "SELECT * FROM dd_order_details WHERE 订单编号 = '{$data['订单编号']}' AND 产品编号 = '{$data['产品编号']}'";
         $res = $this->sqlQuery($sql);
